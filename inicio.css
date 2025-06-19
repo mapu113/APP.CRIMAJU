@@ -1,0 +1,64 @@
+.menu-boton:hover{
+    background-color: rgb(49, 173, 86);
+    color: black;
+    border: 2px solid #ddd ;
+    transition: backgroud-color 0.3s;
+    color: black;
+    text-align: center;
+}
+
+.menu-boton{
+    background-color: rgb(52, 166, 170);
+    color: beige;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.25s;}
+h1{ 
+    background-color: rgb(52, 166, 170);
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;}
+footer{
+    position: fixed;
+    bottom: 0;
+    left:  0;
+    width: 100%;
+    background-color: rgb(52, 166, 170);
+    color: #000;
+    text-align: center;
+    padding: 12px;
+    z-index: 1000;}
+
+@keyframes aparecer {
+    0%{
+        opacity:  0;
+        transform: translateY(50px);
+    }
+    100%{
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+header{ 
+    text-align: center;
+
+    margin:30px;}
+
+.img{
+  clip-path: circle(50%);
+  width: 300px;
+  position:relative;
+  left: 35%;
+  object-fit: cover;
+  animation: aparecer 1.5s ease-out forwards;
+  opacity: 0;
+}
+p{
+    text-align: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    font-family:'Times New Roman', Times, serif;
+    font-size: x-large;
+}
