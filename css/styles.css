@@ -5,7 +5,7 @@
 :root {
     /* Paleta de colores CRIMAJU */
     --primary-color: #00BCD4; /* Cyan principal */
-    --secondary-color: #FF4081; /* Rojo/Magenta de acento (para CTA) */
+    --secondary-color: #40f9ff; /* Rojo/Magenta de acento (para CTA) */
     --tertiary-color: #8BC34A; /* Verde de acento (para cards) */
     --text-color: #212121; /* Texto oscuro */
     --text-light: #FFFFFF; /* Texto claro */
