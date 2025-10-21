@@ -135,7 +135,7 @@ nav {
 }
 
 .boton:hover {
-    background-color: #E91E63; /* Tono de rojo más oscuro en hover */
+    background-color: #fd2323; /* Tono de rojo más oscuro en hover */
     color: var(--text-light) !important; 
     /* Si estás en index.html, esto anulará el borde de hover que tiene el <a> normal */
     border-bottom: none;
