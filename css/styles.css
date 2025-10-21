@@ -4,16 +4,16 @@
 
 :root {
     /* Paleta de colores CRIMAJU */
-    --primary-color: #00BCD4; /* Cyan principal */
+    --primary-color: #00BCD4; /* Cyan principal (Títulos y Acentos CLAROS) */
     --secondary-color: #ff0000; /* Rojo/Magenta de acento (para CTA) */
-    --tertiary-color: #8BC34A; /* Verde de acento (para cards) */
+    --tertiary-color: #8BC34A; /* Verde de acento (para cards y online status) */
+    --whatsapp-color: #25D366; /* Verde de WhatsApp */
+    --whatsapp-color-hover: #128C7E; /* Verde oscuro de WhatsApp */
     --text-color: #212121; /* Texto oscuro */
     --text-light: #FFFFFF; /* Texto claro */
     --background-light: #f8f8f8cf; /* Fondo claro de secciones */
-    --background-dark: #003171; /* Fondo oscuro (Header/Footer) */
-    --tertiary-color: #8BC34A; /* Verde de acento (ya existía) */
-    --whatsapp-color: #25D366; /* Verde de WhatsApp */
-    --whatsapp-color-hover: #128C7E; /* Verde oscuro de WhatsApp */
+    --background-dark: #002D3C;  /*Fondo oscuro en la gama de Cyan (Header/Footer/Chat Header) */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     
     /* Tipografía */
     --font-heading: 'WDXL Lubrifont TC', sans-serif;
@@ -63,11 +63,11 @@ a:hover {
 }
 
 /* ==================================== */
-/* 2. Header y Navegación               */
+/* 2. Header y Navegación               */
 /* ==================================== */
 
 header {
-    background-color: var(--background-dark);
+    background-color: var(--background-dark); 
     color: var(--text-light);
     position: sticky;
     top: 0;
@@ -79,11 +79,20 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 20px; 
 }
 
 .logo img {
-    height: 40px; /* Ajusta el tamaño de tu logo */
+    height: 60px; /* altura del logo */
+    width: 70px;  /* Le da la misma anchura para asegurar el círculo */
+    object-fit: cover; /* Asegura que la imagen no se distorsione */
+    border-radius: 50%; /* Lo hace perfectamente circular */
+    border: 3px solid var(--primary-color); /* Borde Cyan para destacarlo */
+    transition: transform 0.3s;
+}
+
+.logo img:hover {
+    transform: scale(1.05); /* Efecto sutil al pasar el ratón */
 }
 
 .menu {
@@ -123,30 +132,27 @@ nav {
 }
 
 .boton {
-    /* Usa el color de acento (Rojo/Magenta) para destacarlo */
     background-color: var(--secondary-color); 
-    color: var(--text-light) !important; /* Asegura que el texto sea blanco */
+    color: var(--text-light) !important; 
     padding: 8px 15px;
     border-radius: 5px;
     font-weight: bold;
-    /* Elimina el borde inferior al pasar el ratón para los enlaces de menú */
     border-bottom: none !important; 
     transition: background-color 0.3s ease;
 }
 
 .boton:hover {
-    background-color: #ff0000; /* Tono de rojo más oscuro en hover */
+    background-color: #ff0055; 
     color: var(--text-light) !important; 
-    /* Si estás en index.html, esto anulará el borde de hover que tiene el <a> normal */
     border-bottom: none;
 }
 
 /* ==================================== */
-/* 3. Sección Hero                      */
+/* 3. Sección Hero                      */
 /* ==================================== */
 
 .hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0097A7 100%); /* Degradado con el Cyan */
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0097A7 100%); 
     color: var(--text-light);
     min-height: 80vh;
     display: flex;
@@ -174,7 +180,7 @@ nav {
 
 .cta-button {
     display: inline-block;
-    background-color: var(--secondary-color); /* Rojo de acento */
+    background-color: var(--secondary-color); 
     color: var(--text-light);
     padding: 15px 40px;
     border-radius: 50px;
@@ -185,13 +191,13 @@ nav {
 }
 
 .cta-button:hover {
-    background-color: #ff0055; /* Tono de rojo más oscuro */
+    background-color: #ff0055; 
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ==================================== */
-/* 4. Sección Sobre Nosotros (.about)   */
+/* 4. Sección Sobre Nosotros (.about)   */
 /* ==================================== */
 
 .about {
@@ -206,15 +212,15 @@ nav {
 }
 
 .about a {
-    color: var(--text-color); /* Para que el enlace "Conócenos" no sea azul */
+    color: var(--text-color); 
 }
 
 .about-button {
     display: inline-block;
-    background-color: var(--secondary-color); /* Rojo/Magenta de acento */
+    background-color: var(--secondary-color); 
     color: var(--text-light);
     padding: 12px 30px;
-    margin-top: 30px; /* Separación del texto */
+    margin-top: 30px; 
     border-radius: 50px;
     font-weight: bold;
     font-size: 1rem;
@@ -223,7 +229,7 @@ nav {
 }
 
 .about-button:hover {
-    background-color: #ff0055; /* Tono de rojo más oscuro */
+    background-color: #ff0055; 
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
@@ -238,7 +244,7 @@ nav {
 }
 
 .servicios {
-    background-color: #E0F7FA; /* Un color muy claro basado en Cyan */
+    background-color: #E0F7FA; 
 }
 
 .cards-grid {
@@ -249,7 +255,7 @@ nav {
 }
 
 .card {
-    flex: 0 1 calc(50% - 15px); /* 2 cards por fila en desktop */
+    flex: 0 1 calc(50% - 15px); 
     background: var(--text-light);
     padding: 30px;
     border-radius: 12px;
@@ -281,11 +287,11 @@ nav {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid var(--tertiary-color); /* Borde verde de acento */
+    border: 3px solid var(--tertiary-color); 
 }
 
 /* ==================================== */
-/* 6. Sección Contacto                  */
+/* 6. Sección Contacto                  */
 /* ==================================== */
 
 .contact {
@@ -301,7 +307,7 @@ nav {
 }
 
 .contact-container {
-    text-align: center; /* Centra el texto y los botones */
+    text-align: center; 
     max-width: 800px;
     margin: 0 auto;
 }
@@ -313,11 +319,10 @@ nav {
 
 /* Estilo para el botón de WhatsApp */
 .btn-whatsapp {
-    /* Hereda estilos base de cta-button */
     display: inline-block;
     padding: 15px 35px;
     margin-top: 20px;
-    margin-bottom: 20px; /* Separación del formulario */
+    margin-bottom: 20px; 
     border-radius: 50px;
     font-weight: bold;
     text-transform: uppercase;
@@ -326,7 +331,6 @@ nav {
     transition: transform 0.3s, background-color 0.3s;
     text-decoration: none;
     
-    /* Colores de WhatsApp (basado en la variable) */
     background-color: var(--whatsapp-color);
     color: var(--text-light) !important; 
     border: none;
@@ -349,16 +353,16 @@ nav {
 
 .formulario-embed iframe {
     width: 100%;
-    height: 500px; /* Altura fija para el formulario de Google */
+    height: 500px; 
     display: block;
 }
 
 /* ==================================== */
-/* 7. Footer                            */
+/* 7. Footer                            */
 /* ==================================== */
 
 footer {
-    background-color: var(--background-dark);
+    background-color: var(--background-dark); 
     color: var(--text-light);
     padding: 30px 20px;
     text-align: center;
@@ -386,65 +390,179 @@ footer {
     color: var(--primary-color);
 }
 
-/* Importación de fuente Inter y estilos básicos */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        
-        /* Estilo para ocultar el scroll en el chat, pero permitirlo en el contenido */
-        #chat-window {
-            overflow-y: auto;
-            scroll-behavior: smooth;
-        }
 
-        /* Animación de entrada para el chat */
-        .chat-enter-active {
-            transition: all 0.3s ease-out;
-        }
-        .chat-enter-from, .chat-leave-to {
-            transform: translateY(10px);
-            opacity: 0;
-        }
-
-        /* Animación de pulsación para el botón flotante */
-        .floating-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-        }
-
-        /* Estilos responsivos */
-        @media (max-width: 640px) {
-            #chat-container {
-                width: 95%; /* Ocupa casi todo el ancho en móviles */
-                max-height: 80vh;
-                bottom: 80px; /* Deja espacio para el botón flotante */
-                right: 2.5%; /* Centrado visualmente */
-            }
-        }
-        
 /* ==================================== */
-/* 8. Media Queries (Diseño Responsivo) */
+/* 8. Chatbot Flotante (Widget)         */
+/* ==================================== */
+
+/* Importación de fuente si el chatbot la usa */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* --- 8.1 Estilos del Contenedor y Ventana --- */
+#chat-window {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+/* --- 8.2 Botón Flotante (Icono de Apertura) --- */
+.floating-button { 
+    background-color: var(--primary-color) !important; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: var(--text-light) !important; 
+    border: none;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #0097A7 !important; 
+}
+
+/* Animación de pulsación para el botón flotante */
+.floating-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* --- 8.3 Contenedor Principal / Cabecera del Chat --- */
+#chat-container {
+    background-color: var(--text-light); 
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+
+/* El encabezado de la ventana de chat (donde dice "Asistente app.Crimaju") */
+.chat-header { 
+    background-color: var(--background-dark) !important; /* Cyan muy oscuro */
+    color: var(--text-light) !important; /* Texto blanco */
+    border-bottom: 3px solid var(--secondary-color) !important; /* Borde rojo de acento */
+    padding: 15px; 
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* El punto verde de "online" */
+.chat-header .status-indicator { /* Si tu chatbot usa esta clase, se aplica */
+    background-color: var(--tertiary-color) !important; 
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+/* El icono de cerrar (la X) */
+.chat-header .close-button { /* Si tu chatbot usa esta clase, se aplica */
+    color: var(--text-light) !important; 
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+/* --- 8.4 Burbujas de Mensaje y Animaciones --- */
+
+/* Fondo de los mensajes del Bot */
+.bot-message, .message-bot { 
+    background-color: #E0F7FA !important; /* Cyan muy claro */
+    color: var(--text-color) !important; 
+    border-radius: 15px 15px 15px 0 !important; 
+    padding: 12px 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Fondo de los mensajes del Usuario */
+.user-message, .message-user {
+    background-color: var(--primary-color) !important; /* Cyan principal para el usuario */
+    color: var(--text-light) !important; /* Texto blanco */
+    border-radius: 15px 15px 0 15px !important;
+    padding: 12px 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* --- 8.5 Área de Input de Mensaje --- */
+/* Contenedor del input (fondo blanco y flecha morada) */
+.chat-input-area { /* Clase común para el contenedor del input */
+    background-color: var(--text-light) !important; 
+    border-top: 1px solid #eee !important; 
+    padding: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px;
+}
+
+#chat-input-field { /* El campo de texto para escribir */
+    flex-grow: 1 !important;
+    padding: 10px 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 25px !important; 
+    font-size: 1rem !important;
+    outline: none !important;
+    transition: border-color 0.3s !important;
+}
+
+#chat-input-field:focus {
+    border-color: var(--primary-color) !important; 
+}
+
+.send-button { /* El botón de la flecha morada */
+    background-color: var(--primary-color) !important; /* Cyan principal */
+    color: var(--text-light) !important; /* Color de la flecha: blanco */
+    border: none !important;
+    border-radius: 50% !important; 
+    width: 40px !important; 
+    height: 40px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 1.2rem !important; 
+    cursor: pointer !important;
+    transition: background-color 0.3s, transform 0.2s !important;
+}
+
+.send-button:hover {
+    background-color: #0097A7 !important; 
+    transform: translateY(-1px);
+}
+
+
+/* Animación de entrada para el chat */
+.chat-enter-active {
+    transition: all 0.3s ease-out;
+}
+.chat-enter-from, .chat-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
+}
+
+
+/* ==================================== */
+/* 9. Media Queries (Diseño Responsivo) */
 /* ==================================== */
 
 /* Tablet y Móvil */
 @media (max-width: 900px) {
     /* Header/Nav */
     .menu {
-        /* Estilos para el menú en móviles (oculto por defecto) */
         position: absolute;
-        top: 60px; /* Altura del header */
+        top: 80px; /* Ajustado por el header más alto */
         left: 0;
         right: 0;
         flex-direction: column;
-        background-color: var(--background-dark);
+        background-color: var(--background-dark); 
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         padding: 20px 0;
-        height: 0; /* Oculto por defecto */
+        height: 0;
         overflow: hidden;
         transition: all 0.3s ease-in-out;
     }
 
     .menu.active {
-        height: auto; /* Muestra el menú al hacer clic en el botón */
-        max-height: 400px; /* Límite para la animación de transición */
+        height: auto;
+        max-height: 400px;
     }
 
     .menu li {
@@ -458,7 +576,7 @@ footer {
     }
 
     .menu-toggle {
-        display: flex; /* Muestra el botón hamburguesa */
+        display: flex;
     }
 
     /* Hero Section */
@@ -476,7 +594,7 @@ footer {
     }
 
     .card {
-        flex: 0 1 calc(100% - 20px); /* 1 card por fila en tablet */
+        flex: 0 1 calc(100% - 20px);
     }
 
     /* Contacto */
@@ -490,12 +608,22 @@ footer {
     }
 
     .formulario-embed {
-        height: 600px; /* Ajusta la altura del iframe */
+        height: 600px;
     }
 
     /* Footer */
     .footer-content {
         flex-direction: column;
+    }
+    
+    /* Reglas específicas para el chatbot en móvil */
+    @media (max-width: 640px) {
+        #chat-container {
+            width: 95%; 
+            max-height: 80vh;
+            bottom: 80px; 
+            right: 2.5%; 
+        }
     }
 }
 
@@ -515,38 +643,3 @@ footer {
         margin-bottom: 30px;
     }
 }
-
-/* Importación de fuente Inter y estilos básicos */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        
-        /* Estilo para ocultar el scroll en el chat, pero permitirlo en el contenido */
-        #chat-window {
-            overflow-y: auto;
-            scroll-behavior: smooth;
-            color: #0097A7;
-        }
-
-        /* Animación de entrada para el chat */
-        .chat-enter-active {
-            transition: all 0.3s ease-out;
-        }
-        .chat-enter-from, .chat-leave-to {
-            transform: translateY(10px);
-            opacity: 0;
-        }
-
-        /* Animación de pulsación para el botón flotante */
-        .floating-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-        }
-
-        /* Estilos responsivos */
-        @media (max-width: 640px) {
-            #chat-container {
-                width: 95%; /* Ocupa casi todo el ancho en móviles */
-                max-height: 80vh;
-                bottom: 80px; /* Deja espacio para el botón flotante */
-                right: 2.5%; /* Centrado visualmente */
-            }
-        }

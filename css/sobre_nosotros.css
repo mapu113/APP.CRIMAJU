@@ -3,24 +3,37 @@
 /* ==================================== */
 
 :root {
-    /* Paleta de colores CRIMAJU (Consistencia con index.html) */
-    --primary-color: #00BCD4; /* Cyan principal */
-    --secondary-color: #FF4081; /* Rojo/Magenta de acento */
-    --tertiary-color: #8BC34A; /* Verde de acento */
+    /* Paleta de colores CRIMAJU (CONSISTENTE) */
+    --primary-color: #00BCD4; /* Cyan principal (Títulos y Acentos CLAROS) */
+    --secondary-color: #ff0000; /* Rojo/Magenta de acento (para CTA y bordes) */
+    --tertiary-color: #8BC34A; /* Verde de acento (para cards y bordes de foto) */
+    --whatsapp-color: #25D366; 
+    --whatsapp-color-hover: #128C7E; 
     --text-color: #212121; /* Texto oscuro */
     --text-light: #FFFFFF; /* Texto claro */
-    --background-light: #F8F8F8; /* Fondo claro de secciones */
-    --background-dark: #1a1a1a; /* Fondo oscuro (Header/Footer) */
+    --background-light: #f8f8f8cf; /* Fondo claro de secciones */
+    
+    /* Fondo oscuro Cyan muy oscuro */
+    --background-dark: #002D3C; 
+    
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     
     /* Tipografía */
     --font-heading: 'WDXL Lubrifont TC', sans-serif;
     --font-body: 'Roboto', sans-serif;
 }
 
+/* Importación de fuente Inter para el chatbot, como solicitaste */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -40,122 +53,108 @@ a:hover {
     color: var(--secondary-color);
 }
 
-main {
+main { 
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Títulos de las secciones */
 h2 {
     font-family: var(--font-heading);
     color: var(--primary-color);
-    font-size: 2rem;
-    margin-bottom: 15px;
-    border-bottom: 3px solid var(--secondary-color); /* Toque de acento */
-    display: inline-block;
-    padding-bottom: 5px;
+    font-size: 2.5rem; 
+    margin-bottom: 40px; 
+    text-align: center; 
 }
 
 /* ==================================== */
-/* 2. Estilos del Header y Footer       */
+/* 2. Header y Navegación               */
 /* ==================================== */
 
 header {
-    background-color: var(--background-dark);
+    background-color: var(--background-dark); 
     color: var(--text-light);
-    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-header nav {
+header nav { 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    max-width: 1200px;
+    padding: 15px 20px; 
+    max-width: 1200px; 
     margin: 0 auto;
 }
 
+/* LOGO CIRCULAR */
 header .logo img {
-    height: 40px; /* Ajusta el tamaño de tu logo */
+    height: 60px; 
+    width: 60px; 
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 3px solid var(--primary-color); 
+    transition: transform 0.3s;
 }
 
+header .logo img:hover {
+    transform: scale(1.05); 
+}
+
+/* Menú */
 .menu-simple {
     list-style: none;
     display: flex;
+    gap: 30px; 
 }
 
 .menu-simple a {
     color: var(--text-light);
     font-weight: bold;
-    padding: 5px 15px;
-    transition: color 0.3s;
+    padding: 5px 0;
+    transition: color 0.3s, border-bottom 0.3s;
 }
 
 .menu-simple a:hover {
     color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
 }
 
-
-footer {
-    background-color: var(--background-dark);
-    color: var(--text-light);
-    padding: 30px 20px;
-    text-align: center;
-    margin-top: 50px;
-}
-
-.social {
-    margin-top: 15px;
-}
-
-.social a {
-    color: var(--text-light);
-    font-weight: bold;
-    margin: 0 10px;
-}
-
-.social a:hover {
-    color: var(--primary-color);
-}
-
-.btn-login {
-    /* Usa el color de acento (Rojo/Magenta) para destacarlo */
+/* BOTÓN DE LOGIN */
+.boton, .btn-login { 
     background-color: var(--secondary-color); 
-    color: var(--text-light) !important; /* Asegura que el texto sea blanco */
+    color: var(--text-light) !important; 
     padding: 8px 15px;
     border-radius: 5px;
     font-weight: bold;
-    /* Elimina el borde inferior al pasar el ratón para los enlaces de menú */
     border-bottom: none !important; 
     transition: background-color 0.3s ease;
 }
 
-.btn-login:hover {
-    background-color: #E91E63; /* Tono de rojo más oscuro en hover */
+.boton:hover, .btn-login:hover {
+    background-color: #ff0055; 
     color: var(--text-light) !important; 
-    /* Si estás en index.html, esto anulará el borde de hover que tiene el <a> normal */
     border-bottom: none;
 }
 
 /* ==================================== */
-/* 3. Misión y Visión (.conocenos)      */
+/* 3. Misión, Visión y Objetivos        */
 /* ==================================== */
 
 .conocenos, .objetivos {
     display: flex;
     gap: 40px;
     margin-top: 40px;
-    padding: 20px 0;
-    /* Usa un fondo muy claro para separar la sección */
+    padding: 30px;
     background-color: var(--text-light); 
     border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow); 
 }
 
 .conocenos .texto, .objetivos .texto {
-    flex: 1; /* Distribuye el espacio equitativamente */
+    flex: 1; 
     padding: 10px;
 }
 
@@ -164,9 +163,8 @@ footer {
     font-size: 1.1rem;
 }
 
-/* Estilos para los Objetivos Específicos (lista) */
 .objetivos ul {
-    list-style: disc inside;
+    list-style: disc outside; 
     padding-left: 20px;
 }
 
@@ -177,19 +175,19 @@ footer {
 }
 
 /* ==================================== */
-/* 4. Equipo de Emprendedores           */
+/* 4. Equipo de Emprendedores           */
 /* ==================================== */
 
 .emprendedores {
     margin-top: 60px;
     text-align: center;
-    background-color: #E0F7FA; /* Color muy claro basado en Cyan */
+    background-color: #E0F7FA; 
     padding: 40px 20px;
     border-radius: 10px;
 }
 
 .emprendedores-titulo h2 {
-    font-size: 2.8rem;
+    font-size: 2.5rem; 
     margin-bottom: 40px;
     border-bottom: 5px solid var(--primary-color);
     display: block;
@@ -200,24 +198,24 @@ footer {
 
 .emprendedores-texto {
     display: inline-block;
-    width: 30%; /* Tres columnas en desktop */
+    width: 30%; 
     margin: 0 1.5%;
     padding: 20px;
     background-color: var(--text-light);
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     transition: transform 0.3s;
-    vertical-align: top; /* Asegura que estén alineados */
+    vertical-align: top; 
 }
 
 .emprendedores-texto:hover {
     transform: translateY(-5px);
 }
 
-.emprendedores-texto h2 {
+.emprendedores-texto h3 { 
+    font-family: var(--font-heading);
     font-size: 1.5rem;
-    border-bottom: none;
-    color: var(--text-color);
+    color: var(--primary-color); 
     margin-bottom: 10px;
 }
 
@@ -226,15 +224,274 @@ footer {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    margin-top: 15px;
-    border: 4px solid var(--tertiary-color); /* Borde verde de acento */
+    margin: 15px auto; 
+    display: block;
+    border: 4px solid var(--tertiary-color); 
 }
 
 /* ==================================== */
-/* 5. Media Queries (Responsivo)        */
+/* 5. Footer                            */
 /* ==================================== */
 
+footer {
+    background-color: var(--background-dark); 
+    color: var(--text-light);
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 50px; 
+}
+
+.footer-content { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.social {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social a {
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+.social a:hover {
+    color: var(--primary-color);
+}
+
+
+/* ==================================== */
+/* 6. Chatbot Flotante (Widget) - CRÍTICO */
+/* ==================================== */
+
+/* 6.1 Contenedor Principal y Posicionamiento */
+#chat-container {
+    /* POSICIONAMIENTO: Fijo en la esquina inferior derecha */
+    position: fixed; 
+    bottom: 90px; 
+    right: 20px;
+    z-index: 1000; 
+    width: 350px; 
+    max-height: 500px; 
+    
+    background-color: var(--text-light); 
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+    border-radius: 10px; 
+    overflow: hidden; 
+
+    /* CRÍTICO: Para organizar Header, Window, y Input verticalmente */
+    display: flex; 
+    flex-direction: column; 
+    font-family: 'Inter', sans-serif;
+}
+
+/* Animación de entrada/salida */
+.chat-enter-active {
+    transition: all 0.3s ease-out;
+}
+.chat-enter-from, .chat-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
+}
+
+/* 6.2 Botón Flotante */
+.floating-button { 
+    background-color: var(--primary-color) !important; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: var(--text-light) !important; /* El SVG interno toma este color */
+    border: none;
+    transition: transform 0.2s, background-color 0.3s;
+    border-radius: 50% !important; 
+    width: 60px; 
+    height: 60px;
+    
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px;
+    z-index: 1000;
+
+    /* Centra el ícono */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animación de pulsación */
+.floating-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+}
+
+.floating-button:hover {
+    background-color: #0097A7 !important; 
+}
+
+
+/* 6.3 Cabecera del Chat */
+.chat-header { 
+    background-color: var(--background-dark) !important; 
+    color: var(--text-light) !important; 
+    border-bottom: 3px solid var(--secondary-color) !important; 
+    padding: 15px; 
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0; /* Evita que el header se encoja */
+}
+
+.chat-header .status-indicator { 
+    background-color: var(--tertiary-color) !important; 
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.chat-header .header-title {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.chat-header .close-button { 
+    background: none;
+    border: none;
+    color: var(--text-light) !important; 
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+
+/* 6.4 Ventana de Mensajes y Burbujas */
+#chat-window {
+    flex-grow: 1; /* CRÍTICO: Permite que la ventana ocupe el espacio restante */
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 15px; 
+    min-height: 150px; /* Altura mínima para asegurar visibilidad */
+}
+
+/* Estilos para la alineación (user-message-wrapper y bot-message-wrapper son clases que usa el JS) */
+.user-message-wrapper {
+    display: flex;
+    justify-content: flex-end; 
+    margin-bottom: 10px; 
+}
+
+.bot-message-wrapper {
+    display: flex;
+    justify-content: flex-start; 
+    margin-bottom: 10px;
+}
+
+/* Estilo de la burbuja del usuario */
+.user-message {
+    background-color: var(--primary-color) !important; 
+    color: var(--text-light) !important; 
+    border-radius: 15px 15px 0 15px !important;
+    padding: 12px 15px !important;
+    max-width: 80%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de la burbuja del bot */
+.bot-message { 
+    background-color: #E0F7FA !important; 
+    color: var(--text-color) !important; 
+    border-radius: 15px 15px 15px 0 !important; 
+    padding: 12px 15px !important;
+    max-width: 80%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+
+/* 6.5 Área de Input de Mensaje y Botón Enviar (SOLUCIÓN CRÍTICA) */
+.chat-input-area { 
+    background-color: var(--text-light) !important; 
+    border-top: 1px solid #eee !important; 
+    padding: 15px !important;
+    flex-shrink: 0; /* Evita que el área de input se encoja */
+    
+    /* CRÍTICO: Asegura la contención total */
+    position: relative !important; 
+    width: 100% !important;
+}
+
+/* Contenedor del formulario anidado */
+.chat-input-area #chat-form {
+    display: flex; 
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* El campo de entrada de texto (input) */
+#user-input { 
+    flex-grow: 1 !important;
+    padding: 10px 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 25px !important; 
+    font-size: 1rem !important;
+    outline: none !important;
+    transition: border-color 0.3s !important;
+    
+    /* CRÍTICO: Deshace cualquier estilo de flotación de Tailwind */
+    position: static !important; 
+    box-sizing: border-box !important;
+    min-width: 0; 
+}
+
+#user-input:focus {
+    border-color: var(--primary-color) !important; 
+}
+
+.send-button { 
+    background-color: var(--primary-color) !important; 
+    color: var(--text-light) !important; 
+    border: none !important;
+    border-radius: 50% !important; 
+    width: 40px !important; 
+    height: 40px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 1.5rem !important; /* Aumentado el tamaño de la flecha */
+    cursor: pointer !important;
+    transition: background-color 0.3s, transform 0.2s !important;
+    padding: 0; /* Asegura que el contenido esté centrado */
+}
+
+.send-button:hover {
+    background-color: #0097A7 !important; 
+    transform: translateY(-1px);
+}
+
+
+/* ==================================== */
+/* 7. Media Queries (Diseño Responsivo) */
+/* ==================================== */
+
+/* Tablet y Móvil */
 @media (max-width: 900px) {
+    /* Header/Nav */
+    header nav {
+        flex-wrap: wrap; 
+    }
+    .menu-simple {
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
     /* Misión y Visión */
     .conocenos, .objetivos {
         flex-direction: column;
@@ -243,25 +500,54 @@ footer {
     }
 
     h2 {
-        text-align: center;
+        font-size: 2rem;
     }
     
     /* Equipo */
     .emprendedores-texto {
-        width: 45%; /* Dos columnas en tablet */
+        width: 45%; 
         margin-bottom: 20px;
+    }
+
+    /* Footer */
+    .footer-content {
+        flex-direction: column;
     }
 }
 
-@media (max-width: 600px) {
-    /* Equipo */
+/* Móvil (Chatbot y layout general) */
+@media (max-width: 640px) {
+    /* Contenedor del Chatbot en Móviles */
+    #chat-container {
+        width: 95% !important; 
+        max-height: 80vh !important;
+        bottom: 80px !important; 
+        right: 2.5% !important; 
+    }
+
+    /* Botón flotante */
+    .floating-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    /* Reducir tamaño de fuente en el header si es necesario */
+    .chat-header .header-title {
+        font-size: 1rem;
+    }
+    
+    /* Ajustes generales para el layout en móvil */
     .emprendedores-texto {
-        width: 90%; /* Una columna en móvil */
+        width: 90%; 
         display: block;
         margin: 20px auto;
     }
     
     .emprendedores-titulo h2 {
         font-size: 2rem;
+    }
+
+    .social {
+        margin-top: 20px;
     }
 }
