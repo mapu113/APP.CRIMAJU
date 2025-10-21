@@ -1,0 +1,206 @@
+/* ==================================== */
+/* 1. Variables y Reset Básico          */
+/* ==================================== */
+
+:root {
+    /* Paleta de colores CRIMAJU */
+    --primary-color: #00BCD4; /* Cyan principal */
+    --secondary-color: #FF4081; /* Rojo/Magenta de acento */
+    --text-color: #212121; /* Texto oscuro */
+    --text-light: #FFFFFF; /* Texto claro */
+    --background-light: #F8F8F8; /* Fondo claro */
+    --background-dark: #1a1a1a; /* Fondo oscuro (Header/Footer) */
+    
+    /* Tipografía */
+    --font-heading: 'WDXL Lubrifont TC', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--background-light);
+    min-height: 100vh; /* Para que el fondo cubra toda la página */
+    display: flex; /* Flexbox para centrar el contenido principal */
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==================================== */
+/* 2. Header y Footer (Consistencia)    */
+/* ==================================== */
+
+header {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 15px 0;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo img {
+    height: 40px; 
+}
+
+.menu-simple {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.menu-simple a {
+    color: var(--text-light);
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+footer {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.social a {
+    color: var(--text-light);
+}
+
+/* ==================================== */
+/* 3. Estilos del Formulario de Login   */
+/* ==================================== */
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Permite que MAIN ocupe el espacio restante */
+    padding: 50px 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0097A7 100%); /* Fondo con degradado Cyan */
+}
+
+.login-card {
+    background: var(--text-light);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.5); /* Sombra de enfoque Cyan */
+}
+
+.login-button {
+    width: 100%;
+    background-color: var(--secondary-color); /* Rojo/Magenta de acento */
+    color: var(--text-light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+    background-color: #E91E63;
+    transform: translateY(-1px);
+}
+
+.links {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: var(--secondary-color);
+    margin-top: 15px;
+    font-weight: bold;
+    display: none; /* Oculto por defecto, mostrado por JS */
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

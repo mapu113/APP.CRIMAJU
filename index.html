@@ -1,54 +1,131 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Home</title>
-  <link rel="stylesheet" href="inicio.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRIMAJU - Expertos en Programación Web</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=WDXL+Lubrifont+TC&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-      <h1>App.Crimaju</h1>
-     <div>
-     <a href="1-home.html" class="menu-boton">Inicio</a>
-     <a href="2-nosotros.html" class="menu-boton">Informacion</a>
-     <a href="3-servicios.html" class="menu-boton">Servicios</a>
-     <a href="4-portafolio.html" class="menu-boton">Portafolio</a>
-     <a href="6-testimonios.html" class="menu-boton">Testimonios</a>
-     <a href="5-contacto.html" class="menu-boton">Trabajos</a>
-     <a href="" class="menu-boton">Contacto</a>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="img/logo.jpeg" alt="Logo CRIMAJU">
+            </div>
+            <button class="menu-toggle" aria-label="Abrir Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="login.html" class="btn-login">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
 
-     
-     </div>
-      <div class="botones-inicio">
-        <button class="ingresar">Ingresar</button>
-        <button class="iniciar-sesion">Iniciar sesión</button>
-      </div>
-  </header>
-  <main>
-        <div class="logo">
-            <img src="logo.jpeg" class="img">
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <br>
+                <h1>Adapta tu página a tus necesidades</h1>
+                <p>Especialistas en programación y personalización de páginas web para PYMES y emprendedores.</p>
+                <a href="#contacto" class="cta-button">Contáctanos Hoy</a>
+            </div>
+        </section>
+
+        <section id="sobre-nosotros" class="about container"> 
+            <h2 class="section-title">Conócenos Mejor</h2>
+            <p>En App.Crimaju nacimos con una idea clara: ayudar a los pequeños y medianos emprendedores a dar el salto al mundo digital sin complicaciones. Sabemos que muchos negocios tienen grandes productos, servicios e historias que contar, pero no siempre cuentan con las herramientas o conocimientos para crear una página web profesional. Por eso, nuestro propósito es brindar soluciones accesibles, personalizadas y con acompañamiento constante, para que cada emprendimiento pueda crecer y destacar en internet.
+                <br>
+                <br>
+                Somos un equipo que combina creatividad, innovación y compromiso humano. Nos enfocamos en diseñar sitios web que no solo sean visualmente atractivos, sino también funcionales, fáciles de usar y pensados para generar resultados reales. Cada proyecto es una oportunidad para reflejar la esencia de quien está detrás del negocio, conectando con su público y construyendo confianza.
+                <br>
+                <br>
+                En App.Crimaju no solo desarrollamos páginas web; creamos puentes digitales entre las ideas y las personas. Queremos que cada cliente sienta que tiene un aliado en su camino hacia la transformación digital, y que juntos podemos convertir sus sueños en presencia, su esfuerzo en crecimiento y su historia en impacto..</p>
+            <a href="nosotros.html" class="about-button">Conoce Nuestro Equipo</a>
+        </section>
+
+           
+        <section id="servicios" class="servicios">
+            <div class="container">
+                <h2 class="section-title">Nuestros Planes de Servicio</h2>
+                <div class="cards-grid">
+                    <div id="plan-basic" class="servicio card">
+                        <h3>Plan Basic</h3>
+                        <p>Programación básica de una página web con capacidad para una pequeña base de datos (una sola tabla de datos para administración). Rango de este servicio: $100.000 - $300.000 COP.</p>
+                    </div>
+                    <div id="plan-premium" class="servicio card">
+                        <h3>Plan Premium</h3>
+                        <p>Creación de una página web con capacidad para una base de datos mediana (máximo tres tablas). Este servicio tiene un valor aproximado de entre $400.000 - $700.000 COP.</p>               
+                    </div>
+                    <div id="plan-diamond" class="servicio card">
+                        <h3>Plan Diamond</h3>
+                        <p>Página web de mediano/grande tamaño, con una base de datos de tamaño medio/grande, comprendida entre 4 a 7 tablas. Este plan oscila entre $800.000 - $1.000.000 COP.</p>
+                    </div>
+                    <div id="plan-unique" class="servicio card">
+                        <h3>Plan Unique</h3>
+                        <p>El plan de mayor extensión y detalle. Páginas web y bases de datos amplias y detalladas. El valor de este plan es a partir de $1.000.000 COP. Contáctanos para cotizar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonios" class="testimonios">
+            <div class="container">
+                <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+                <div class="cards-grid">
+                    <div class="testimonio card">
+                        <img src="img/testimonio1.jpg" alt="Cliente 1">
+                        <p>“Gracias a App.Crimaju, nuestra empresa ha visto un crecimiento significativo en nuestras ventas y presencia en línea. Su equipo es increíblemente profesional y siempre está dispuesto a ayudar.”</p>
+                    </div>
+                    <div class="testimonio card">
+                        <img src="img/testimonio2.jpg" alt="Cliente 2">
+                        <p>“La experiencia con App.Crimaju ha sido excepcional. Su atención al detalle y compromiso con la calidad son evidentes en cada aspecto de su trabajo.”</p>
+                    </div>
+                    <div class="testimonio card">
+                        <img src="img/testimonio3.jpg" alt="Cliente 3">
+                        <p>“App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones.”</p>
+                    </div>
+                    <div class="testimonio card">
+                        <img src="img/testimonio4.jpg" alt="Cliente 4">
+                        <p>“Recomiendo encarecidamente App.Crimaju a cualquier empresa que busque mejorar su marketing digital. Su equipo es talentoso, dedicado y siempre entrega resultados excepcionales.”</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="contact">
+            <div class="container">
+                <h2 class="section-title">Contáctanos y Empecemos</h2>
+                <div class="contact-container">
+                    <p class="contact-text">¿Listo para impulsar tu negocio? Llámanos o usa el formulario para una cotización inmediata.</p>
+                    <div class="formulario-embed">
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeN0_CKZLds8MhMw97CoOTr9pwAeQ4fEamTPyt0qt_prA1UZw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 APP.CRIMAJU- Todos los derechos reservados</p>
+            <div class="social">
+                <a href="https://www.facebook.com/share/17DF9ukzqz/" class="social-link">Facebook</a> | 
+                <a href="https://www.instagram.com/appcrimaju?utm_source=qr&igsh=MTZ3dDB1cWhvZTNtOQ==" class="social-link">Instagram</a> | 
+                <a href="https://wa.me/573243995193" class="social-link">WhatsApp</a> |
+                <a href="https://www.tiktok.com/@app.crimaju?_t=ZS-90Bn1db3AaO&_r=1" class="social-link">TikTok</a>
+            </div>
         </div>
-        <p>App.Crimaju se especializa en el diseño y creacion de paginas web para pequeñas y medianas empresas que desean fortalecer su presencia digital, impulsar su crecimiento y ventas, de una facil manera y con el acompañamiento constante para los mejores resultados.</p>
-
-  </main>
-
-  <footer>
-  <p>Copyright © 2024 <strong>APP.CRIMAJU</strong>. All rights reserved.</p>
-  <div class="social-icons">
-    <a href="https://www.facebook.com" target="_blank">
-      <img src="img/facebook.png" alt="Facebook" width="30">
-    </a>
-    <a href="https://wa.me/573145242615" target="_blank">
-      <img src="img/whatsapp.png" alt="WhatsApp" width="30">
-    </a>
-    <a href="https://www.instagram.com" target="_blank">
-      <img src="img/instagram.png" alt="instagram" width="30">
-    </a>
-    <a href="https://www.tiktok.com" target="_blank">
-      <img src="img/tiktok.png" alt="TikTok" width="30">
-    </a>
-  </div>
-</footer>
-
+    </footer>
+    <script src="js/script.js" defer></script>
 </body>
 </html>

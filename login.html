@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRIMAJU | Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/login.css"> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=WDXL+Lubrifont+TC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo.jpeg" alt="Logo CRIMAJU">
+                </a>
+            </div>
+            <ul class="menu-simple">
+                <li><a href="index.html">Volver al Inicio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="login-page">
+        <div class="login-card">
+            <h1 class="login-title">Acceso a Clientes</h1>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="login-button">Entrar</button>
+                
+                <div class="links">
+                    <a href="contraseña.html" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <p id="error-message" class="error-message"></p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 APP.CRIMAJU- Todos los derechos reservados</p>
+            <div class="social">
+                <a href="https://www.facebook.com/share/17DF9ukzqz/" class="social-link">Facebook</a> | 
+                <a href="https://www.instagram.com/appcrimaju?utm_source=qr&igsh=MTZ3dDB1cWhvZTNtOQ==" class="social-link">Instagram</a> | 
+                <a href="https://wa.me/573243995193" class="social-link">WhatsApp</a> |
+                <a href="https://www.tiktok.com/@app.crimaju?_t=ZS-90Bn1db3AaO&_r=1" class="social-link">TikTok</a>
+            </div>
+        </div>
+    </footer>
+    <script src="js/login.js" defer></script>
+</body>
+</html>
