@@ -5,12 +5,12 @@
 :root {
     /* Paleta de colores CRIMAJU */
     --primary-color: #00BCD4; /* Cyan principal */
-    --secondary-color: #ff3232; /* Rojo/Magenta de acento (para CTA) */
+    --secondary-color: #ff0000; /* Rojo/Magenta de acento (para CTA) */
     --tertiary-color: #8BC34A; /* Verde de acento (para cards) */
     --text-color: #212121; /* Texto oscuro */
     --text-light: #FFFFFF; /* Texto claro */
-    --background-light: #F8F8F8; /* Fondo claro de secciones */
-    --background-dark: #1a1a1a; /* Fondo oscuro (Header/Footer) */
+    --background-light: #f8f8f8cf; /* Fondo claro de secciones */
+    --background-dark: #006eff; /* Fondo oscuro (Header/Footer) */
     --tertiary-color: #8BC34A; /* Verde de acento (ya existía) */
     --whatsapp-color: #25D366; /* Verde de WhatsApp */
     --whatsapp-color-hover: #128C7E; /* Verde oscuro de WhatsApp */
@@ -135,7 +135,7 @@ nav {
 }
 
 .boton:hover {
-    background-color: #fd2323; /* Tono de rojo más oscuro en hover */
+    background-color: #ff0000; /* Tono de rojo más oscuro en hover */
     color: var(--text-light) !important; 
     /* Si estás en index.html, esto anulará el borde de hover que tiene el <a> normal */
     border-bottom: none;
@@ -185,7 +185,7 @@ nav {
 }
 
 .cta-button:hover {
-    background-color: #E91E63; /* Tono de rojo más oscuro */
+    background-color: #ff0055; /* Tono de rojo más oscuro */
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
@@ -223,7 +223,7 @@ nav {
 }
 
 .about-button:hover {
-    background-color: #E91E63; /* Tono de rojo más oscuro */
+    background-color: #ff0055; /* Tono de rojo más oscuro */
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
