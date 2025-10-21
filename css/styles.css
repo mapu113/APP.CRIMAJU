@@ -523,6 +523,7 @@ footer {
         #chat-window {
             overflow-y: auto;
             scroll-behavior: smooth;
+            color: #0097A7;
         }
 
         /* Animación de entrada para el chat */
