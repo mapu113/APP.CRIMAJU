@@ -1,4 +1,5 @@
-const baseConocimiento = {
+        // --- 🧠 Base de Conocimiento y Respuestas ---
+        const baseConocimiento = {
             "CONTACTOS": {
                 "¿Quién será mi contacto principal durante el proyecto?": "Se te asignara un grupo de acompañantes con un lider durante el proyecto",
                 "¿Puedo agendar una llamada o reunión con un asesor?": "Sí, con gusto. Haz clic aquí [Link de Calendario/Booking] llena el formulario de google para una reunión virtual gratuita de 15 minutos y discutir tu proyecto.",
@@ -21,17 +22,16 @@ const baseConocimiento = {
             },
             "SOBRE NOSOTROS": {
                 "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
-                "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por Maria Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Bedoya. ¿Te gustaría saber el rol de alguno en específico?",
-                "¿Cuál es el rol de Maria Paula Solarte?": "Maria Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
+                "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
+                "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
-                "¿Cuál es el rol de Cristobal David Bedoya?": "Cristobal David Bedoya es el Programador encargado del desarrollo técnico, las comunicaciones con los clientes y la implementación de soluciones innovadoras."
             }
         };
 
         const respuestasSaludo = [
-            "¡Hola! 😊 Soy tu chatbot de app.Crimaju. ¿En qué te puedo ayudar?",
+            "¡Hola! 😊 Soy tu chatbot de app.Crrimaju. ¿En qué te puedo ayudar?",
             "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
-            "¡Hola! 👋 ¿Qué te gustaría aprender sobre app.Crimaju hoy?"
+            "¡Hola! 👋 ¿Qué te gustaría aprender sobre app.Crrimaju hoy?"
         ];
 
         const respuestasDespedida = [
@@ -60,7 +60,6 @@ const baseConocimiento = {
             return texto.trim().replace(/\s+/g, ' ');
         }
 
-        
         /**
          * Tokeniza el texto (simplemente lo divide por espacios).
          * @param {string} texto 
@@ -153,10 +152,22 @@ const baseConocimiento = {
         }
         
         // --- 🤖 Funciones de Interfaz y Chat ---
-        const chatContainer = document.getElementById('chat-container');
-        const chatWindow = document.getElementById('chat-window');
-        const userInput = document.getElementById('user-input');
+        
+        // 1. Declaramos las variables globalmente, pero no las inicializamos aún
+        let chatContainer, chatWindow, userInput; 
 
+        // 2. Función para inicializar las referencias del DOM
+        function initChat() {
+            chatContainer = document.getElementById('chat-container');
+            chatWindow = document.getElementById('chat-window');
+            userInput = document.getElementById('user-input');
+            
+            // Verificación simple para depuración
+            if (!chatContainer || !chatWindow || !userInput) {
+                console.error("Error: No se pudieron encontrar los elementos del DOM. Revisa los IDs.");
+            }
+        }
+        
         /**
          * Utilidad para obtener un elemento aleatorio de un array.
          */
@@ -168,14 +179,22 @@ const baseConocimiento = {
          * Alterna la visibilidad de la ventana del chat.
          */
         function toggleChat() {
+            // Utilizamos el condicional para evitar errores si no se inicializó correctamente
+            if (!chatContainer) {
+                console.error("ChatContainer no está disponible.");
+                return;
+            }
+
             const isHidden = chatContainer.classList.contains('hidden');
             if (isHidden) {
                 chatContainer.classList.remove('hidden');
                 // Agregar mensaje de bienvenida al abrir si es la primera vez
-                if (chatWindow.children.length === 0) {
+                if (chatWindow && chatWindow.children.length === 0) {
                     mostrarMensajeBot(getRandom(respuestasSaludo));
                 }
-                userInput.focus();
+                if (userInput) {
+                    userInput.focus();
+                }
             } else {
                 chatContainer.classList.add('hidden');
             }
@@ -187,6 +206,8 @@ const baseConocimiento = {
          * @param {string} remitente 'user' o 'bot'.
          */
         function mostrarMensaje(texto, remitente) {
+            if (!chatWindow) return; // Protección
+
             const mensajeDiv = document.createElement('div');
             const textoFormateado = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Soporte simple para negritas
 
@@ -235,6 +256,9 @@ const baseConocimiento = {
          */
         function enviarMensaje(event) {
             event.preventDefault();
+            
+            if (!userInput) return; // Protección
+
             const pregunta = userInput.value.trim();
 
             if (pregunta.length === 0) return;
@@ -254,7 +278,11 @@ const baseConocimiento = {
             // Si es una despedida, cerrar el chat después de un retraso
             if (categoria === "Despedida") {
                 setTimeout(() => {
-                    chatContainer.classList.add('hidden');
+                    if (chatContainer) chatContainer.classList.add('hidden');
                 }, 1500);
             }
         }
+        
+        // 3. Ejecutamos la inicialización una vez que todo el script ha cargado.
+        // Dado que el script está al final del body, esto asegura que los elementos existen.
+        initChat();
