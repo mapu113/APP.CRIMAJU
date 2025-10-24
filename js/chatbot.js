@@ -21,7 +21,7 @@ const baseConocimiento = {
             },
             "SOBRE NOSOTROS": {
                 "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
-                "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por Maria Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
+                "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por Maria Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Bedoya. ¿Te gustaría saber el rol de alguno en específico?",
                 "¿Cuál es el rol de Maria Paula Solarte?": "Maria Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
                 "¿Cuál es el rol de Cristobal David Bedoya?": "Cristobal David Bedoya es el Programador encargado del desarrollo técnico, las comunicaciones con los clientes y la implementación de soluciones innovadoras."
