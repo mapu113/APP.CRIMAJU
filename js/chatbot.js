@@ -228,7 +228,7 @@
                 
                 // MANTENGO 'text-white' asumiendo que el fondo es oscuro y el usuario solo tuvo un problema de contraste temporal. Si el problema es que el fondo es blanco, esta es la línea a cambiar a 'text-gray-800'.
                 mensajeDiv.innerHTML = `
-                    <div class="bg-crimaju-primary text-gray-800 p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
+                    <div class="bg-crimaju-primary text-white p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
                         ${textoFormateado}
                     </div>
                 `;
@@ -237,7 +237,7 @@
                 mensajeDiv.innerHTML = `
                     <div class="bg-gray-200 text-gray-800 p-3 max-w-xs sm:max-w-md rounded-xl rounded-tl-none shadow-sm text-sm whitespace-pre-wrap">
                         ${textoFormateado}
-                    </div>
+                    </div>s
                 `;
             }
             chatWindow.appendChild(mensajeDiv);
