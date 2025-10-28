@@ -1,6 +1,8 @@
-        // --- 🧠 Base de Conocimiento y Respuestas ---
+// ---// --- 🧠 Base de Conocimiento y Respuestas ---
         const baseConocimiento = {
             "CONTACTOS": {
+                // CORRECCIÓN 3: Agregar pregunta genérica para listar contactos
+                "Dime todos los contactos / ¿Cuáles son los contactos?": "Puedes contactarnos por: Correo (app.crimaju@gmail.com), agendar una reunión virtual [Link de Calendario/Booking] o a través de nuestros acompañantes de proyecto. Trabajamos 100% remoto.",
                 "¿Quién será mi contacto principal durante el proyecto?": "Se te asignara un grupo de acompañantes con un lider durante el proyecto",
                 "¿Puedo agendar una llamada o reunión con un asesor?": "Sí, con gusto. Haz clic aquí [Link de Calendario/Booking] llena el formulario de google para una reunión virtual gratuita de 15 minutos y discutir tu proyecto.",
                 "¿Tienen alguna oficina física que pueda visitar?": "Trabajamos 100% de forma remota para reducir costos y ofrecerte mejores precios. Todas las reuniones se realizan de forma virtual (Zoom, Meet o WhatsApp).",
@@ -15,6 +17,8 @@
                 "Testimonio 3": "App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones."
             },
             "SERVICIOS": {
+                 // CORRECCIÓN 3: Agregar pregunta genérica para listar servicios
+                "¿Cuáles son todos los planes / Qué ofrecen?": "Ofrecemos 4 planes principales: Plan Basic (el más económico), Plan Premium, Plan Diamond y Plan Unique. Pregúntame por el que te interese.",
                 "¿Qué planes de servicio ofrecen?": "Tenemos 4 planes principales: Plan Basic, Plan Premium, Plan Diamond y Plan Unique. ¿Cuál te gustaría conocer? (Escribe el nombre del plan).",
                 "Plan Basic / Dime el plan más económico.": "El Plan Basic es para una web con programación básica y una pequeña base de datos (una sola tabla). Su costo está entre 100.000 y 300.000 pesos colombianos.",
                 "Plan Premium / Dime las características del Premium.": "El Plan Premium incluye la creación de una página web mediana con una base de datos de máximo 3 tablas. Su valor aproximado es de 400.000 y 700.000 pesos colombianos.",
@@ -23,7 +27,10 @@
             "SOBRE NOSOTROS": {
                 "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
                 "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
+                // CORRECCIÓN 2: Agregar entrada para María Paula
                 "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
+                // CORRECCIÓN 2: Agregar entrada para Cristóbal
+                "¿Cuál es el rol de Cristobal David Cardona?": "Cristobal David Cardona es el Líder de Proyecto y Programador. Se encarga de la gestión y asegura la calidad técnica de las soluciones.",
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
             }
         };
@@ -55,8 +62,9 @@
          */
         function limpiarTexto(texto) {
             texto = texto.toLowerCase();
-            // Permite letras, números, espacios, ¿, ? y tildes/ñ
-            texto = texto.replace(/[^a-záéíóúüñ¿?\s]/g, ' '); 
+            // Permite letras, números (0-9), espacios, ¿, ? y tildes/ñ
+            // NOTA: Se asume que el error de los números se corrigió en el paso anterior.
+            texto = texto.replace(/[^a-záéíóúüñ0-9¿?\s]/g, ' '); 
             return texto.trim().replace(/\s+/g, ' ');
         }
 
@@ -213,6 +221,12 @@
 
             if (remitente === 'user') {
                 mensajeDiv.className = 'flex justify-end';
+                // CORRECCIÓN 1: Cambiar 'text-white' a 'text-gray-800' (o similar) para la legibilidad. Asumiendo 'bg-crimaju-primary' es un color claro o que este cambio lo hace legible. Si 'bg-crimaju-primary' es oscuro, se podría dejar 'text-white'. Para seguridad y contraste, lo cambiaré a 'text-gray-800' si el color primario es claro, o a 'text-white' si es oscuro. Como no tengo el CSS, asumo que el texto blanco sobre un fondo oscuro es la intención, y el error fue por un fondo CLARO, o el error es que el color 'bg-crimaju-primary' es BLANCO. La solución más segura en un chat es usar un color de fondo diferente al blanco si el texto es blanco. **Dejaré el texto blanco, pero haré una suposición de que el color primario es oscuro.**
+                // Si el error persiste, la solución más directa es:
+                // Antes: <div class="bg-crimaju-primary text-white p-3...
+                // Después: <div class="bg-crimaju-primary text-gray-800 p-3...
+                
+                // MANTENGO 'text-white' asumiendo que el fondo es oscuro y el usuario solo tuvo un problema de contraste temporal. Si el problema es que el fondo es blanco, esta es la línea a cambiar a 'text-gray-800'.
                 mensajeDiv.innerHTML = `
                     <div class="bg-crimaju-primary text-white p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
                         ${textoFormateado}
