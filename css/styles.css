@@ -6,13 +6,13 @@
     /* Paleta de colores CRIMAJU */
     --primary-color: #00BCD4; /* Cyan principal (Títulos y Acentos CLAROS) */
     --secondary-color: #ff0000; /* Rojo/Magenta de acento (para CTA) */
-    --tertiary-color: #8BC34A; /* Verde de acento (para cards y online status) */
+    --tertiary-color: #8BC34A; /* Verde de acento (para cards) */
     --whatsapp-color: #25D366; /* Verde de WhatsApp */
     --whatsapp-color-hover: #128C7E; /* Verde oscuro de WhatsApp */
     --text-color: #212121; /* Texto oscuro */
     --text-light: #FFFFFF; /* Texto claro */
     --background-light: #f8f8f8cf; /* Fondo claro de secciones */
-    --background-dark: #002D3C;  /*Fondo oscuro en la gama de Cyan (Header/Footer/Chat Header) */
+    --background-dark: #002D3C;  /*Fondo oscuro en la gama de Cyan (Header/Footer) */
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     
     /* Tipografía */
@@ -247,6 +247,7 @@ nav {
     background-color: #E0F7FA; 
 }
 
+/* Estilo para el grid de SERVICIOS (se mantiene) */
 .cards-grid {
     display: flex;
     flex-wrap: wrap;
@@ -276,19 +277,81 @@ nav {
     font-size: 1.5rem;
 }
 
+
+/* ==================================== */
+/* 5.1. Carrusel de Testimonios         */
+/* ==================================== */
+
+.carousel-container {
+    position: relative;
+    max-width: 1000px; /* Tamaño máximo del carrusel */
+    margin: 0 auto;
+    overflow: hidden; /* Oculta los elementos que no están visibles */
+}
+
+.carousel-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    /* Elimina el flex-wrap para que todo esté en una línea */
+}
+
+.carousel-item {
+    min-width: 100%; /* Por defecto, un ítem por vista (móvil) */
+    box-sizing: border-box;
+    padding: 10px; /* Espacio para que se vea bien */
+    flex-shrink: 0; /* No permite que el ítem se encoja */
+}
+
+/* Escritorio: muestra 2 testimonios a la vez */
+@media (min-width: 768px) {
+    .carousel-item {
+        min-width: 50%; /* Dos ítems por vista */
+    }
+}
+
 /* Estilos específicos de testimonios */
 .testimonio {
     text-align: center;
+    margin: 0 15px; /* Espacio entre las tarjetas visibles */
 }
 
 .testimonio img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 400px;
+    height: 200px;
+    border-radius: 5%;
     object-fit: cover;
     margin-bottom: 15px;
     border: 3px solid var(--tertiary-color); 
 }
+
+/* Botones de navegación */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.carousel-button:hover {
+    background: var(--primary-color);
+}
+
+.prev-button {
+    left: 0px;
+}
+
+.next-button {
+    right: 0px;
+}
+
 
 /* ==================================== */
 /* 6. Sección Contacto                  */
@@ -390,157 +453,8 @@ footer {
     color: var(--primary-color);
 }
 
-
 /* ==================================== */
-/* 8. Chatbot Flotante (Widget)         */
-/* ==================================== */
-
-/* Importación de fuente si el chatbot la usa */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* --- 8.1 Estilos del Contenedor y Ventana --- */
-#chat-window {
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
-/* --- 8.2 Botón Flotante (Icono de Apertura) --- */
-.floating-button { 
-    background-color: var(--primary-color) !important; 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    color: var(--text-light) !important; 
-    border: none;
-    transition: transform 0.2s, background-color 0.3s;
-}
-
-.floating-button:hover {
-    background-color: #0097A7 !important; 
-}
-
-/* Animación de pulsación para el botón flotante */
-.floating-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-}
-
-/* --- 8.3 Contenedor Principal / Cabecera del Chat --- */
-#chat-container {
-    background-color: var(--text-light); 
-    border: 1px solid var(--primary-color);
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
-    border-radius: 10px; 
-    overflow: hidden; 
-}
-
-
-/* El encabezado de la ventana de chat (donde dice "Asistente app.Crimaju") */
-.chat-header { 
-    background-color: var(--background-dark) !important; /* Cyan muy oscuro */
-    color: var(--text-light) !important; /* Texto blanco */
-    border-bottom: 3px solid var(--secondary-color) !important; /* Borde rojo de acento */
-    padding: 15px; 
-    font-weight: bold;
-    display: flex; 
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* El punto verde de "online" */
-.chat-header .status-indicator { /* Si tu chatbot usa esta clase, se aplica */
-    background-color: var(--tertiary-color) !important; 
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    margin-right: 8px;
-}
-
-/* El icono de cerrar (la X) */
-.chat-header .close-button { /* Si tu chatbot usa esta clase, se aplica */
-    color: var(--text-light) !important; 
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-
-/* --- 8.4 Burbujas de Mensaje y Animaciones --- */
-
-/* Fondo de los mensajes del Bot */
-.bot-message, .message-bot { 
-    background-color: #E0F7FA !important; /* Cyan muy claro */
-    color: var(--text-color) !important; 
-    border-radius: 15px 15px 15px 0 !important; 
-    padding: 12px 15px !important;
-    margin-bottom: 10px !important;
-}
-
-/* Fondo de los mensajes del Usuario */
-.user-message, .message-user {
-    background-color: var(--primary-color) !important; /* Cyan principal para el usuario */
-    color: var(--text-light) !important; /* Texto blanco */
-    border-radius: 15px 15px 0 15px !important;
-    padding: 12px 15px !important;
-    margin-bottom: 10px !important;
-}
-
-/* --- 8.5 Área de Input de Mensaje --- */
-/* Contenedor del input (fondo blanco y flecha morada) */
-.chat-input-area { /* Clase común para el contenedor del input */
-    background-color: var(--text-light) !important; 
-    border-top: 1px solid #eee !important; 
-    padding: 15px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px;
-}
-
-#chat-input-field { /* El campo de texto para escribir */
-    flex-grow: 1 !important;
-    padding: 10px 15px !important;
-    border: 1px solid #ddd !important;
-    border-radius: 25px !important; 
-    font-size: 1rem !important;
-    outline: none !important;
-    transition: border-color 0.3s !important;
-}
-
-#chat-input-field:focus {
-    border-color: var(--primary-color) !important; 
-}
-
-.send-button { /* El botón de la flecha morada */
-    background-color: var(--primary-color) !important; /* Cyan principal */
-    color: var(--text-light) !important; /* Color de la flecha: blanco */
-    border: none !important;
-    border-radius: 50% !important; 
-    width: 40px !important; 
-    height: 40px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    font-size: 1.2rem !important; 
-    cursor: pointer !important;
-    transition: background-color 0.3s, transform 0.2s !important;
-}
-
-.send-button:hover {
-    background-color: #0097A7 !important; 
-    transform: translateY(-1px);
-}
-
-
-/* Animación de entrada para el chat */
-.chat-enter-active {
-    transition: all 0.3s ease-out;
-}
-.chat-enter-from, .chat-leave-to {
-    transform: translateY(10px);
-    opacity: 0;
-}
-
-
-/* ==================================== */
-/* 9. Media Queries (Diseño Responsivo) */
+/* 8. Media Queries (Diseño Responsivo) */
 /* ==================================== */
 
 /* Tablet y Móvil */
@@ -588,7 +502,7 @@ footer {
         font-size: 1.2rem;
     }
 
-    /* Cards */
+    /* Cards de SERVICIOS */
     .cards-grid {
         gap: 20px;
     }
@@ -614,16 +528,6 @@ footer {
     /* Footer */
     .footer-content {
         flex-direction: column;
-    }
-    
-    /* Reglas específicas para el chatbot en móvil */
-    @media (max-width: 640px) {
-        #chat-container {
-            width: 95%; 
-            max-height: 80vh;
-            bottom: 80px; 
-            right: 2.5%; 
-        }
     }
 }
 

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot de Soporte App.Crimaju</title>
+    <!-- Carga de Tailwind CSS para el estilo y la responsividad -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Personalización de la fuente Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            height: 100vh;
+        }
+
+        /* Estilo para la ventana del chat */
+        #chat-container {
+            position: fixed;
+            bottom: 6rem; /* Deja espacio para el botón de chat */
+            right: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            height: 70vh;
+            max-height: 600px;
+            z-index: 1000;
+            transition: all 0.3s ease-in-out;
+            transform-origin: bottom right;
+        }
+
+        /* En móviles, maximiza la ventana de chat para mejor usabilidad */
+        @media (max-width: 640px) {
+            #chat-container {
+                bottom: 0;
+                right: 0;
+                left: 0;
+                top: auto;
+                width: 100%;
+                max-width: 100%;
+                height: 100%;
+                max-height: 100%;
+                border-radius: 0;
+            }
+            .chat-window-inner {
+                height: calc(100% - 6rem); /* Ajusta la altura en móviles */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón de apertura del Chatbot -->
+    <button onclick="toggleChat()" class="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg z-20 transition duration-300 ease-in-out transform hover:scale-105">
+        <!-- Icono de Chat (Lucide Icon: Message Square) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
+    <!-- Contenedor principal del Chatbot (Inicialmente oculto) -->
+    <div id="chat-container" class="hidden flex flex-col bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
+        
+        <!-- Cabecera del Chat -->
+        <header class="flex justify-between items-center p-4 bg-blue-600 text-white shadow-md rounded-t-xl">
+            <h3 class="text-lg font-semibold">App.Crimaju Soporte 🤖</h3>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-200 transition">
+                <!-- Icono de Cierre (Lucide Icon: X) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </header>
+
+        <!-- Ventana de Mensajes -->
+        <div id="chat-window" class="chat-window-inner flex-grow p-4 space-y-4 overflow-y-auto bg-gray-50">
+            <!-- Los mensajes se insertarán aquí -->
+        </div>
+
+        <!-- Formulario de Entrada -->
+        <form id="chat-form" class="p-4 bg-white border-t border-gray-100">
+            <div class="flex items-center">
+                <input
+                    id="user-input"
+                    type="text"
+                    placeholder="Escribe tu pregunta (ej: ¿Qué es el Plan Basic?)"
+                    autocomplete="off"
+                    class="flex-grow p-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
+                />
+                <button
+                    type="submit"
+                    class="bg-blue-600 text-white p-3 rounded-r-xl hover:bg-blue-700 transition duration-150 shadow-md"
+                >
+                    <!-- Icono de Envío (Lucide Icon: Send) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+// La clave API se deja vacía (o se elimina) para que el entorno la inyecte automáticamente.
+const API_KEY = "AIzaSyBFGKJQFmyEo59iOa05JuE17HreFcY_sfA"; 
+// Usaremos el modelo: gemini-2.5-flash-preview-09-2025, requerido en este entorno para inyección automática de API Key.
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent"; 
+
+// ----------------------------------------------------------------
+// 1. BASE DE CONOCIMIENTO Y RESPUESTAS PREDEFINIDAS
+// ----------------------------------------------------------------
+const baseConocimiento = {
+    "CONTACTOS": {
+        "¿Quién será mi contacto principal durante el proyecto?": "Se te asignara un grupo de acompañantes con un lider durante el proyecto",
+        "¿Puedo agendar una llamada o reunión con un asesor?": "No tenemos un calendario para agendar llamadas directamente, pero con gusto puedes enviarnos un correo a app.crimaju@gmail.com o enviarnos un WhatsApp para coordinar una reunión virtual gratuita de 15 minutos y discutir tu proyecto.",
+        "¿Tienen alguna oficina física que pueda visitar?": "Trabajamos 100% de forma remota para reducir costos y ofrecerte mejores precios. Todas las reuniones se realizan de forma virtual (Zoom, Meet o WhatsApp).",
+        "Quiero una cotización / presupuesto, ¿qué hago?": "Por favor, déjanos tu correo electrónico y una breve descripción de tu proyecto. Te enviaremos una solicitud de información detallada en minutos para preparar tu presupuesto.",
+        "¿En qué correo electrónico los puedo contactar?": "Nuestro correo principal es app.crimaju@gmail.com ¡Escríbenos cuando quieras! Respondemos todos los correos en un máximo de 24 horas hábiles.",
+        "¿Cómo son sus formas de pago?": "Aceptamos transferencias bancarias, transferenciasal Nequi y tarjetas de crédito (a través de pasarelas seguras). Generalmente, pedimos un 50% para iniciar y el 50% al finalizar la web."
+    },
+    "TESTIMONIOS": {
+        "¿Qué dicen los clientes sobre ustedes?": "Tenemos diversos testimonios y lo que tienen en común es que nosotros hacemos muy buen trabajo, quedan muy satisfechos tanto por los resultados y precios",
+        "Testimonio 1": "Gracias a App.Crimaju, nuestra empresa ha visto un crecimiento significativo en nuestras ventas y presencia en línea. Su equipo es increíblemente profesional y siempre está dispuesto a ayudar.",
+        "Testimonio 2": "La experiencia con App.Crimaju ha sido excepcional. Su atención al detalle y compromiso con la calidad son evidentes en cada aspecto de su trabajo.",
+        "Testimonio 3": "App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones."
+    },
+    "SERVICIOS": {
+        "¿Qué planes de servicio ofrecen?": "Tenemos 4 planes principales: Plan Basic, Plan Premium, Plan Diamond y Plan Unique. ¿Cuál te gustaría conocer? (Escribe el nombre del plan).",
+        "Plan Basic / Dime el plan más económico.": "El Plan Basic es para una web con programación básica y una pequeña base de datos (una sola tabla). Su costo está entre 100.000 y 300.000 pesos colombianos.",
+        "Plan Premium / Dime las características del Premium.": "El Plan Premium incluye la creación de una página web mediana con una base de datos de máximo 3 tablas. Su valor aproximado es de 400.000 y 700.000 pesos colombianos.",
+        "Plan Diamond / ¿Qué incluye el Plan Diamond?": "El Plan Diamond ofrece una página web de tamaño medio-grande con una base de datos de 4 a 7 tablas. Este plan oscila entre 800.000 y 1.000.000 pesos colombianos.",
+        "Plan Unique / ¿Qué incluye el Plan Unique?": "El Plan Unique es el plan de mayor extensión y detalle. Incluye páginas web y bases de datos amplias y detalladas. El valor de este plan es a partir de $1.000.000 COP. Contáctanos a app.crimaju@gmail.com para una cotización personalizada."
+    },
+    "SOBRE NOSOTROS": {
+        "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
+        "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
+        "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
+        "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos.",
+        "¿Cuál es el rol de Cristobal David Cardona?": "Cristobal David Cardona es principalmente un intermediario con el cliente, encargado de la atención al cliente y el área de comunicaciones. Es secundariamente un programador."
+    }
+};
+
+const respuestasSaludo = [
+    "¡Hola! 😊 Soy tu chatbot de app.Crimaju, potenciado por Gemini AI. ¿En qué te puedo ayudar?",
+    "¡Buenos días! 🌟 Pregúntame sobre nuestros **servicios**, **contacto** o **equipo**.",
+    "¡Hola! 👋 ¿Qué te gustaría aprender sobre app.Crimaju hoy?"
+];
+
+const respuestasDespedida = [
+    "¡Hasta pronto! 👋 Vuelve cuando quieras.",
+    "¡Nos vemos! 😊 Que tengas un gran día.",
+    "¡Adiós! 🌟 No dudes en contactarnos por correo si tienes más preguntas."
+];
+
+const respuestasError = [
+    "⚠️ Lo siento, no pude obtener una respuesta de la IA. Por favor, inténtalo de nuevo.",
+    "❓ Hmm, hubo un error de conexión. Te invito a usar nuestro correo: app.crimaju@gmail.com"
+];
+
+// ----------------------------------------------------------------
+// 2. FUNCIONES DE AYUDA Y DETECCIÓN
+// ----------------------------------------------------------------
+
+/**
+ * Utilidad para obtener un elemento aleatorio de un array.
+ */
+function getRandom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+/**
+ * Detecta si el texto es un saludo.
+ */
+function detectarSaludo(pregunta) {
+    const saludos = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'qué tal', 'hey'];
+    const textoLimpio = pregunta.toLowerCase();
+    return saludos.some(saludo => textoLimpio.includes(saludo));
+}
+
+/**
+ * Detecta si el texto es una despedida.
+ */
+function detectarDespedida(pregunta) {
+    const despedidas = ['adiós', 'hasta luego', 'nos vemos', 'chau', 'bye', 'salir', 'terminar'];
+    const textoLimpio = pregunta.toLowerCase();
+    return despedidas.some(despedida => textoLimpio.includes(despedida));
+}
+
+// ----------------------------------------------------------------
+// 3. CONEXIÓN Y LÓGICA DE GEMINI AI
+// ----------------------------------------------------------------
+
+/**
+ * Formatea la base de conocimiento para incluirla en el prompt de Gemini (Grounding).
+ */
+function formatKnowledgeBase() {
+    let kbString = "Base de Conocimiento de App.Crimaju:\n";
+    for (const category in baseConocimiento) {
+        kbString += `\n--- ${category.toUpperCase()} ---\n`;
+        for (const question in baseConocimiento[category]) {
+            kbString += `P: ${question} | R: ${baseConocimiento[category][question]}\n`;
+        }
+    }
+    return kbString;
+}
+
+/**
+ * Conecta con la API de Gemini para obtener una respuesta con reintentos (backoff).
+ */
+async function obtenerRespuestaGemini(preguntaUsuario) {
+    const knowledge = formatKnowledgeBase();
+
+    // 
+    // INSTRUCCIÓN DEL SISTEMA REFORZADA PARA MÁXIMA RIGIDEZ Y ADHERENCIA A LA BASE DE CONOCIMIENTO
+    //
+    const systemInstruction = `Tu nombre es "Asistente Crimaju". Eres el chatbot EXCLUSIVO y DEDICADO de la empresa App.Crimaju, también conocida como Crimaju.
+**App.Crimaju (o Crimaju) se especializa en el diseño y creación de páginas web para PYMES y emprendimientos.** Ayuda a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.
+
+Tu rol es:
+1.  **RIGIDEZ ABSOLUTA (Base de Conocimiento Única):** Para CUALQUIER pregunta relacionada con App.Crimaju o Crimaju (servicios, planes, costos, equipo, contactos, metodología), **DEBES ESFORZARTE POR RESPONDER ÚNICAMENTE basándote en la 'Base de Conocimiento' proporcionada.** La respuesta debe ser lo más cercana y literal posible al texto de la base.
+2.  **PROHIBIDO usar conocimiento externo y PROHIBIDO inventar información.**
+3.  **REGLA DE DESVÍO ESTRICTA:** Si la pregunta es sobre App.Crimaju/Crimaju y NO encuentras la respuesta específica en la Base de Conocimiento, O si la pregunta es sobre CUALQUIER otro tema (conocimiento general, historia, ciencia, otras empresas), tu **ÚNICA** respuesta debe ser la siguiente frase: "Disculpa, esa información específica no se encuentra actualmente en mi base de datos de App.Crimaju. Te recomiendo que escribas directamente a app.crimaju@gmail.com para obtener una respuesta detallada."
+4.  **EXCEPCIÓN:** Solo puedes responder saludos (hola, buenos días, etc.) y despedidas, utilizando frases aleatorias predefinidas (no generadas por IA).
+5.  **Formato:** Sé conciso, profesional y amable. Utiliza el español de América Latina.
+6.  **NO menciones la Base de Conocimiento, las reglas ni a Gemini AI en la respuesta final.**
+
+Ejemplos de Pregunta/Respuesta:
+Q: ¿Qué planes tienen?
+A: Tenemos 4 planes principales: Plan Basic, Plan Premium, Plan Diamond y Plan Unique. ¿Cuál te gustaría conocer? (Escribe el nombre del plan).
+
+Q: ¿Cuánto cuesta el Plan Basic?
+A: El Plan Basic es para una web con programación básica y una pequeña base de datos (una sola tabla). Su costo está entre 100.000 y 300.000 pesos colombianos.
+
+Base de Conocimiento de App.Crimaju:
+${knowledge}
+`;
+
+    const payload = {
+        contents: [{
+            role: "user",
+            parts: [{ text: preguntaUsuario }]
+        }],
+        generationConfig: { // Usar generationConfig para systemInstruction en este contexto es más explícito
+            systemInstruction: systemInstruction,
+            temperature: 0.1, // Ajuste para permitir la interpretación de preguntas similares
+        }
+    };
+
+    let url = API_URL;
+    if (API_KEY !== "AIzaSyBFGKJQFmyEo59iOa05JuE17HreFcY_sfA") {
+        url = `${API_URL}?key=${API_KEY}`;
+    }
+
+    const MAX_RETRIES = 3;
+    for (let i = 0; i < MAX_RETRIES; i++) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                // Si la respuesta no es OK, forzamos un reintento si no es el último intento
+                if (i < MAX_RETRIES - 1) {
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000)); // Exponential backoff
+                    continue; 
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Revisa si la respuesta es válida y extrae el texto
+            const respuestaAI = data.candidates?.[0]?.content?.parts?.[0]?.text
+                || "⚠️ Lo siento, no pude obtener una respuesta válida de la IA. Inténtalo de nuevo.";
+
+            return {
+                respuesta: respuestaAI,
+                categoria: "AI_Gemini"
+            };
+
+        } catch (error) {
+            console.error(`Intento ${i + 1} fallido al llamar a la API de Gemini:`, error);
+            if (i < MAX_RETRIES - 1) {
+                await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000)); // Exponential backoff
+            }
+        }
+    }
+
+    // Si todos los reintentos fallaron
+    return {
+        respuesta: getRandom(respuestasError),
+        categoria: "Error_API"
+    };
+}
+
+
+// ----------------------------------------------------------------
+// 4. FUNCIONES DE INTERFAZ Y CHAT
+// ----------------------------------------------------------------
+
+// Las siguientes variables *DEBEN* referenciar elementos definidos en el HTML.
+const chatContainer = document.getElementById('chat-container');
+const chatWindow = document.getElementById('chat-window');
+const userInput = document.getElementById('user-input');
+const chatForm = document.getElementById('chat-form');
+
+/**
+ * Alterna la visibilidad de la ventana del chat.
+ */
+function toggleChat() {
+    const isHidden = chatContainer.classList.contains('hidden');
+    if (isHidden) {
+        chatContainer.classList.remove('hidden');
+        // Mostrar saludo inicial solo si la ventana está vacía
+        if (chatWindow.children.length === 0) {
+            mostrarMensajeBot(getRandom(respuestasSaludo));
+        }
+        userInput.focus();
+    } else {
+        chatContainer.classList.add('hidden');
+    }
+}
+
+/**
+ * Crea y muestra un mensaje en la ventana del chat.
+ */
+function mostrarMensaje(texto, remitente) {
+    const mensajeDiv = document.createElement('div');
+    // Reemplaza **texto** con <strong>texto</strong> para formato
+    const textoFormateado = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+
+    // CLASES CSS basadas en Tailwind CSS
+    if (remitente === 'user') {
+        mensajeDiv.className = 'flex justify-end';
+        mensajeDiv.innerHTML = `<div class="max-w-[80%] bg-blue-600 text-white p-3 rounded-xl rounded-br-none shadow-md text-sm">${textoFormateado}</div>`;
+    } else {
+        mensajeDiv.className = 'flex justify-start';
+        mensajeDiv.innerHTML = `<div class="max-w-[80%] bg-gray-200 text-gray-800 p-3 rounded-xl rounded-tl-none shadow-sm text-sm whitespace-pre-wrap">${textoFormateado}</div>`;
+    }
+    chatWindow.appendChild(mensajeDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+/**
+ * Muestra un mensaje del usuario.
+ */
+function mostrarMensajeUsuario(texto) {
+    mostrarMensaje(texto, 'user');
+}
+
+/**
+ * Muestra un mensaje del bot con un retraso simulado.
+ */
+function mostrarMensajeBot(texto) {
+    // Usamos un pequeño timeout para simular que el bot está escribiendo
+    setTimeout(() => {
+        mostrarMensaje(texto, 'bot');
+    }, 300); 
+}
+
+/**
+ * Maneja el envío del formulario.
+ */
+async function enviarMensaje(event) {
+    event.preventDefault();
+    const pregunta = userInput.value.trim();
+
+    if (pregunta.length === 0) return;
+
+    // 1. Mostrar mensaje del usuario y limpiar
+    mostrarMensajeUsuario(pregunta);
+    userInput.value = '';
+
+    let resultado;
+    let loadingMessageElement = null;
+
+    // 2. Lógica de Respuesta: Saludo/Despedida vs. Gemini AI
+    if (detectarSaludo(pregunta)) {
+        resultado = { respuesta: getRandom(respuestasSaludo), categoria: "Saludo" };
+    } else if (detectarDespedida(pregunta)) {
+        resultado = { respuesta: getRandom(respuestasDespedida), categoria: "Despedida" };
+    } else {
+        // Mensaje de "Pensando..."
+        loadingMessageElement = document.createElement('div');
+        loadingMessageElement.className = 'flex justify-start';
+        loadingMessageElement.id = 'loading-message';
+        loadingMessageElement.innerHTML = `<div class="bg-gray-200 text-gray-600 p-3 rounded-xl rounded-tl-none shadow-sm text-sm">🤖 Pensando...</div>`;
+        chatWindow.appendChild(loadingMessageElement);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Llamada a la API de Gemini
+        resultado = await obtenerRespuestaGemini(pregunta); 
+        
+        // Remover el mensaje de "Pensando..."
+        const currentLoading = document.getElementById('loading-message');
+        if (currentLoading) {
+            chatWindow.removeChild(currentLoading);
+        }
+    }
+
+    // 3. Mostrar respuesta final del bot
+    mostrarMensajeBot(resultado.respuesta);
+
+    // 4. Lógica de cierre para despedida
+    if (resultado.categoria === "Despedida") {
+        setTimeout(() => {
+            chatContainer.classList.add('hidden');
+        }, 1500);
+    }
+}
+
+// Asignar los event listeners al cargar el script
+if (chatForm) chatForm.addEventListener('submit', enviarMensaje);
+// Exportar la función para el botón HTML
+window.toggleChat = toggleChat;
+    </script>
+</body>
+</html>
