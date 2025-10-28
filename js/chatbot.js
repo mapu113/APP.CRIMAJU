@@ -36,7 +36,7 @@
         };
 
         const respuestasSaludo = [
-            "¡Hola! 😊 Soy tu chatbot . ¿En qué te puedo ayudar?",
+            "¡Hola! 😊 Soy tu chatbot de App.Crimaju. ¿En qué te puedo ayudar?",
             "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
         ];
 
