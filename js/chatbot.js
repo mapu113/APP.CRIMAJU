@@ -1,30 +1,41 @@
+// Archivo: js/chatbot.js
+
+// ===========================================
+// ESTA FUNCIÓN DEBE ESTAR EN EL ALCANCE GLOBAL
+// ===========================================
 function toggleChat() {
     const chatContainer = document.getElementById('chat-container');
     const floatingButton = document.getElementById('floating-button');
 
     if (chatContainer) {
-        // 1. Alternar la clase 'hidden'
+        // Usa classList.toggle para alternar la clase 'hidden'
         chatContainer.classList.toggle('hidden');
 
-        // 2. Opcional: Cambiar el icono del botón flotante para mejorar la experiencia de usuario
-        if (chatContainer.classList.contains('hidden')) {
-            // Si está oculto, muestra el icono de Pregunta (?)
-            floatingButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9.256c1.547-1.391 2.227-2.735 2.227-4.145 0-2.485-2.03-4.5-4.522-4.5S3.21 2.626 3.21 5.111c0 1.41.68 2.754 2.228 4.145M12 4.111v1.666m-1 7.223h2" />
-                </svg>
-            `;
-        } else {
-            // Si está visible, muestra el icono de Cerrar (X)
-            // Usamos el mismo SVG que el botón de cerrar en el encabezado del chat
-            floatingButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            `;
+        // Lógica opcional para cambiar el icono del botón flotante
+        if (floatingButton) {
+            if (chatContainer.classList.contains('hidden')) {
+                // Si está oculto, muestra el icono de Pregunta (?)
+                floatingButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9.256c1.547-1.391 2.227-2.735 2.227-4.145 0-2.485-2.03-4.5-4.522-4.5S3.21 2.626 3.21 5.111c0 1.41.68 2.754 2.228 4.145M12 4.111v1.666m-1 7.223h2" />
+                    </svg>
+                `;
+            } else {
+                // Si está visible, muestra el icono de Cerrar (X)
+                floatingButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                `;
+            }
         }
     }
 }
+
+// ===========================================
+// EL RESTO DEL CÓDIGO DE LÓGICA DEL CHATBOT CONTINÚA AQUÍ ABAJO
+// ===========================================
+// ... (código existente del chatbot.js)
 
 
 // --- 🧠 Base de Conocimiento y Respuestas ---
