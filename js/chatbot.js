@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+HEAD
 // *** CONFIGURACIÓN DE SEGURIDAD Y API ***
 // ⚠️ ADVERTENCIA DE SEGURIDAD: En un entorno de producción, la API_KEY debe
 // manejarse en un servidor backend para protegerla de la exposición.
@@ -558,4 +558,3 @@ window.toggleChat = toggleChat;
         // 3. Ejecutamos la inicialización una vez que todo el script ha cargado.
         // Dado que el script está al final del body, esto asegura que los elementos existen.
         initChat();
-
