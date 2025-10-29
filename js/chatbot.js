@@ -1,4 +1,3 @@
-// Archivo: chatbot.js
 
 // ===========================================
 // FUNCIÓN GLOBAL: Necesaria para que los botones HTML funcionen con onclick
