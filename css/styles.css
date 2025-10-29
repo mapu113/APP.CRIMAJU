@@ -549,7 +549,8 @@ footer {
     }
 }
 
- /* Importación de fuente Inter y estilos básicos */
+
+/* Importación de fuente Inter y estilos básicos */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         
         /* Estilo para ocultar el scroll en el chat, pero permitirlo en el contenido */
