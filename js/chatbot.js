@@ -158,8 +158,6 @@ async function obtenerRespuestaGemini(preguntaUsuario) {
             categoria: "Error_API" 
         };
     }
-}
-=======
 // ---// --- 🧠 Base de Conocimiento y Respuestas ---
         const baseConocimiento = {
             "CONTACTOS": {
@@ -200,8 +198,7 @@ async function obtenerRespuestaGemini(preguntaUsuario) {
         const respuestasSaludo = [
             "¡Hola! 😊 Soy tu chatbot de App.Crimaju. ¿En qué te puedo ayudar?",
             "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
-        ];
->>>>>>> 305897f2b5b945ad55faa7b9feb04f99a5efc87d
+        ]
 
 
 // ----------------------------------------------------------------
@@ -297,11 +294,10 @@ async function enviarMensaje(event) {
         // Llamada a la API de Gemini
         resultado = await obtenerRespuestaGemini(pregunta); 
         
-<<<<<<< HEAD
+         HEAD
         // Remover el mensaje de "Pensando..."
         if (loadingMessageElement) {
-            chatWindow.removeChild(loadingMessageElement);
-=======
+
         const respuestasError = [
             "🤔 No estoy seguro, ¿puedes reformular la pregunta?",
             "🔍 Intenta preguntarme sobre nuestros **servicios**, **contactos** o **equipo**.",
@@ -321,14 +317,13 @@ async function enviarMensaje(event) {
             // NOTA: Se asume que el error de los números se corrigió en el paso anterior.
             texto = texto.replace(/[^a-záéíóúüñ0-9¿?\s]/g, ' '); 
             return texto.trim().replace(/\s+/g, ' ');
->>>>>>> 305897f2b5b945ad55faa7b9feb04f99a5efc87d
         }
     }
 
-<<<<<<< HEAD
+        HEAD
     // 3. Mostrar respuesta final del bot
     mostrarMensajeBot(resultado.respuesta);
-=======
+
         /**
          * Tokeniza el texto (simplemente lo divide por espacios).
          * @param {string} texto 
@@ -337,7 +332,6 @@ async function enviarMensaje(event) {
         function tokenizarTexto(texto) {
             return limpiarTexto(texto).split(' ').filter(t => t.length > 0);
         }
->>>>>>> 305897f2b5b945ad55faa7b9feb04f99a5efc87d
 
     // 4. Lógica de cierre para despedida
     if (resultado.categoria === "Despedida") {
@@ -346,13 +340,12 @@ async function enviarMensaje(event) {
         }, 1500);
     }
 }
-
-<<<<<<< HEAD
+     HEAD
 // Asignar los event listeners
 if (chatForm) chatForm.addEventListener('submit', enviarMensaje);
 // Exportar la función para el botón HTML
 window.toggleChat = toggleChat;
-=======
+
             if (tokensA.size === 0 || tokensB.size === 0) return 0;
 
             let interseccion = 0;
@@ -565,4 +558,4 @@ window.toggleChat = toggleChat;
         // 3. Ejecutamos la inicialización una vez que todo el script ha cargado.
         // Dado que el script está al final del body, esto asegura que los elementos existen.
         initChat();
->>>>>>> 305897f2b5b945ad55faa7b9feb04f99a5efc87d
+
