@@ -1,17 +1,17 @@
-// Archivo: js/chatbot.js
+// Archivo: chatbot.js
 
 // ===========================================
-// ESTA FUNCIÓN DEBE ESTAR EN EL ALCANCE GLOBAL
+// FUNCIÓN GLOBAL: Necesaria para que los botones HTML funcionen con onclick
 // ===========================================
 function toggleChat() {
     const chatContainer = document.getElementById('chat-container');
     const floatingButton = document.getElementById('floating-button');
 
     if (chatContainer) {
-        // Usa classList.toggle para alternar la clase 'hidden'
+        // Alterna la clase 'hidden' para mostrar/ocultar
         chatContainer.classList.toggle('hidden');
 
-        // Lógica opcional para cambiar el icono del botón flotante
+        // Cambiar el icono del botón flotante para mejor UX
         if (floatingButton) {
             if (chatContainer.classList.contains('hidden')) {
                 // Si está oculto, muestra el icono de Pregunta (?)
@@ -32,13 +32,7 @@ function toggleChat() {
     }
 }
 
-// ===========================================
-// EL RESTO DEL CÓDIGO DE LÓGICA DEL CHATBOT CONTINÚA AQUÍ ABAJO
-// ===========================================
-// ... (código existente del chatbot.js)
-
-
-// --- 🧠 Base de Conocimiento y Respuestas ---
+ // --- 🧠 Base de Conocimiento y Respuestas ---
         const baseConocimiento = {
             "CONTACTOS": {
                 "¿Quién será mi contacto principal durante el proyecto?": "Se te asignara un grupo de acompañantes con un lider durante el proyecto",
@@ -64,12 +58,20 @@ function toggleChat() {
                 "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
                 "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
                 "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
-                "¿Cuál es el rol de Cristobal David Bedoya?": "Cristobal David Bedoya es el Líder de Proyecto y Programador. Se encarga de la gestión y asegura la calidad técnica de las soluciones.",
+                "¿Cuál es el rol de Cristobal David Cardona?": "Cristobal David Cardona es el Líder de Proyecto y Programador. Se encarga de la gestión y asegura la calidad técnica de las soluciones.",
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
             }
         };
-             const respuestasSaludo = [
-            "¡Hola! 😊 Soy tu chatbot de app.Crimaju. Puedo responder preguntas sobre 1.Testimonios, 2.contactos, 3.Servicios y 4.Sobre nosotros"
+
+
+// ===========================================
+// LÓGICA PRINCIPAL DEL CHATBOT
+// ===========================================
+
+const respuestasSaludo = [
+            "¡Hola! 😊 Soy tu chatbot de app.Crimaju. ¿En qué te puedo ayudar?",
+            "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
+            "¡Hola! 👋 ¿Qué te gustaría aprender sobre app.Crimaju hoy?"
         ];
 
         const respuestasDespedida = [
@@ -134,7 +136,6 @@ function toggleChat() {
         /**
          * Detecta si el texto es un saludo.
          */
-
         function detectarSaludo(pregunta) {
             const saludos = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'qué tal', 'hey'];
             const textoLimpio = limpiarTexto(pregunta);
@@ -253,7 +254,7 @@ function toggleChat() {
             if (remitente === 'user') {
                 mensajeDiv.className = 'flex justify-end';
                 mensajeDiv.innerHTML = `
-                    <div class="bg-crimaju-primary !text-white p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
+                    <div class="bg-crimaju-primary text-white p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
                         ${textoFormateado}
                     </div>
                 `;
@@ -325,7 +326,3 @@ function toggleChat() {
         // 3. Ejecutamos la inicialización una vez que todo el script ha cargado.
         // Dado que el script está al final del body, esto asegura que los elementos existen.
         initChat();
-
-        /**
- * Alterna la visibilidad del contenedor del chat y cambia el icono del botón flotante.
- */
