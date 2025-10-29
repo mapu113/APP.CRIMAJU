@@ -59,9 +59,7 @@ function toggleChat() {
         };
 
         const respuestasSaludo = [
-            "¡Hola! 😊 Soy tu chatbot de app.Crimaju. ¿En qué te puedo ayudar?",
-            "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
-            "¡Hola! 👋 ¿Qué te gustaría aprender sobre app.Crimaju hoy?"
+            "¡Hola! 😊 Soy tu chatbot de app.Crimaju. Puedo responder preguntas sobre 1.Testimonios, 2.contactos, 3.Servicios y 4.Sobre nosotros"
         ];
 
         const respuestasDespedida = [
