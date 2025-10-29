@@ -32,6 +32,7 @@ function toggleChat() {
     }
 }
 
+
  // --- 🧠 Base de Conocimiento y Respuestas ---
         const baseConocimiento = {
             "CONTACTOS": {
