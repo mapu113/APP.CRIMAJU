@@ -23,7 +23,7 @@
             "SOBRE NOSOTROS": {
                 "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
                 "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
-                "¿Quien es/Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
+                "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
                 "¿Cuál es el rol de Cristobal David Cardona?": "Cristobal David Cardona es el Líder de Proyecto y Programador. Se encarga de la gestión y asegura la calidad técnica de las soluciones.",
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
             }
