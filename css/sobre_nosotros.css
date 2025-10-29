@@ -551,3 +551,37 @@ footer {
         margin-top: 20px;
     }
 }
+
+ /* Importación de fuente Inter y estilos básicos */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        /* Estilo para ocultar el scroll en el chat, pero permitirlo en el contenido */
+        #chat-window {
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        /* Animación de entrada para el chat */
+        .chat-enter-active {
+            transition: all 0.3s ease-out;
+        }
+        .chat-enter-from, .chat-leave-to {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        /* Animación de pulsación para el botón flotante */
+        .floating-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 640px) {
+            #chat-container {
+                width: 95%; /* Ocupa casi todo el ancho en móviles */
+                max-height: 80vh;
+                bottom: 80px; /* Deja espacio para el botón flotante */
+                right: 2.5%; /* Centrado visualmente */
+            }
+        }
