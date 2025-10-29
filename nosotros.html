@@ -112,12 +112,6 @@
         <p class="text-lg">¡Haz clic en el botón de la esquina inferior derecha para chatear con nuestro asistente!</p>
     </div>
 
-    <!-- Contenedor principal de la aplicación simulada -->
-    <div class="p-8 text-center text-gray-700">
-        <h1 class="text-4xl font-bold text-crimaju-primary mb-2">Bienvenido a app.Crimaju</h1>
-        <p class="text-lg">¡Haz clic en el botón de la esquina inferior derecha para chatear con nuestro asistente!</p>
-    </div>
-
     <!-- 💬 Contenedor del Chatbot (Inicialmente oculto) -->
     <div id="chat-container" class="fixed bottom-20 right-5 sm:right-8 w-full max-w-sm bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 z-50 hidden border border-gray-100">
         <!-- Encabezado del Chat -->
@@ -143,7 +137,7 @@
         <div class="p-4 border-t border-gray-200 bg-gray-50">
             <form id="chat-form" onsubmit="enviarMensaje(event)" class="flex gap-2">
                 <input type="text" id="user-input" placeholder="Escribe tu pregunta..." 
-                       class="flex-grow p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-crimaju-primary focus:border-crimaju-primary transition duration-150  !text-gray-700">
+                       class="flex-grow p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-crimaju-primary focus:border-crimaju-primary transition duration-150 text-gray-700">
                 <button type="submit" 
                         class="bg-crimaju-primary text-white p-3 rounded-xl hover:bg-crimaju-dark transition duration-150 shadow-md flex items-center justify-center">
                     <!-- Icono de enviar (avión de papel) -->
