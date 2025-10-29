@@ -553,6 +553,5 @@ window.toggleChat = toggleChat;
                     if (chatContainer) chatContainer.classList.add('hidden');
                 }, 1500);
             }
-        }
-    
-        initChat(); // Inicializar referencias del DOM
+        }   
+}
