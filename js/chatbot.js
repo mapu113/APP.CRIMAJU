@@ -57,20 +57,6 @@ function toggleChat() {
                 "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
             }
         };
-
-       const respuestasServicio = [
-            "Ofrecemos cuatro planes principales: Basic, Premium, Diamond y Unique. ¿Cuál te gustaría conocer más a fondo?",];
-
-        const respuestasContactos = [
-            "Puedes preguntarnos sobre: ¿Quién será mi contacto principal durante el proyecto?","¿Puedo agendar una llamada o reunión con un asesor?","¿Tienen alguna oficina física que pueda visitar?","¿En qué correo electrónico los puedo contactar?","¿Cómo son sus formas de pago?"
-        ];
-
-        const respuestasTestimonios = [
-            "Nuestros clientes destacan nuestra profesionalidad, atención al detalle y compromiso con la calidad. algunos testimonios son: testimonio 1, testimonio 2 y testimonio 3"
-        ];
-        const respuestasSobreNosotros = [
-             "Puedes preguntar lo siguiente: ""¿Qué es App.Crimaju?","¿Quiénes forma el equipo de emprendedores","¿Cuál es el rol de María Paula Solarte?", "¿Cuál es el rol de Cristobal David Bedoya? y ¿Cuál es el rol de Isabela Hidalgo?"
-        ];
              const respuestasSaludo = [
             "¡Hola! 😊 Soy tu chatbot de app.Crimaju. Puedo responder preguntas sobre 1.Testimonios, 2.contactos, 3.Servicios y 4.Sobre nosotros"
         ];
@@ -137,30 +123,6 @@ function toggleChat() {
         /**
          * Detecta si el texto es un saludo.
          */
-
-        function detectarServicio(pregunta){
-            const servicios = ['servicios'];
-            const textoLimpio = limpiarTexto(pregunta);
-            return servicios.some(servicio => textoLimpio.includes(servicio));
-        }
-
-        function detectarContactos(pregunta){
-            const servicios = ['Contactos'];
-            const textoLimpio = limpiarTexto(pregunta);
-            return servicios.some(contactos => textoLimpio.includes(contactos));
-        }
-
-        function detectarTestimonios(pregunta){
-            const servicios = ['Testimonios'];
-            const textoLimpio = limpiarTexto(pregunta);
-            return servicios.some(testimonios => textoLimpio.includes(testimonios));
-        }
-        function detectarSobreNosotros(pregunta){
-            const servicios = ['Sobre nosotros'];
-            const textoLimpio = limpiarTexto(pregunta);
-            return servicios.some(sobrenosotros => textoLimpio.includes(sobrenosotros));
-        }
-
 
         function detectarSaludo(pregunta) {
             const saludos = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'qué tal', 'hey'];
