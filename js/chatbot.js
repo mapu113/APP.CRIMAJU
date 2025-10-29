@@ -158,49 +158,6 @@ async function obtenerRespuestaGemini(preguntaUsuario) {
             categoria: "Error_API" 
         };
     }
-// ---// --- 🧠 Base de Conocimiento y Respuestas ---
-        const baseConocimiento = {
-            "CONTACTOS": {
-                // CORRECCIÓN 3: Agregar pregunta genérica para listar contactos
-                "Dime todos los contactos / ¿Cuáles son los contactos?": "Puedes contactarnos por: Correo (app.crimaju@gmail.com), agendar una reunión virtual [Link de Calendario/Booking] o a través de nuestros acompañantes de proyecto. Trabajamos 100% remoto.",
-                "¿Quién será mi contacto principal durante el proyecto?": "Se te asignara un grupo de acompañantes con un lider durante el proyecto",
-                "¿Puedo agendar una llamada o reunión con un asesor?": "Sí, con gusto. Haz clic aquí [Link de Calendario/Booking] llena el formulario de google para una reunión virtual gratuita de 15 minutos y discutir tu proyecto.",
-                "¿Tienen alguna oficina física que pueda visitar?": "Trabajamos 100% de forma remota para reducir costos y ofrecerte mejores precios. Todas las reuniones se realizan de forma virtual (Zoom, Meet o WhatsApp).",
-                "Quiero una cotización / presupuesto, ¿qué hago?": "Por favor, déjanos tu correo electrónico y una breve descripción de tu proyecto. Te enviaremos una solicitud de información detallada en minutos para preparar tu presupuesto.",
-                "¿En qué correo electrónico los puedo contactar?": "Nuestro correo principal es app.crimaju@gmail.com ¡Escríbenos cuando quieras! Respondemos todos los correos en un máximo de 24 horas hábiles.",
-                "¿Cómo son sus formas de pago?": "Aceptamos transferencias bancarias, transferenciasal Nequi y tarjetas de crédito (a través de pasarelas seguras). Generalmente, pedimos un 50% para iniciar y el 50% al finalizar la web."
-            },
-            "TESTIMONIOS": {
-                "¿Qué dicen los clientes sobre ustedes?": "Tenemos diversos testimonios y lo que tienen en común es que nosotros hacemos muy buen trabajo, quedan muy satisfechos tanto por los resultados y precios",
-                "Testimonio 1": "Gracias a App.Crimaju, nuestra empresa ha visto un crecimiento significativo en nuestras ventas y presencia en línea. Su equipo es increíblemente profesional y siempre está dispuesto a ayudar.",
-                "Testimonio 2": "La experiencia con App.Crimaju ha sido excepcional. Su atención al detalle y compromiso con la calidad son evidentes en cada aspecto de su trabajo.",
-                "Testimonio 3": "App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones."
-            },
-            "SERVICIOS": {
-                 // CORRECCIÓN 3: Agregar pregunta genérica para listar servicios
-                "¿Cuáles son todos los planes / Qué ofrecen?": "Ofrecemos 4 planes principales: Plan Basic (el más económico), Plan Premium, Plan Diamond y Plan Unique. Pregúntame por el que te interese.",
-                "¿Qué planes de servicio ofrecen?": "Tenemos 4 planes principales: Plan Basic, Plan Premium, Plan Diamond y Plan Unique. ¿Cuál te gustaría conocer? (Escribe el nombre del plan).",
-                "Plan Basic / Dime el plan más económico.": "El Plan Basic es para una web con programación básica y una pequeña base de datos (una sola tabla). Su costo está entre 100.000 y 300.000 pesos colombianos.",
-                "Plan Premium / Dime las características del Premium.": "El Plan Premium incluye la creación de una página web mediana con una base de datos de máximo 3 tablas. Su valor aproximado es de 400.000 y 700.000 pesos colombianos.",
-                "Plan Diamond / ¿Qué incluye el Plan Diamond?": "El Plan Diamond ofrece una página web de tamaño medio-grande con una base de datos de 4 a 7 tablas. Este plan oscila entre 800.000 y 1.000.000 pesos colombianos."
-            },
-            "SOBRE NOSOTROS": {
-                "¿Qué es App.Crimaju?": "App.Crimaju se especializa en el diseño y creación de páginas web para pequeñas y medianas empresas. Te ayudamos a fortalecer tu presencia digital, impulsar tu crecimiento y aumentar tus ventas.",
-                "¿Quiénes forman el equipo de emprendedores?": "Nuestro equipo está formado por María Paula Solarte Salazar, Isabela Hidalgo Gil y Cristobal David Cardona. ¿Te gustaría saber el rol de alguno en específico?",
-                // CORRECCIÓN 2: Agregar entrada para María Paula
-                "¿Cuál es el rol de María Paula Solarte?": "María Paula Solarte Salazar es la Programadora enfocada en la organización y la visión estratégica del proyecto.",
-                // CORRECCIÓN 2: Agregar entrada para Cristóbal
-                "¿Cuál es el rol de Cristobal David Cardona?": "Cristobal David Cardona es el Líder de Proyecto y Programador. Se encarga de la gestión y asegura la calidad técnica de las soluciones.",
-                "¿Cuál es el rol de Isabela Hidalgo?": "Isabela Hidalgo Gil es la Programadora y Diseñadora del logo. Combina creatividad y tecnología en cada detalle de nuestros proyectos."
-            }
-        };
-
-        const respuestasSaludo = [
-            "¡Hola! 😊 Soy tu chatbot de App.Crimaju. ¿En qué te puedo ayudar?",
-            "¡Buenos días! 🌟 Puedo responder sobre **contacto**, **testimonios**, **servicios** y **dudas generales**.",
-        ]
-
-
 // ----------------------------------------------------------------
 // 4. FUNCIONES DE INTERFAZ Y CHAT
 // ----------------------------------------------------------------
