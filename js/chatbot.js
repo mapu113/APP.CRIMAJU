@@ -554,7 +554,5 @@ window.toggleChat = toggleChat;
                 }, 1500);
             }
         }
-        
-        // 3. Ejecutamos la inicialización una vez que todo el script ha cargado.
-        // Dado que el script está al final del body, esto asegura que los elementos existen.
-        initChat();
+    
+        initChat(); // Inicializar referencias del DOM
