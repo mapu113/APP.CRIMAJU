@@ -215,7 +215,7 @@
             if (remitente === 'user') {
                 mensajeDiv.className = 'flex justify-end';
                 mensajeDiv.innerHTML = `
-                    <div class="bg-crimaju-primary text-black p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
+                    <div class="bg-crimaju-primary text-white p-3 max-w-xs sm:max-w-md rounded-xl rounded-br-none shadow-md text-sm">
                         ${textoFormateado}
                     </div>
                 `;
