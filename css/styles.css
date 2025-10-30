@@ -282,80 +282,79 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
-.testimonios {
-    padding: 35& 0;
-    background-color: var(--background-light);
-} 
-
-.carousel-container {
-    position: relative;
-    /* CORRECCIÓN CLAVE: Limita el ancho del carrusel al 40% del viewport para centrar la tarjeta */
-    width: 40vw; 
-    max-width: 450px; /* Límite superior para pantallas muy grandes */
-    margin: 0 auto; /* Centra el contenedor del 40vw */
-    overflow: hidden; /* Oculta los elementos que no están visibles */
-    padding: 0; /* Quitado para que los botones se vean a los lados */
+.card {
+    box-shadow: 0px 4px 8px 0px #BDBDBD
 }
 
-.carousel-slider {
-    display: flex; /* CRUCIAL: Mantiene los ítems en línea */
-    transition: transform 0.5s ease-in-out;
-}
-
-.carousel-item {
-    /* CRUCIAL: Ahora toma el 100% del contenedor de 40vw */
-    min-width: 100%; 
-    box-sizing: border-box;
-    padding: 15px; /* Ajuste para espacio interno de la tarjeta */
-    flex-shrink: 0; /* Evita que el ítem se encoja */
-}
-
-
-/* Estilos específicos de testimonios */
-.testimonio {
-    text-align: center;
-    margin: 0; /* Elimina margen horizontal que rompe el 100% */
-    padding: 15px; /* Espacio interno de la tarjeta */
-}
-
-.testimonio img {
-    /* Mantiene la imagen CUADRADA y centrada */
-    width: 100px;
+.profile-pic {
+    width: 100px !important;
     height: 100px;
-    border-radius: 8px; /* Pequeño borde para que se vea cuadrada con esquinas suaves */
-    object-fit: cover;
-    margin: 0 auto 15px auto; /* Centrar y añadir margen inferior */
-    display: block; 
-    border: 4px solid var(--tertiary-color); 
+    box-shadow: 0px 4px 8px 0px #BDBDBD
 }
 
-/* Botones de navegación */
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--text-light);
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev {
+    background: 0 0;
+    color: #1E88E5 !important;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 10;
-    font-size: 1.5rem;
-    border-radius: 50%;
-    transition: background-color 0.3s;
+    padding: 5px 20px !important;
+    font: inherit;
+    font-size: 50px !important
 }
 
-.carousel-button:hover {
-    background: var(--primary-color);
+.owl-carousel .owl-nav button.owl-next:hover,
+.owl-carousel .owl-nav button.owl-prev:hover {
+    color: #0D47A1 !important;
+    background-color: transparent !important
 }
 
-/* Botones fuera del contenedor de 40vw para que se vean junto a los bordes de la card */
-.prev-button {
-    left: -60px; /* Mueve el botón a la izquierda del carrusel */
+.owl-dots {
+    display: none
 }
 
-.next-button {
-    right: -60px; /* Mueve el botón a la derecha del carrusel */
+button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0
+}
+
+.item {
+    display: none
+}
+
+.next {
+    display: block !important;
+    position: relative;
+    transform: scale(0.8);
+    transition-duration: 0.3s;
+    opacity: 0.6
+}
+
+.prev {
+    display: block !important;
+    position: relative;
+    transform: scale(0.8);
+    transition-duration: 0.3s;
+    opacity: 0.6
+}
+
+.item.show {
+    display: block;
+    transition-duration: 0.4s
+}
+
+@media screen and (max-width: 999px) {
+
+    .next,
+    .prev {
+        transform: scale(1);
+        opacity: 1
+    }
+
+    .item {
+        display: block !important
+    }
 }
 /* ==================================== */
 /* 6. Sección Contacto                  */
