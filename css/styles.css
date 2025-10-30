@@ -282,73 +282,76 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
-/* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 152) */
-
-/* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 160) */
-
-/* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 160) */
+/* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 177) */
 
 .carousel-container {
     position: relative;
-    max-width: 1000px; 
+    max-width: 1000px; /* Tamaño máximo del carrusel */
     margin: 0 auto;
-    overflow: hidden; 
-    padding: 0 40px; /* Reducido para mejor ajuste de los botones */
+    overflow: hidden; /* Oculta los elementos que no están visibles */
+    padding: 0 50px; /* Espacio para botones */
 }
 
 .carousel-slider {
     display: flex;
     transition: transform 0.5s ease-in-out;
-    /* Elimina el flex-wrap para que todo esté en una línea */
 }
 
 .carousel-item {
-    min-width: 100%; /* Corregido: Siempre 100% para mostrar un solo item */
+    min-width: 100%; /* CORRECCIÓN CLAVE: Un solo ítem a la vez en todas las resoluciones */
     box-sizing: border-box;
-    padding: 5px; 
+    padding: 15px; /* Ajuste para espacio interno de la tarjeta */
     flex-shrink: 0; 
 }
 
-/* ESCRITORIO: Se fuerza a que SÓLO se vea un ítem también aquí */
-@media (min-width: 800px) {
-    .carousel-item {
-        min-width: 100%; /* Muestra un solo testimonio */
-    }
-}
+/* REGLA ELIMINADA: La media query que mostraba 2 ítems (@media (min-width: 800px) { ... }) */
 
-/* Estilos específicos de testimonios */
+
+/* Estilos específicos de testimonios (Línea 197) */
 .testimonio {
     text-align: center;
-    /* Se elimina este margen para que el cálculo del 100% funcione correctamente */
+    /* CORRECCIÓN: Eliminar el margen horizontal que rompe el 100% */
     margin: 0; 
-    padding: 30px; /* Espacio interno de la tarjeta */
+    padding: 15px; /* Espacio interno de la tarjeta */
 }
 
 .testimonio img {
-    /* Corregido: Se reduce el tamaño para un perfil */
+    /* CORRECCIÓN CLAVE: Reducir tamaño y hacerlo circular */
     width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
-    margin: 0 auto 15px auto;
-    display: block;
+    margin: 0 auto 15px auto; /* Centrar y añadir margen inferior */
+    display: block; 
     border: 4px solid var(--tertiary-color); 
 }
 
-/* Botones de navegación (Ajuste de posicionamiento) */
+/* Botones de navegación */
 .carousel-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    /* ... otros estilos ... */
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.carousel-button:hover {
+    background: var(--primary-color);
 }
 
 .prev-button {
-    left: 0px; 
+    left: 0px;
 }
 
 .next-button {
-    right: 0px; 
+    right: 0px;
 }
 
 /* ==================================== */
