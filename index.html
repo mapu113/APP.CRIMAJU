@@ -203,6 +203,51 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9.256c1.547-1.391 2.227-2.735 2.227-4.145 0-2.485-2.03-4.5-4.522-4.5S3.21 2.626 3.21 5.111c0 1.41.68 2.754 2.228 4.145M12 4.111v1.666m-1 7.223h2" />
         </svg>
     </button>
+    <script>
+        let currentIndex = 0;
+        let slider = null;
+        let totalItems = 0;
+
+        /**
+         * Actualiza la posición del carrusel.
+         */
+        function updateCarousel() {
+            if (!slider) return;
+
+            // Se muestra 1 ítem a la vez (100% de desplazamiento)
+            const itemsPerView = 1; 
+            const maxIndex = totalItems - itemsPerView;
+
+            // Lógica para que el carrusel sea circular: 
+            // Vuelve al último slide si va muy atrás, y al primero si va muy adelante.
+            if (currentIndex < 0) {
+                currentIndex = maxIndex;
+            } else if (currentIndex > maxIndex) {
+                currentIndex = 0;
+            }
+
+            // El desplazamiento es siempre 100% por slide (100 / 1)
+            const offset = -currentIndex * 100; 
+            slider.style.transform = `translateX(${offset}%)`;
+        }
+
+        // Hacemos la función global para que los botones onclick puedan llamarla.
+        window.slideCarousel = function(direction) {
+            currentIndex += direction;
+            updateCarousel();
+        }
+
+        // Inicialización del carrusel una vez que el DOM está cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            slider = document.getElementById('testimonial-slider');
+            
+            if (slider) {
+                const items = slider.querySelectorAll('.carousel-item');
+                totalItems = items.length;
+                updateCarousel(); // Inicializa la posición al cargar la página
+            }
+        });
+    </script>
 
     <script src="js/chatbot.js"></script>
     </footer>
