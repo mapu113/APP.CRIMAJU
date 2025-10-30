@@ -284,10 +284,12 @@ nav {
 
 .carousel-container {
     position: relative;
-    max-width: 1000px; /* Tamaño máximo del carrusel */
-    margin: 0 auto;
+    /* CORRECCIÓN CLAVE: Limita el ancho del carrusel al 40% del viewport para centrar la tarjeta */
+    width: 40vw; 
+    max-width: 450px; /* Límite superior para pantallas muy grandes */
+    margin: 0 auto; /* Centra el contenedor del 40vw */
     overflow: hidden; /* Oculta los elementos que no están visibles */
-    padding: 0 50px; /* Espacio para botones */
+    padding: 0; /* Quitado para que los botones se vean a los lados */
 }
 
 .carousel-slider {
@@ -296,7 +298,8 @@ nav {
 }
 
 .carousel-item {
-    min-width: 100%; /* CRUCIAL: Un solo ítem a la vez en todas las resoluciones */
+    /* CRUCIAL: Ahora toma el 100% del contenedor de 40vw */
+    min-width: 100%; 
     box-sizing: border-box;
     padding: 15px; /* Ajuste para espacio interno de la tarjeta */
     flex-shrink: 0; /* Evita que el ítem se encoja */
@@ -311,7 +314,7 @@ nav {
 }
 
 .testimonio img {
-    /* CORRECCIÓN: Reducir tamaño y hacerlo CUADRADO */
+    /* Mantiene la imagen CUADRADA y centrada */
     width: 100px;
     height: 100px;
     border-radius: 8px; /* Pequeño borde para que se vea cuadrada con esquinas suaves */
@@ -341,12 +344,13 @@ nav {
     background: var(--primary-color);
 }
 
+/* Botones fuera del contenedor de 40vw para que se vean junto a los bordes de la card */
 .prev-button {
-    left: 0px;
+    left: calc(-20px - 15px); /* Ajustado para que se vea un poco separado */
 }
 
 .next-button {
-    right: 0px;
+    right: calc(-20px - 15px); /* Ajustado para que se vea un poco separado */
 }
 /* ==================================== */
 /* 6. Sección Contacto                  */
