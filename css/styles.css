@@ -311,10 +311,10 @@ nav {
 }
 
 .testimonio img {
-    /* Estilo de imagen de perfil para testimonio */
+    /* CORRECCIÓN: Reducir tamaño y hacerlo CUADRADO */
     width: 100px;
     height: 100px;
-    border-radius: 50%;
+    border-radius: 8px; /* Pequeño borde para que se vea cuadrada con esquinas suaves */
     object-fit: cover;
     margin: 0 auto 15px auto; /* Centrar y añadir margen inferior */
     display: block; 
