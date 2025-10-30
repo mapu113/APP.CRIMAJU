@@ -95,27 +95,32 @@
         </section>
 
         <section id="testimonios" class="testimonios">
-            <div class="container">
-                <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
-                <div class="cards-grid">
-                    <div class="testimonio card">
-                        <img src="img/testimonio1.jpg" alt="Cliente 1">
-                        <p>“Gracias a App.Crimaju, nuestra empresa ha visto un crecimiento significativo en nuestras ventas y presencia en línea. Su equipo es increíblemente profesional y siempre está dispuesto a ayudar.”</p>
-                    </div>
-                    <div class="testimonio card">
-                        <img src="img/testimonio2.jpg" alt="Cliente 2">
-                        <p>“La experiencia con App.Crimaju ha sido excepcional. Su atención al detalle y compromiso con la calidad son evidentes en cada aspecto de su trabajo.”</p>
-                    </div>
-                    <div class="testimonio card">
-                        <img src="img/testimonio3.jpg" alt="Cliente 3">
-                        <p>“App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones.”</p>
-                    </div>
-                    <div class="testimonio card">
-                        <img src="img/testimonio4.jpg" alt="Cliente 4">
-                        <p>“Recomiendo encarecidamente App.Crimaju a cualquier empresa que busque mejorar su marketing digital. Su equipo es talentoso, dedicado y siempre entrega resultados excepcionales.”</p>
-                    </div>
+    <div class="container">
+        <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+        
+        <div class="carousel-container">
+            <button class="carousel-button prev-button" onclick="slideCarousel(-1)">&#10094;</button>
+            <div class="carousel-slider" id="testimonial-slider">
+                <div class="testimonio card">
+                    <img src="img/testimonio1.jpg" alt="Cliente 1">
+                    <p>“Gracias a App.Crimaju, nuestra empresa ha visto un crecimiento significativo en nuestras ventas y presencia en línea. Su equipo es increíblemente profesional y siempre está dispuesto a ayudar.”</p>
+                </div>
+                <div class="testimonio card">
+                    <img src="img/testimonio2.jpg" alt="Cliente 2">
+                    <p>“La experiencia con App.Crimaju ha sido excepcional. Su atención al detalle y compromiso con la calidad son evidentes en cada aspecto de su trabajo.”</p>
+                </div>
+                <div class="testimonio card">
+                    <img src="img/testimonio3.jpg" alt="Cliente 3">
+                    <p>“App.Crimaju ha transformado nuestra presencia en línea. Su enfoque creativo y estratégico ha dado como resultado un aumento notable en el tráfico y las conversiones.”</p>
+                </div>
+                <div class="testimonio card">
+                    <img src="img/testimonio4.jpg" alt="Cliente 4">
+                    <p>“Recomiendo encarecidamente App.Crimaju a cualquier empresa que busque mejorar su marketing digital. Su equipo es talentoso, dedicado y siempre entrega resultados excepcionales.”</p>
                 </div>
             </div>
+            <button class="carousel-button next-button" onclick="slideCarousel(1)">&#10095;</button>
+        </div>
+        </div>
         </section>
 
         <section id="contacto" class="contact">
@@ -150,7 +155,7 @@
         </div>
      
     <!-- Contenedor principal de la aplicación simulada -->
-    <div class="p-8 text-center bg-gray-700">
+    <div class="p-8 text-center text-gray-700">
         <p class="text-lg">¡Haz clic en el botón de la esquina inferior derecha para chatear con nuestro asistente!</p>
     </div>
 
@@ -199,6 +204,38 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9.256c1.547-1.391 2.227-2.735 2.227-4.145 0-2.485-2.03-4.5-4.522-4.5S3.21 2.626 3.21 5.111c0 1.41.68 2.754 2.228 4.145M12 4.111v1.666m-1 7.223h2" />
         </svg>
     </button>
+
+    <script>
+        let currentIndex = 0;
+        const slider = document.getElementById('testimonial-slider');
+        const items = document.querySelectorAll('#testimonial-slider .testimonio');
+        const totalItems = items.length;
+
+        function updateCarousel() {
+            // Calcula el número de items visibles (1 en móvil, 2 en escritorio)
+            const itemsPerView = window.innerWidth >= 800 ? 2 : 1;
+            
+            // Asegura que el índice esté dentro de los límites
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            } else if (currentIndex > totalItems - itemsPerView) {
+                currentIndex = totalItems - itemsPerView;
+            }
+
+            // Calcula la cantidad de desplazamiento (en porcentaje)
+            const offset = -currentIndex * (100 / itemsPerView); 
+            slider.style.transform = `translateX(${offset}%)`;
+        }
+
+        function slideCarousel(direction) {
+            currentIndex += direction;
+            updateCarousel();
+        }
+
+        // Inicializa el carrusel y lo actualiza al redimensionar la ventana
+        window.addEventListener('resize', updateCarousel);
+        document.addEventListener('DOMContentLoaded', updateCarousel);
+    </script>
     <script src="js/chatbot.js"></script>
     </footer>
 </body>
