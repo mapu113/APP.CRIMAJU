@@ -346,11 +346,11 @@ nav {
 
 /* Botones fuera del contenedor de 40vw para que se vean junto a los bordes de la card */
 .prev-button {
-    left: calc(-20px - 15px); /* Ajustado para que se vea un poco separado */
+    left: -60px; /* Mueve el botón a la izquierda del carrusel */
 }
 
 .next-button {
-    right: calc(-20px - 15px); /* Ajustado para que se vea un poco separado */
+    right: -60px; /* Mueve el botón a la derecha del carrusel */
 }
 /* ==================================== */
 /* 6. Sección Contacto                  */
