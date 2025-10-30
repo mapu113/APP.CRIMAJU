@@ -30,65 +30,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ====================================
-    // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito)
+    // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
     // ====================================
     const slider = document.getElementById('testimonios-slider');
+    // CORRECCIÓN: Se usa 'carousel-item' porque es la clase que envuelve la tarjeta.
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
     
-    if (slider && items.length > 0) {
+    // Solo inicializa si todos los elementos necesarios existen
+    if (slider && items.length > 0 && prevButton && nextButton) {
         let currentIndex = 0;
-        let itemsPerView = window.innerWidth >= 768 ? 2 : 1; // 2 en desktop, 1 en móvil
+        // CORRECCIÓN: Forzamos itemsPerView a 1 para mostrar un solo testimonio.
+        const itemsPerView = 1;
+        const totalItems = items.length;
 
-        // Función para actualizar itemsPerView basada en el tamaño de la ventana
-        const updateItemsPerView = () => {
-            itemsPerView = window.innerWidth >= 768 ? 2 : 1;
-            updateCarousel(); // Llama a la actualización para recalcular el desplazamiento
-        };
-        
         // Función principal para mover el carrusel
         const updateCarousel = () => {
-            // La fórmula de desplazamiento sigue siendo la misma
+            // El desplazamiento es siempre 100% por ítem (100 / 1)
             const offset = -currentIndex * (100 / itemsPerView); 
             slider.style.transform = `translateX(${offset}%)`;
-
         };
 
-        // Event listener para el botón Anterior (Loop al final)
+        // Event listener para el botón Anterior (Bucle circular)
         prevButton.addEventListener('click', () => {
             if (currentIndex === 0) {
-                // Si estamos en la primera tarjeta (o vista), vamos a la última vista posible.
-                currentIndex = items.length - itemsPerView;
+                // Si es el primero (índice 0), va al último.
+                currentIndex = totalItems - 1;
             } else {
-                // Si no, retrocedemos normalmente.
-                currentIndex = Math.max(0, currentIndex - itemsPerView);
+                // Si no, retrocede uno.
+                currentIndex -= 1;
             }
             updateCarousel();
         });
 
-        // Event listener para el botón Siguiente (Loop al inicio)
+        // Event listener para el botón Siguiente (Bucle circular)
         nextButton.addEventListener('click', () => {
-            const maxIndex = items.length - itemsPerView;
+            const maxIndex = totalItems - 1;
             
             if (currentIndex >= maxIndex) {
-                // Si estamos en la última tarjeta (o vista), volvemos a la primera.
+                // Si es el último, vuelve al primero (índice 0).
                 currentIndex = 0;
             } else {
-                // Si no, avanzamos normalmente.
-                currentIndex = Math.min(maxIndex, currentIndex + itemsPerView);
+                // Si no, avanza uno.
+                currentIndex += 1;
             }
             updateCarousel();
         });
 
-        // Event listener para el resize de la ventana
+        // Event listener para el resize de la ventana (solo actualiza la vista inicial)
         window.addEventListener('resize', () => {
              // Reinicia el índice al reescalar para evitar un desplazamiento extraño
             currentIndex = 0; 
-            updateItemsPerView();
+            updateCarousel();
         });
         
         // Inicializa el carrusel
-        updateItemsPerView();
+        updateCarousel();
     }
 });
