@@ -283,14 +283,6 @@ nav {
 /* ==================================== */
 
 /* Corrección: Reemplaza la estructura original de .cards-grid en esta sección */
-.testimonios .cards-grid { 
-    /* Esta sección en el CSS original no es necesaria si se usa la estructura de carrusel */
-    /* Sin embargo, la mantendremos si se decide no usar el carrusel */
-    display: flex; /* Esto se usa en el HTML original */
-    flex-wrap: wrap; /* Esto se usa en el HTML original */
-    gap: 30px;
-    justify-content: center;
-}
 
 /* Nuevos/Corregidos estilos para el Carrusel */
 .carousel-container {
