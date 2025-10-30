@@ -282,6 +282,11 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
+.testimonios {
+    padding: 35& 0;
+    background-color: var(--background-light);
+} 
+
 .carousel-container {
     position: relative;
     /* CORRECCIÓN CLAVE: Limita el ancho del carrusel al 40% del viewport para centrar la tarjeta */
