@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================
     // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
     // ====================================
+    // BUSCA EL ID 'testimonios-slider'
     const slider = document.getElementById('testimonios-slider');
-    // CORRECCIÓN: Se usa 'carousel-item' porque es la clase que envuelve la tarjeta.
+    // BUSCA LOS ÍTEMS DENTRO CON CLASE 'carousel-item'
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo inicializa si todos los elementos necesarios existen
     if (slider && items.length > 0 && prevButton && nextButton) {
         let currentIndex = 0;
-        // CORRECCIÓN: Forzamos itemsPerView a 1 para mostrar un solo testimonio.
+        // ITEMS POR VISTA FORZADO A 1
         const itemsPerView = 1;
         const totalItems = items.length;
 

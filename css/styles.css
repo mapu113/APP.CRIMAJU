@@ -282,8 +282,6 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
-/* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 177) */
-
 .carousel-container {
     position: relative;
     max-width: 1000px; /* Tamaño máximo del carrusel */
@@ -293,30 +291,27 @@ nav {
 }
 
 .carousel-slider {
-    display: flex;
+    display: flex; /* CRUCIAL: Mantiene los ítems en línea */
     transition: transform 0.5s ease-in-out;
 }
 
 .carousel-item {
-    min-width: 100%; /* CORRECCIÓN CLAVE: Un solo ítem a la vez en todas las resoluciones */
+    min-width: 100%; /* CRUCIAL: Un solo ítem a la vez en todas las resoluciones */
     box-sizing: border-box;
     padding: 15px; /* Ajuste para espacio interno de la tarjeta */
-    flex-shrink: 0; 
+    flex-shrink: 0; /* Evita que el ítem se encoja */
 }
 
-/* REGLA ELIMINADA: La media query que mostraba 2 ítems (@media (min-width: 800px) { ... }) */
 
-
-/* Estilos específicos de testimonios (Línea 197) */
+/* Estilos específicos de testimonios */
 .testimonio {
     text-align: center;
-    /* CORRECCIÓN: Eliminar el margen horizontal que rompe el 100% */
-    margin: 0; 
+    margin: 0; /* Elimina margen horizontal que rompe el 100% */
     padding: 15px; /* Espacio interno de la tarjeta */
 }
 
 .testimonio img {
-    /* CORRECCIÓN CLAVE: Reducir tamaño y hacerlo circular */
+    /* Estilo de imagen de perfil para testimonio */
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -353,7 +348,6 @@ nav {
 .next-button {
     right: 0px;
 }
-
 /* ==================================== */
 /* 6. Sección Contacto                  */
 /* ==================================== */
