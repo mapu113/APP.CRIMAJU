@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================
     // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
     // ====================================
-    const slider = document.getElementById('testimonios-slider');
+    // CORRECCIÓN CLAVE: El ID debe coincidir con el HTML ajustado
+    const slider = document.getElementById('testimonios-slider'); 
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
@@ -40,14 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo inicializa si todos los elementos necesarios existen
     if (slider && items.length > 0 && prevButton && nextButton) {
         let currentIndex = 0;
-        // itemsPerView = 1 es correcto porque el CSS ajusta el contenedor al 40%
-        const itemsPerView = 1;
         const totalItems = items.length;
 
-        // Función principal para mover el carrusel
+        /**
+         * Función principal para mover el carrusel
+         */
         const updateCarousel = () => {
-            // El desplazamiento es siempre 100% por ítem, que ahora es 100% del contenedor de 40vw
-            const offset = -currentIndex * (100 / itemsPerView); 
+            // El desplazamiento es siempre 100% por cada ítem visible (que es uno solo)
+            const offset = -currentIndex * 100; 
             slider.style.transform = `translateX(${offset}%)`;
         };
 
@@ -77,14 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCarousel();
         });
 
-        // Event listener para el resize de la ventana (solo actualiza la vista inicial)
-        window.addEventListener('resize', () => {
-             // Reinicia el índice al reescalar para evitar un desplazamiento extraño
-            currentIndex = 0; 
-            updateCarousel();
-        });
-        
-        // Inicializa el carrusel
+        // Inicializa el carrusel al cargar la página
         updateCarousel();
     }
 });
