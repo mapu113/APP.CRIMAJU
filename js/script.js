@@ -32,9 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================
     // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
     // ====================================
-    // El ID debe coincidir con el HTML ajustado: 'testimonios-slider'
+    // El ID DEBE COINCIDIR con el HTML: 'testimonios-slider'
     const slider = document.getElementById('testimonios-slider'); 
-    // Los ítems a desplazar son las tarjetas con la clase 'carousel-item'
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
@@ -49,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
          * Desplaza el slider por múltiplos de 100% (ancho de un solo ítem).
          */
         const updateCarousel = () => {
+            // El desplazamiento es siempre 100% por el currentIndex
             const offset = -currentIndex * 100; 
             slider.style.transform = `translateX(${offset}%)`;
         };
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Event listener para el botón Anterior (Bucle circular)
         prevButton.addEventListener('click', () => {
             if (currentIndex === 0) {
-                // Si es el primero (índice 0), va al último.
+                // Si es el primero, va al último.
                 currentIndex = totalItems - 1;
             } else {
                 // Si no, retrocede uno.
@@ -79,7 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCarousel();
         });
 
-        // Inicializa el carrusel al cargar la página
+        // Event listener para el resize de la ventana
+        window.addEventListener('resize', () => {
+             // Reinicia el índice al reescalar
+            currentIndex = 0; 
+            updateCarousel();
+        });
+        
+        // Inicializa el carrusel
         updateCarousel();
     }
 });
