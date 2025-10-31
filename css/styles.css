@@ -284,11 +284,11 @@ nav {
     position: relative;
     max-width: 1000px; /* Tamaño máximo del carrusel */
     margin: 0 auto;
-    overflow: hidden; 
-    padding: 0 50px; 
+    overflow: hidden; /* Oculta los elementos que no están visibles */
+    padding: 0 50px; /* Espacio para botones */
     
-    /* AÑADIDO: Propiedad CSS para mejorar la interacción táctil en dispositivos móviles */
-    touch-action: pan-y;
+    /* AÑADIDO: Propiedad CSS para permitir y optimizar el gesto de arrastre (swipe) en dispositivos táctiles */
+    touch-action: pan-y; 
 }
 
 .carousel-slider {
@@ -297,9 +297,9 @@ nav {
 }
 
 .carousel-item {
-    min-width: 100%; 
+    min-width: 100%; /* Un solo ítem a la vez */
     box-sizing: border-box;
-    padding: 15px; 
+    padding: 15px; /* Ajuste para espacio interno de la tarjeta */
     flex-shrink: 0; 
 }
 
