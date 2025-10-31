@@ -280,17 +280,16 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
-./* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 177) */
+* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 177) */
 
 .carousel-container {
     position: relative;
-    max-width: 1000px; /* Tamaño máximo del carrusel */
-    margin: 0 auto;
+    /* CORRECCIÓN: Tamaño fijo para la card: 40vw */
+    width: 40vw; 
+    max-width: 450px; /* Límite superior para que no sea muy grande */
+    margin: 0 auto; /* Centra el carrusel */
     overflow: hidden; 
-    padding: 0 50px; 
-    
-    /* AÑADIDO: Propiedad CSS para mejorar la interacción táctil en dispositivos móviles */
-    touch-action: pan-y;
+    padding: 0; 
 }
 
 .carousel-slider {
@@ -298,11 +297,12 @@ nav {
     transition: transform 0.5s ease-in-out;
 }
 
+/* La tarjeta individual ahora es el 'carousel-item' */
 .carousel-item {
-    min-width: 100%; 
+    min-width: 100%; /* Cada card ocupa el 100% del contenedor (que es 40vw) */
     box-sizing: border-box;
-    padding: 15px; 
     flex-shrink: 0; 
+    padding: 0 15px; /* Pequeño padding horizontal interno si lo necesitas, si no, déjalo en 0 */
 }
 
 /* Estilos específicos de testimonios */
