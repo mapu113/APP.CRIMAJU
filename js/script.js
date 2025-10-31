@@ -4,13 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ... (Sección 1 y 2 de Menú Móvil - SIN CAMBIOS) ...
     // ====================================
     // 1. Funcionalidad del Menú Móvil (Toggle)
     // ====================================
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.menu');
     
-    // Función para alternar la clase 'active' al hacer clic en el botón
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuToggle.classList.toggle('active'); 
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            // Solo si el menú está activo, lo cerramos
             if (navMenu.classList.contains('active')) {
                 navMenu.classList.remove('active');
                 menuToggle.classList.remove('active');
@@ -30,58 +29,117 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ====================================
-    // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
+    // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito + Swipe)
     // ====================================
-    // El ID DEBE COINCIDIR con el HTML: 'testimonios-slider'
-    const slider = document.getElementById('testimonios-slider'); 
+    const slider = document.getElementById('testimonios-slider'); // AHORA COINCIDE CON EL ID DEL HTML
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
+    const carouselContainer = document.querySelector('.carousel-container');
     
-    // Solo inicializa si todos los elementos necesarios existen
     if (slider && items.length > 0 && prevButton && nextButton) {
         let currentIndex = 0;
         const totalItems = items.length;
+        const itemsPerView = 1; // Muestra un ítem a la vez
+
+        let startX = 0;
+        let isDragging = false;
+        const threshold = 50; // Mínimo de píxeles para contar como swipe
 
         /**
          * Función principal para mover el carrusel
          * Desplaza el slider por múltiplos de 100% (ancho de un solo ítem).
          */
         const updateCarousel = () => {
-            // El desplazamiento es siempre 100% por el currentIndex
-            const offset = -currentIndex * 100; 
+            const offset = -currentIndex * (100 / itemsPerView); 
             slider.style.transform = `translateX(${offset}%)`;
         };
 
-        // Event listener para el botón Anterior (Bucle circular)
+        // --- Lógica de Botones (Ahora funciona porque el HTML fue limpiado) ---
         prevButton.addEventListener('click', () => {
             if (currentIndex === 0) {
-                // Si es el primero, va al último.
                 currentIndex = totalItems - 1;
             } else {
-                // Si no, retrocede uno.
                 currentIndex -= 1;
             }
             updateCarousel();
         });
 
-        // Event listener para el botón Siguiente (Bucle circular)
         nextButton.addEventListener('click', () => {
             const maxIndex = totalItems - 1;
             
             if (currentIndex >= maxIndex) {
-                // Si es el último, vuelve al primero (índice 0).
                 currentIndex = 0;
             } else {
-                // Si no, avanza uno.
                 currentIndex += 1;
             }
             updateCarousel();
         });
 
+        // --- Lógica de Swipe/Toque (Alternativa de Navegación) ---
+
+        // Función para manejar el inicio del arrastre (ratón o dedo)
+        const handleDragStart = (e) => {
+            isDragging = true;
+            // Usa e.touches[0].clientX para móvil o e.clientX para ratón
+            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            // Desactiva la transición para un movimiento instantáneo
+            slider.style.transition = 'none'; 
+        };
+
+        // Función para manejar el movimiento del arrastre
+        const handleDragMove = (e) => {
+            if (!isDragging) return;
+            const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const diffX = startX - currentX;
+            const currentTranslate = -currentIndex * 100;
+            
+            // Permite que el usuario arrastre la pista
+            slider.style.transform = `translateX(${currentTranslate - (diffX / carouselContainer.offsetWidth) * 100}%)`;
+        };
+
+        // Función para manejar el final del arrastre (decide si desliza o no)
+        const handleDragEnd = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Reactiva la transición para la animación final
+            slider.style.transition = 'transform 0.5s ease-in-out';
+
+            // Calcula la diferencia final (usa e.changedTouches[0].clientX para soltar en móvil)
+            const endX = e.type.includes('mouse') ? e.clientX : e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+            
+            // Si arrastró más allá del umbral
+            if (Math.abs(diffX) > threshold) {
+                if (diffX > 0) {
+                    // Swipe a la izquierda -> Botón Siguiente
+                    currentIndex = (currentIndex + 1) % totalItems;
+                } else {
+                    // Swipe a la derecha -> Botón Anterior
+                    currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                }
+            }
+            
+            // Fija la vista en el nuevo currentIndex
+            updateCarousel();
+        };
+
+        // Asignar Event Listeners de Ratón
+        carouselContainer.addEventListener('mousedown', handleDragStart);
+        document.addEventListener('mousemove', handleDragMove);
+        document.addEventListener('mouseup', handleDragEnd);
+        
+        // Evitar que el drag del ratón seleccione texto
+        carouselContainer.addEventListener('dragstart', (e) => e.preventDefault()); 
+
+        // Asignar Event Listeners de Toque (Móvil)
+        carouselContainer.addEventListener('touchstart', handleDragStart);
+        carouselContainer.addEventListener('touchmove', handleDragMove);
+        carouselContainer.addEventListener('touchend', handleDragEnd);
+
         // Event listener para el resize de la ventana
         window.addEventListener('resize', () => {
-             // Reinicia el índice al reescalar
             currentIndex = 0; 
             updateCarousel();
         });

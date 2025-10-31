@@ -282,12 +282,13 @@ nav {
 
 .carousel-container {
     position: relative;
-    /* CORRECCIÓN: Tamaño fijo para la card: 40vw */
-    width: 40vw; 
-    max-width: 450px; /* Límite superior para que no sea muy grande */
-    margin: 0 auto; /* Centra el carrusel */
+    max-width: 1000px; /* Tamaño máximo del carrusel */
+    margin: 0 auto;
     overflow: hidden; 
-    padding: 0; 
+    padding: 0 50px; 
+    
+    /* AÑADIDO: Propiedad CSS para mejorar la interacción táctil en dispositivos móviles */
+    touch-action: pan-y;
 }
 
 .carousel-slider {
@@ -295,12 +296,11 @@ nav {
     transition: transform 0.5s ease-in-out;
 }
 
-/* La tarjeta individual ahora es el 'carousel-item' */
 .carousel-item {
-    min-width: 100%; /* Cada card ocupa el 100% del contenedor (que es 40vw) */
+    min-width: 100%; 
     box-sizing: border-box;
+    padding: 15px; 
     flex-shrink: 0; 
-    padding: 0 15px; /* Pequeño padding horizontal interno si lo necesitas, si no, déjalo en 0 */
 }
 
 /* Estilos específicos de testimonios */
