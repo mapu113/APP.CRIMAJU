@@ -201,156 +201,153 @@ nav {
 /* ==================================== */
 
 .about {
-    padding: 60px 20px;
-    text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins&display=swap");
+
+body {
+  background-color: #d5e1ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
 }
-
-.about p {
-    max-width: 900px;
-    margin: 0 auto;
-    font-size: 1.1rem;
+.container {
+  width: 100%;
+  height: 100%;
 }
-
-.about a {
-    color: var(--text-color); 
-}
-
-.about-button {
-    display: inline-block;
-    background-color: var(--secondary-color); 
-    color: var(--text-light);
-    padding: 12px 30px;
-    margin-top: 30px; 
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
-}
-
-.about-button:hover {
-    background-color: #ff0055; 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* ==================================== */
-/* 5. Secciones Cards (Servicios, Testimonios) */
-/* ==================================== */
-
-.servicios, .testimonios {
-    padding: 60px 0;
-    background-color: var(--background-light);
-}
-
-.servicios {
-    background-color: #E0F7FA; 
-}
-
-/* Estilo para el grid de SERVICIOS (se mantiene) */
-.cards-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-}
-
 .card {
-    flex: 0 1 calc(50% - 15px); 
-    background: var(--text-light);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #f9fafe;
+  width: 550px;
+  height: 45%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 30px 0 0 0;
+  transition: transform 400ms;
+  opacity: 0.5;
+  box-shadow: none;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+.quote-icon {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.05;
+  left: 3%;
+  top: 0;
 }
 
-/* Estilos específicos de servicios */
-.servicio h3 {
-    font-family: var(--font-heading);
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.5rem;
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 150px;
+  border: 5px solid #f9fafe;
+  box-shadow: 0 0 50px #ccc;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-60px, -60px);
+  z-index: 1;
 }
 
+.header {
+  margin: 50px 0 0 0;
+  text-align: center;
+  z-index: 1;
+}
 
-/* ==================================== */
-/* 5.1. Carrusel de Testimonios         */
-/* ==================================== */
-.shadow-effect {
-		    background: #fff;
-		    padding: 20px;
-		    border-radius: 4px;
-		    text-align: center;
-	border:1px solid #ECECEC;
-		    box-shadow: 0 19px 38px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.02);
-		}
-		#customers-testimonials .shadow-effect p {
-		    font-family: inherit;
-		    font-size: 17px;
-		    line-height: 1.5;
-		    margin: 0 0 17px 0;
-		    font-weight: 300;
-		}
-		.testimonial-name {
-		    margin: -17px auto 0;
-		    display: table;
-		    width: auto;
-		    background: #3190E7;
-		    padding: 9px 35px;
-		    border-radius: 12px;
-		    text-align: center;
-		    color: #fff;
-		    box-shadow: 0 9px 18px rgba(0,0,0,0.12), 0 5px 7px rgba(0,0,0,0.05);
-		}
-		#customers-testimonials .item {
-		    text-align: center;
-		    padding: 50px;
-				margin-bottom:80px;
-		    opacity: .2;
-		    -webkit-transform: scale3d(0.8, 0.8, 1);
-		    transform: scale3d(0.8, 0.8, 1);
-		    -webkit-transition: all 0.3s ease-in-out;
-		    -moz-transition: all 0.3s ease-in-out;
-		    transition: all 0.3s ease-in-out;
-		}
-		#customers-testimonials .owl-item.active.center .item {
-		    opacity: 1;
-		    -webkit-transform: scale3d(1.0, 1.0, 1);
-		    transform: scale3d(1.0, 1.0, 1);
-		}
-		.owl-carousel .owl-item img {
-		    transform-style: preserve-3d;
-		    max-width: 90px;
-    		margin: 0 auto 17px;
-		}
-		#customers-testimonials.owl-carousel .owl-dots .owl-dot.active span,
-#customers-testimonials.owl-carousel .owl-dots .owl-dot:hover span {
-		    background: #3190E7;
-		    transform: translate3d(0px, -50%, 0px) scale(0.7);
-		}
-#customers-testimonials.owl-carousel .owl-dots{
-	display: inline-block;
-	width: 100%;
-	text-align: center;
+.name {
+  font-family: "Hammersmith One", sans-serif;
+  text-transform: uppercase;
+  font-size: 22px;
+  margin: 0;
 }
-#customers-testimonials.owl-carousel .owl-dots .owl-dot{
-	display: inline-block;
+
+.title {
+  font-family: "Hammersmith One", sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 5px 0 0 0;
+  padding: 0 5px;
+  color: #7ccdc5;
 }
-		#customers-testimonials.owl-carousel .owl-dots .owl-dot span {
-		    background: #3190E7;
-		    display: inline-block;
-		    height: 20px;
-		    margin: 0 2px 5px;
-		    transform: translate3d(0px, -50%, 0px) scale(0.3);
-		    transform-origin: 50% 50% 0;
-		    transition: all 250ms ease-out 0s;
-		    width: 20px;
-		}
+
+.quote-container {
+  margin: 0;
+  height: 100%;
+  z-index: 1;
+  padding: 15px 30px 30px 30px;
+  overflow: hidden;
+}
+
+.quote {
+  width: 100%;
+  height: 95%;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  color: #73808c;
+  margin: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide-active {
+  z-index: 1;
+}
+
+.swiper-slide-active .card {
+  box-shadow: 0 8px 30px -7px #c9dff0;
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-button-next:focus,
+.swiper-button-prev:focus {
+  outline: none;
+}
+
+@media (max-height: 400px) {
+  .header {
+    margin: 40px 0 0 0;
+  }
+  .name {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 10px;
+  }
+  .quote-container {
+    padding: 5px 20px 20px 20px;
+  }
+  .quote-icon {
+    width: 75px;
+    height: 75px;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    transform: translate(-50px, -50px);
+  }
+}
 /* ==================================== */
 /* 6. Sección Contacto                  */
 /* ==================================== */
