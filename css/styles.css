@@ -282,45 +282,50 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
+/* ... (CSS hasta la línea 170) ... */
+
+/* ==================================== */
+/* 5.1. Carrusel de Testimonios         */
+/* ==================================== */
+
 .carousel-container {
     position: relative;
-    /* CORRECCIÓN CRUCIAL: Limita al 40vw y añade margen. */
+    /* TAMAÑO Y CENTRADO: Limita el ancho del carrusel al 40% del viewport */
     width: 40vw; 
     max-width: 450px; /* Límite superior de seguridad para evitar cards gigantes */
     margin: 0 auto; /* Centra el contenedor de 40vw */
     overflow: hidden; /* Oculta los elementos que no están visibles */
-    padding: 0; /* No se añade padding aquí */
+    padding: 0; 
 }
 
 .carousel-slider {
-    display: flex;
+    display: flex; 
     transition: transform 0.5s ease-in-out;
 }
 
+/* La tarjeta individual ahora es el 'carousel-item' */
 .carousel-item {
     /* El ítem toma el 100% del contenedor de 40vw. */
     min-width: 100%; 
     box-sizing: border-box;
-    padding: 15px; 
     flex-shrink: 0; 
+    /* Quitamos el padding aquí y lo ponemos en .testimonio para el fondo */
+    padding: 0;
 }
 
-
-/* Estilos específicos de testimonios */
-.testimonio {
+/* Estilos específicos de testimonios (para el contenido visible) */
+.testimonio.card {
     text-align: center;
     margin: 0; 
-    padding: 15px; 
-    background: var(--text-light); /* Asegura que la tarjeta interna tenga fondo */
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px 15px; /* Padding interno para el contenido de la card */
+    /* Hereda background, border-radius y box-shadow de .card */
 }
 
 .testimonio img {
     /* Imagen CUADRADA y centrada */
     width: 100px;
     height: 100px;
-    border-radius: 8px; /* Cambiado a cuadrado con esquinas suaves */
+    border-radius: 8px; 
     object-fit: cover;
     margin: 0 auto 15px auto; 
     display: block; 
@@ -341,8 +346,6 @@ nav {
     font-size: 1.5rem;
     border-radius: 50%;
     transition: background-color 0.3s;
-    /* CORRECCIÓN: Hace que los botones sean siempre visibles y clicables */
-    margin: 0 50px; 
 }
 
 .carousel-button:hover {
@@ -351,34 +354,14 @@ nav {
 
 /* Posiciona los botones al lado del contenedor de 40vw */
 .prev-button {
-    left: -60px; /* Desplaza el botón a la izquierda del contenedor */
+    left: -60px; 
 }
 
 .next-button {
-    right: -60px; /* Desplaza el botón a la derecha del contenedor */
+    right: -60px; 
 }
 
-/* ... (Resto del CSS) ... */
-
-/* Ajustes Responsivos para Carrusel */
-@media (max-width: 900px) {
-    /* ... (Otros estilos móviles) ... */
-    
-    /* CORRECCIÓN: Carrusel en móvil debe ser más grande */
-    .carousel-container {
-        width: 90vw; /* En móvil, ocupa casi todo el ancho */
-        max-width: none;
-    }
-    
-    .prev-button {
-        left: 0px; /* Pega el botón al borde izquierdo del viewport */
-        margin: 0 10px;
-    }
-    
-    .next-button {
-        right: 0px; /* Pega el botón al borde derecho del viewport */
-        margin: 0 10px;
-    }
+/* ... (El resto del CSS, incluyendo media queries, sigue igual) ... */
 
 /* ==================================== */
 /* 6. Sección Contacto                  */

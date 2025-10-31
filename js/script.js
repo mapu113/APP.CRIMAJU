@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================
     // 3. Funcionalidad del Carrusel de Testimonios (Bucle Infinito - 1 Ítem)
     // ====================================
-    // CORRECCIÓN CLAVE: El ID debe coincidir con el HTML ajustado
+    // El ID debe coincidir con el HTML ajustado: 'testimonios-slider'
     const slider = document.getElementById('testimonios-slider'); 
+    // Los ítems a desplazar son las tarjetas con la clase 'carousel-item'
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
@@ -45,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /**
          * Función principal para mover el carrusel
+         * Desplaza el slider por múltiplos de 100% (ancho de un solo ítem).
          */
         const updateCarousel = () => {
-            // El desplazamiento es siempre 100% por cada ítem visible (que es uno solo)
             const offset = -currentIndex * 100; 
             slider.style.transform = `translateX(${offset}%)`;
         };
