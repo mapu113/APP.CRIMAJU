@@ -278,11 +278,6 @@ nav {
 }
 
 
-/* ==================================== */
-/* 5.1. Carrusel de Testimonios         */
-/* ==================================== */
-
-/* ... (CSS hasta la línea 170) ... */
 
 /* ==================================== */
 /* 5.1. Carrusel de Testimonios         */
@@ -291,7 +286,7 @@ nav {
 .carousel-container {
     position: relative;
     /* TAMAÑO Y CENTRADO: Limita el ancho del carrusel al 40% del viewport */
-    width: 40vw; 
+    width: 45vw; 
     max-width: 450px; /* Límite superior de seguridad para evitar cards gigantes */
     margin: 0 auto; /* Centra el contenedor de 40vw */
     overflow: hidden; /* Oculta los elementos que no están visibles */
@@ -361,7 +356,6 @@ nav {
     right: -60px; 
 }
 
-/* ... (El resto del CSS, incluyendo media queries, sigue igual) ... */
 
 /* ==================================== */
 /* 6. Sección Contacto                  */
