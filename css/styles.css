@@ -280,15 +280,17 @@ nav {
 /* 5.1. Carrusel de Testimonios         */
 /* ==================================== */
 
+./* styles.css: Sección 5.1. Carrusel de Testimonios (Línea 177) */
+
 .carousel-container {
     position: relative;
     max-width: 1000px; /* Tamaño máximo del carrusel */
     margin: 0 auto;
-    overflow: hidden; /* Oculta los elementos que no están visibles */
-    padding: 0 50px; /* Espacio para botones */
+    overflow: hidden; 
+    padding: 0 50px; 
     
-    /* AÑADIDO: Propiedad CSS para permitir y optimizar el gesto de arrastre (swipe) en dispositivos táctiles */
-    touch-action: pan-y; 
+    /* AÑADIDO: Propiedad CSS para mejorar la interacción táctil en dispositivos móviles */
+    touch-action: pan-y;
 }
 
 .carousel-slider {
@@ -297,9 +299,9 @@ nav {
 }
 
 .carousel-item {
-    min-width: 100%; /* Un solo ítem a la vez */
+    min-width: 100%; 
     box-sizing: border-box;
-    padding: 15px; /* Ajuste para espacio interno de la tarjeta */
+    padding: 15px; 
     flex-shrink: 0; 
 }
 
