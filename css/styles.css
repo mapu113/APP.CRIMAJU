@@ -356,26 +356,66 @@ nav {
 /* 6. Sección Contacto                  */
 /* ==================================== */
 
-/* ... (Todo el CSS de contacto) ... */
+.contact {
+    padding: 80px 0;
+    background-color: var(--background-light);
+    color: var(--text-color);
+    text-align: center;
+}
 
-/* ... (Todo el CSS de contacto) ... */
+.contact .section-title {
+    color: var(--primary-color);
+    border-bottom-color: var(--tertiary-color);
+}
+
+.contact-container {
+    text-align: center; 
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-text {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+}
+
+/* Estilo para el botón de WhatsApp */
+.btn-whatsapp {
+    display: inline-block;
+    padding: 15px 35px;
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, background-color 0.3s;
+    text-decoration: none;
+    
+    background-color: var(--whatsapp-color);
+    color: var(--text-light) !important; 
+    border: none;
+}
+
+.btn-whatsapp:hover {
+    background-color: var(--whatsapp-color-hover); 
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
 
 .formulario-embed {
     margin-top: 20px;
     background: var(--text-light);
     border-radius: 10px;
-    /* CORRECCIÓN: Asegura que el contenedor del iframe se centre y tenga un tamaño razonable */
-    max-width: 600px; 
-    margin-left: auto;
-    margin-right: auto;
     overflow: hidden;
     box-shadow: var(--card-shadow);
 }
 
 .formulario-embed iframe {
     width: 100%;
-    /* CORRECCIÓN: Aumenta la altura para que se vea bien el formulario */
-    height: 700px; 
+    height: 500px; 
     display: block;
 }
 /* ==================================== */
