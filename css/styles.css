@@ -285,8 +285,8 @@ nav {
 .carousel-container {
     position: relative;
     /* CORRECCIÓN CLAVE: Limita el ancho del carrusel al 40% del viewport para centrar la tarjeta */
-    width: 40vw; 
-    max-width: 450px; /* Límite superior para pantallas muy grandes */
+    width: 45vw; 
+    max-width: 40%px; /* Límite superior para pantallas muy grandes */
     margin: 0 auto; /* Centra el contenedor del 40vw */
     overflow: hidden; /* Oculta los elementos que no están visibles */
     padding: 0; /* Quitado para que los botones se vean a los lados */
