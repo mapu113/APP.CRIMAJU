@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoScan AI - Clasificador con Inteligencia Artificial</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-    
+    <title>EcoScan Dynamic - Clasificador Neo-Tech</title>
     <style>
         :root {
             --bg-color: #f5f0f6;
@@ -16,6 +13,8 @@
             --pink-accent: #fd79a8;
             --blue-electric: #0984e3;
             --screen-dark: #2d1346;
+            
+            /* Colores de las categorías adaptados a la paleta */
             --organic: #a29bfe;
             --recyclable: #74b9ff;
             --non-recyclable: #b2bec3;
@@ -32,6 +31,7 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            transition: background-color 0.5s ease;
         }
 
         .container {
@@ -42,219 +42,339 @@
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1);
             text-align: center;
+            margin-top: 20px;
         }
 
-        h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
-        .subtitle { color: var(--pink-accent); margin-bottom: 30px; font-size: 1.1rem; font-weight: 600; }
+        h1 {
+            margin: 0 0 5px 0;
+            font-size: 2.4rem;
+            color: var(--primary-purple);
+            font-weight: 800;
+        }
 
-        /* Pantalla del Contenedor */
+        .subtitle {
+            color: var(--pink-accent);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Pantalla Holográfica del Contenedor */
         .display-screen {
             background: var(--screen-dark);
             color: #ffffff;
-            padding: 25px;
+            padding: 30px;
             border-radius: 18px;
-            margin-bottom: 25px;
-            min-height: 120px;
+            margin-bottom: 30px;
+            min-height: 150px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             border: 4px solid var(--pink-accent);
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2);
+            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2), inset 0 0 20px rgba(0,0,0,0.6);
             transition: all 0.4s ease;
         }
 
-        .status-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #d6c7e8; margin-bottom: 8px; }
-        .status-result { font-size: 2rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; }
-        .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
+        .status-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #d6c7e8;
+            margin-bottom: 12px;
+        }
 
-        /* Zona de la Cámara IA */
-        .ai-panel {
+        .status-result {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: var(--blue-electric);
+            text-shadow: 0 2px 8px rgba(9, 132, 227, 0.4);
+        }
+
+        .status-desc {
+            font-size: 0.95rem;
+            color: #e0d4f0;
+            font-style: italic;
+        }
+
+        /* Pestañas de Modos de Simulación */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background: #ebdcf5;
+            color: var(--primary-purple);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-purple);
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .mode-panel {
+            display: none;
             border-top: 2px dashed #ebdcf5;
             padding-top: 25px;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        #webcam-container {
-            width: 320px;
-            height: 240px;
-            margin: 0 auto 20px auto;
+        .mode-panel.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* MODO 1: Cuadrícula de Tarjetas con Imágenes/Emojis */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .trash-card {
+            background: #fdf8ff;
+            border: 2px solid #ebdcf5;
             border-radius: 15px;
-            overflow: hidden;
-            border: 3px solid var(--primary-purple);
-            background: #000;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+            padding: 15px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
 
-        #webcam-container canvas {
-            width: 100% !0important;
-            height: 100% !important;
-            object-fit: cover;
+        .trash-card:hover {
+            border-color: var(--pink-accent);
+            transform: translateY(-3px);
+            background: #fff5fa;
         }
 
-        .btn-init {
+        .trash-card .icon { font-size: 2.2rem; }
+        .trash-card .name { font-size: 0.85rem; font-weight: 600; color: var(--text-color); }
+
+        /* MODO 2: Buscador por Texto */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+        }
+
+        .input-text {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #ebdcf5;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            color: var(--text-color);
+        }
+
+        .input-text:focus { border-color: var(--primary-purple); }
+
+        .btn-action {
             background-color: var(--blue-electric);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 0 25px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
             transition: all 0.2s;
         }
-        .btn-init:hover { background-color: #076bba; }
 
-        /* Barras de predicción de la IA */
-        .label-container {
-            margin: 15px auto;
-            max-width: 400px;
-            text-align: left;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .ai-bar-wrapper { margin-bottom: 8px; }
-        .ai-bar { height: 10px; background: #ebdcf5; border-radius: 5px; overflow: hidden; margin-top: 3px; }
-        .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); transition: width 0.1s ease; }
+        .btn-action:hover { background-color: #076bba; }
+
+        /* Historial */
+        .history-section { text-align: left; margin-top: 30px; }
+        .history-title { font-size: 0.95rem; font-weight: 700; color: var(--primary-purple); margin-bottom: 10px; }
+        .history-list { list-style: none; padding: 0; margin: 0; max-height: 130px; overflow-y: auto; border: 1px solid #ebdcf5; border-radius: 12px; background: #fdf8ff; }
+        .history-item { padding: 10px 15px; border-bottom: 1px solid #ebdcf5; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .history-item:last-child { border-bottom: none; }
+        .badge { padding: 2px 10px; border-radius: 20px; color: white; font-size: 0.75rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>EcoScan IA</h1>
-        <p class="subtitle">Clasificación en Tiempo Real por Visión de Computadora</p>
+        <h1>EcoScan Neo</h1>
+        <p class="subtitle">Simulador Inteligente Morado-Rosado con Destellos Azules</p>
 
         <div class="display-screen" id="screen">
-            <div class="status-title" id="status-title">Estatus de la IA</div>
-            <div class="status-result" id="status-result">CÁMARA APAGADA</div>
-            <div class="status-desc" id="status-desc">Presiona el botón de abajo para activar el ojo analítico de la IA.</div>
+            <div class="status-title" id="status-title">Escáner Listo</div>
+            <div class="status-result" id="status-result">ESPERANDO ACCIÓN</div>
+            <div class="status-desc" id="status-desc">Elige un método abajo para simular el depósito de basura.</div>
         </div>
 
-        <div class="ai-panel">
-            <div id="webcam-container"></div>
-            <button class="btn-init" id="start-btn" onclick="init()">Activar Sensor IA</button>
-            
-            <div class="label-container" id="label-container"></div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="cambiarModo('cards-mode', this)">📷 Modo Visual (Tarjetas)</button>
+            <button class="tab-btn" onclick="cambiarModo('text-mode', this)">✍️ Modo Texto (Buscador)</button>
+        </div>
+
+        <div id="cards-mode" class="mode-panel active">
+            <div class="grid-cards">
+                <div class="trash-card" onclick="procesarResiduo('organic', 'Manzana Mordida', '🍏')">
+                    <div class="icon">🍏</div><div class="name">Manzana</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('organic', 'Cáscara de Plátano', '🍌')">
+                    <div class="icon">🍌</div><div class="name">Plátano</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('recyclable', 'Botella de Plástico', '🍾')">
+                    <div class="icon">🍾</div><div class="name">Botella Plástica</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('recyclable', 'Caja de Cartón', '📦')">
+                    <div class="icon">📦</div><div class="name">Cartón</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('non-recyclable', 'Servilleta Sucia', '🧻')">
+                    <div class="icon">🧻</div><div class="name">Servilleta</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('non-recyclable', 'Paquete de Papas', '🍿')">
+                    <div class="icon">🍿</div><div class="name">Bolsa Snacks</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('hazardous', 'Pilas Usadas', '🔋')">
+                    <div class="icon">🔋</div><div class="name">Pilas / Baterías</div>
+                </div>
+                <div class="trash-card" onclick="procesarResiduo('hazardous', 'Medicamento Vencido', '💊')">
+                    <div class="icon">💊</div><div class="name">Medicinas</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="text-mode" class="mode-panel">
+            <div class="input-group">
+                <input type="text" class="input-text" id="custom-trash-input" placeholder="Ej: lechuga, lata, espejo, jeringa...">
+                <button class="btn-action" onclick="analizarTexto()">Escanear Texto</button>
+            </div>
+            <p style="font-size: 0.85rem; color: #7b6291; margin: 0;">El sistema inteligente analizará la palabra y deducirá la categoría.</p>
+        </div>
+
+        <div class="history-section">
+            <div class="history-title">📋 Historial de Análisis del Sensor</div>
+            <ul class="history-list" id="history-list"></ul>
         </div>
     </div>
 
-    <script type="text/javascript">
-        // 🔗 PEGA AQUÍ TU ENLACE DE TEACHABLE MACHINE:
-        const URL = "https://teachablemachine.withgoogle.com/models/TU_MODELO_AQUI/";
+    <script>
+        // Diccionario básico para simular la IA del buscador por texto
+        const baseDeDatosSencilla = {
+            'organic': ['lechuga', 'tomate', 'comida', 'fruta', 'verdura', 'hueso', 'cafe', 'huevo', 'pan', 'hojas', 'pasto'],
+            'recyclable': ['lata', 'aluminio', 'vidrio', 'botella', 'frasco', 'papel', 'periodico', 'cuaderno', 'plastico', 'metal'],
+            'non-recyclable': ['servilleta', 'higienico', 'espejo', 'ceramica', 'taza', 'pañal', 'envoltura', 'snack', 'papas', 'chicle'],
+            'hazardous': ['pila', 'bateria', 'medicina', 'pastilla', 'bombillo', 'jeringa', 'aguja', 'aceite', 'quimico']
+        };
 
-        let model, webcam, labelContainer, maxPredictions;
+        function cambiarModo(modoId, boton) {
+            document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(modoId).classList.add('active');
+            boton.classList.add('active');
+        }
 
-        // Inicializar la cámara y el modelo de IA
-        async function init() {
-            if(URL.includes("TU_MODELO_AQUI")) {
-                alert("Primero debes crear tu modelo en Teachable Machine y pegar el enlace en el código.");
+        function analizarTexto() {
+            const input = document.getElementById('custom-trash-input');
+            const palabra = input.value.trim().toLowerCase();
+
+            if (!palabra) {
+                alert("Escribe el nombre de algún residuo.");
                 return;
             }
-            
-            document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
-            document.getElementById('start-btn').disabled = true;
 
-            const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
+            let tipoDetectado = 'non-recyclable'; // Por defecto si no sabe qué es
+            let encontrado = false;
 
-            // Cargar el modelo
-            model = await tmImage.load(modelURL, metadataURL);
-            maxPredictions = model.getTotalClasses();
-
-            // Configurar la Webcam
-            const flip = true; 
-            webcam = new tmImage.Webcam(320, 240, flip); 
-            await webcam.setup(); 
-            await webcam.play();
-            window.requestAnimationFrame(loop);
-
-            // Agregar la cámara a la página
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
-            
-            // Crear las barras de porcentaje
-            labelContainer = document.getElementById("label-container");
-            labelContainer.innerHTML = "";
-            for (let i = 0; i < maxPredictions; i++) {
-                labelContainer.innerHTML += `<div class="ai-bar-wrapper">
-                    <span id="text-class-${i}">---</span>
-                    <div class="ai-bar"><div class="ai-bar-fill" id="bar-class-${i}"></div></div>
-                </div>`;
-            }
-            document.getElementById('start-btn').style.display = "none";
-        }
-
-        async function loop() {
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        // El modelo analiza el cuadro de video continuamente
-        async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            let mayorPrediccion = { className: "", probability: 0 };
-
-            for (let i = 0; i < maxPredictions; i++) {
-                const porcentaje = (prediction[i].probability * 100).toFixed(0);
-                
-                // Traducir nombres técnicos para las barras
-                let nombreLegible = prediction[i].className;
-                if(nombreLegible === "organic") nombreLegible = "🌱 Orgánico Aprovechable";
-                if(nombreLegible === "recyclable") nombreLegible = "💧 Reciclable";
-                if(nombreLegible === "non-recyclable") nombreLegible = "🗑️ No Aprovechable";
-                if(nombreLegible === "hazardous") nombreLegible = "⚠️ Peligroso";
-
-                document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
-                document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
-
-                // Guardar cuál tiene mayor porcentaje actual
-                if (prediction[i].probability > mayorPrediccion.probability) {
-                    mayorPrediccion = prediction[i];
+            for (const [categoria, palabrasClave] of Object.entries(baseDeDatosSencilla)) {
+                if (palabrasClave.some(clave => palabra.includes(clave))) {
+                    tipoDetectado = categoria;
+                    encontrado = true;
+                    break;
                 }
             }
 
-            // Si la IA está muy segura (más del 75%), actualizamos la pantalla grande
-            if (mayorPrediccion.probability > 0.75) {
-                actualizarPantallaGrande(mayorPrediccion.className);
-            }
+            const nombreFormateado = palabra.charAt(0).toUpperCase() + palabra.slice(1);
+            const emoji = encontrado ? '🔍' : '❓';
+            
+            procesarResiduo(tipoDetectado, nombreFormateado, emoji);
+            input.value = ""; // Limpiar input
         }
 
-        function actualizarPantallaGrande(clase) {
+        function procesarResiduo(tipo, nombre, icono) {
             const pantalla = document.getElementById('screen');
             const titulo = document.getElementById('status-title');
             const resultado = document.getElementById('status-result');
             const descripcion = document.getElementById('status-desc');
 
-            titulo.innerText = "ESCANEO IA EN TIEMPO REAL";
+            titulo.innerText = `Análisis Holográfico: ${icono} "${nombre}"`;
 
-            if (clase === 'organic') {
+            if (tipo === 'organic') {
                 resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
                 resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Detectado por visión artificial. Enviar a compostaje.";
+                descripcion.innerText = "Destino: Contenedor Lila. Destinado a producción de compostaje.";
                 pantalla.style.borderColor = "var(--organic)";
                 pantalla.style.backgroundColor = "#3d2b5c"; 
             } 
-            else if (clase === 'recyclable') {
+            else if (tipo === 'recyclable') {
                 resultado.innerText = "💧 APROVECHABLE / RECICLABLE";
                 resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Detectado por visión artificial. Enviar a reciclaje industrial.";
+                descripcion.innerText = "Destino: Contenedor Azul. Enviado a plantas de transformación material.";
                 pantalla.style.borderColor = "var(--recyclable)";
                 pantalla.style.backgroundColor = "#1a3454";
             } 
-            else if (clase === 'non-recyclable') {
+            else if (tipo === 'non-recyclable') {
                 resultado.innerText = "🗑️ NO APROVECHABLE";
                 resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Detectado por visión artificial. Destino: Relleno Sanitario.";
+                descripcion.innerText = "Destino: Contenedor Gris Oscuro. Disposición final en Relleno Sanitario.";
                 pantalla.style.borderColor = "var(--non-recyclable)";
                 pantalla.style.backgroundColor = "#333339";
             } 
-            else if (clase === 'hazardous') {
+            else if (tipo === 'hazardous') {
                 resultado.innerText = "⚠️ RESIDUO PELIGROSO";
                 resultado.style.color = "var(--pink-accent)";
-                descripcion.innerText = "¡ALERTA IA! Alta toxicidad detectada. Contenedor rojo.";
+                descripcion.innerText = "¡ALERTA RECOLECCIÓN! Almacenamiento aislado por alta toxicidad.";
                 pantalla.style.borderColor = "var(--pink-accent)";
                 pantalla.style.backgroundColor = "#521630";
             }
+
+            agregarHistorial(nombre, tipo, icono);
+        }
+
+        function agregarHistorial(objeto, tipo, icono) {
+            const lista = document.getElementById('history-list');
+            const item = document.createElement('li');
+            item.className = 'history-item';
+
+            let tagText = "";
+            let tagColor = "";
+
+            if (tipo === 'organic') { tagText = "Org. Aprovechable"; tagColor = "var(--organic)"; }
+            else if (tipo === 'recyclable') { tagText = "Reciclable (Azul)"; tagColor = "var(--blue-electric)"; }
+            else if (tipo === 'non-recyclable') { tagText = "No Aprovechable"; tagColor = "var(--non-recyclable)"; }
+            else { tagText = "Peligroso (Rosa)"; tagColor = "var(--pink-accent)"; }
+
+            item.innerHTML = `
+                <span>${icono} <strong>${objeto}</strong> clasificado</span>
+                <span class="badge" style="background-color: ${tagColor}">${tagText}</span>
+            `;
+
+            lista.insertBefore(item, lista.firstChild);
         }
     </script>
 </body>
