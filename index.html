@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoScan AI - Clasificador con Inteligencia Artificial</title>
+    <title>EcoScan IA - Clasificador con Inteligencia Artificial</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
@@ -16,6 +16,8 @@
             --pink-accent: #fd79a8;
             --blue-electric: #0984e3;
             --screen-dark: #2d1346;
+            
+            /* Colores de las categorías de reciclaje */
             --organic: #a29bfe;
             --recyclable: #74b9ff;
             --non-recyclable: #b2bec3;
@@ -47,7 +49,7 @@
         h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
         .subtitle { color: var(--pink-accent); margin-bottom: 30px; font-size: 1.1rem; font-weight: 600; }
 
-        /* Pantalla del Contenedor */
+        /* Pantalla Holográfica del Contenedor */
         .display-screen {
             background: var(--screen-dark);
             color: #ffffff;
@@ -68,25 +70,25 @@
         .status-result { font-size: 2rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; }
         .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
 
-        /* Zona de la Cámara IA */
+        /* Cuadro de la Webcam */
         .ai-panel {
             border-top: 2px dashed #ebdcf5;
             padding-top: 25px;
         }
 
         #webcam-container {
-            width: 320px;
-            height: 240px;
+            width: 250px;
+            height: 250px;
             margin: 0 auto 20px auto;
-            border-radius: 15px;
+            border-radius: 50%; /* Forma circular tipo lente de cámara */
             overflow: hidden;
-            border: 3px solid var(--primary-purple);
+            border: 4px solid var(--primary-purple);
             background: #000;
             box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
         }
 
         #webcam-container canvas {
-            width: 100% !0important;
+            width: 100% !important;
             height: 100% !important;
             object-fit: cover;
         }
@@ -105,7 +107,7 @@
         }
         .btn-init:hover { background-color: #076bba; }
 
-        /* Barras de predicción de la IA */
+        /* Barras de Diagnóstico de la IA */
         .label-container {
             margin: 15px auto;
             max-width: 400px;
@@ -122,57 +124,45 @@
 
     <div class="container">
         <h1>EcoScan IA</h1>
-        <p class="subtitle">Clasificación en Tiempo Real por Visión de Computadora</p>
+        <p class="subtitle">Clasificación Automatizada por Visión de Computadora</p>
 
         <div class="display-screen" id="screen">
-            <div class="status-title" id="status-title">Estatus de la IA</div>
-            <div class="status-result" id="status-result">CÁMARA APAGADA</div>
-            <div class="status-desc" id="status-desc">Presiona el botón de abajo para activar el ojo analítico de la IA.</div>
+            <div class="status-title" id="status-title">Estatus del Sistema</div>
+            <div class="status-result" id="status-result">CÁMARA INACTIVA</div>
+            <div class="status-desc" id="status-desc">Presiona "Iniciar Escáner" para encender el sensor de visión artificial.</div>
         </div>
 
         <div class="ai-panel">
             <div id="webcam-container"></div>
-            <button class="btn-init" id="start-btn" onclick="init()">Activar Sensor IA</button>
-            
+            <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner</button>
             <div class="label-container" id="label-container"></div>
         </div>
     </div>
 
     <script type="text/javascript">
-        // 🔗 PEGA AQUÍ TU ENLACE DE TEACHABLE MACHINE:
+        // Aquí ya está inyectado tu modelo de Teachable Machine directamente
         const URL = "https://teachablemachine.withgoogle.com/models/AG8xg8V-G/";
 
         let model, webcam, labelContainer, maxPredictions;
-        
 
-        // Inicializar la cámara y el modelo de IA
         async function init() {
-            if(URL.includes("TU_MODELO_AQUI")) {
-                alert("Primero debes crear tu modelo en Teachable Machine y pegar el enlace en el código.");
-                return;
-            }
-            
-            document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
+            document.getElementById('start-btn').innerText = "Cargando IA...";
             document.getElementById('start-btn').disabled = true;
 
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
-            // Cargar el modelo
             model = await tmImage.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
 
-            // Configurar la Webcam
             const flip = true; 
-            webcam = new tmImage.Webcam(320, 240, flip); 
+            webcam = new tmImage.Webcam(250, 250, flip); // Tamaño adaptado al círculo
             await webcam.setup(); 
             await webcam.play();
             window.requestAnimationFrame(loop);
 
-            // Agregar la cámara a la página
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             
-            // Crear las barras de porcentaje
             labelContainer = document.getElementById("label-container");
             labelContainer.innerHTML = "";
             for (let i = 0; i < maxPredictions; i++) {
@@ -190,7 +180,6 @@
             window.requestAnimationFrame(loop);
         }
 
-        // El modelo analiza el cuadro de video continuamente
         async function predict() {
             const prediction = await model.predict(webcam.canvas);
             let mayorPrediccion = { className: "", probability: 0 };
@@ -198,25 +187,27 @@
             for (let i = 0; i < maxPredictions; i++) {
                 const porcentaje = (prediction[i].probability * 100).toFixed(0);
                 
-                // Traducir nombres técnicos para las barras
                 let nombreLegible = prediction[i].className;
-                if(nombreLegible === "organic") nombreLegible = "🌱 Orgánico Aprovechable";
-                if(nombreLegible === "recyclable") nombreLegible = "💧 Reciclable";
-                if(nombreLegible === "non-recyclable") nombreLegible = "🗑️ No Aprovechable";
-                if(nombreLegible === "hazardous") nombreLegible = "⚠️ Peligroso";
+                // Traducimos los nombres de tus clases para que se vean geniales en la interfaz
+                if(nombreLegible.toLowerCase() === "organic") nombreLegible = "🌱 Orgánico Aprovechable";
+                if(nombreLegible.toLowerCase() === "recyclable") nombreLegible = "💧 Reciclable / Aprovechable";
+                if(nombreLegible.toLowerCase() === "non-recyclable") nombreLegible = "🗑️ No Aprovechable";
+                if(nombreLegible.toLowerCase() === "hazardous") nombreLegible = "⚠️ Residuo Peligroso";
 
-                document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
-                document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
+                // Actualizar barras de porcentaje inferiores
+                if(document.getElementById(`text-class-${i}`)) {
+                    document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
+                    document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
+                }
 
-                // Guardar cuál tiene mayor porcentaje actual
                 if (prediction[i].probability > mayorPrediccion.probability) {
                     mayorPrediccion = prediction[i];
                 }
             }
 
-            // Si la IA está muy segura (más del 75%), actualizamos la pantalla grande
+            // Si la IA está más de un 75% segura, cambia los colores de la pantalla grande
             if (mayorPrediccion.probability > 0.75) {
-                actualizarPantallaGrande(mayorPrediccion.className);
+                actualizarPantallaGrande(mayorPrediccion.className.toLowerCase());
             }
         }
 
@@ -231,28 +222,28 @@
             if (clase === 'organic') {
                 resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
                 resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Detectado por visión artificial. Enviar a compostaje.";
+                descripcion.innerText = "Análisis: Material orgánico detectado. Redireccionando a compostaje.";
                 pantalla.style.borderColor = "var(--organic)";
                 pantalla.style.backgroundColor = "#3d2b5c"; 
             } 
             else if (clase === 'recyclable') {
-                resultado.innerText = "💧 APROVECHABLE / RECICLABLE";
+                resultado.innerText = "💧 RECICLABLE / APROVECHABLE";
                 resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Detectado por visión artificial. Enviar a reciclaje industrial.";
+                descripcion.innerText = "Análisis: Material reciclable limpio. Redireccionando a planta de reciclaje.";
                 pantalla.style.borderColor = "var(--recyclable)";
                 pantalla.style.backgroundColor = "#1a3454";
             } 
             else if (clase === 'non-recyclable') {
                 resultado.innerText = "🗑️ NO APROVECHABLE";
                 resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Detectado por visión artificial. Destino: Relleno Sanitario.";
+                descripcion.innerText = "Análisis: Desecho ordinario no transformable. Destino: Relleno Sanitario.";
                 pantalla.style.borderColor = "var(--non-recyclable)";
                 pantalla.style.backgroundColor = "#333339";
             } 
             else if (clase === 'hazardous') {
                 resultado.innerText = "⚠️ RESIDUO PELIGROSO";
                 resultado.style.color = "var(--pink-accent)";
-                descripcion.innerText = "¡ALERTA IA! Alta toxicidad detectada. Contenedor rojo.";
+                descripcion.innerText = "¡ALERTA BIO-SEGURIDAD! Elemento tóxico o peligroso. Depósito especial.";
                 pantalla.style.borderColor = "var(--pink-accent)";
                 pantalla.style.backgroundColor = "#521630";
             }
