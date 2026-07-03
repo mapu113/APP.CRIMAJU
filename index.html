@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title>EcoScan IA - Clasificador Oficial de Residuos</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
-=======
-    <title>EcoScan Gestión - Clasificador de Residuos</title>
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
     <style>
         :root {
             --bg-color: #f5f0f6;
@@ -21,11 +17,7 @@
             --blue-electric: #0984e3;
             --screen-dark: #2d1346;
             
-<<<<<<< HEAD
             /* Colores asignados a tus 3 categorías */
-=======
-            /* Colores de tus 3 categorías oficiales */
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
             --organic: #a29bfe;
             --recyclable: #74b9ff;
             --non-recyclable: #b2bec3;
@@ -51,7 +43,6 @@
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1);
             text-align: center;
-<<<<<<< HEAD
         }
 
         h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
@@ -65,39 +56,11 @@
             border-radius: 18px;
             margin-bottom: 25px;
             min-height: 130px;
-=======
-            margin-top: 20px;
-        }
-
-        h1 {
-            margin: 0 0 5px 0;
-            font-size: 2.4rem;
-            color: var(--primary-purple);
-            font-weight: 800;
-        }
-
-        .subtitle {
-            color: var(--pink-accent);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        /* Pantalla Holográfica del Contenedor */
-        .display-screen {
-            background: var(--screen-dark);
-            color: #ffffff;
-            padding: 30px;
-            border-radius: 18px;
-            margin-bottom: 30px;
-            min-height: 150px;
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             border: 4px solid var(--pink-accent);
-<<<<<<< HEAD
             box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2);
             transition: all 0.4s ease;
         }
@@ -136,137 +99,11 @@
             padding: 12px 30px;
             border-radius: 30px;
             font-size: 1.1rem;
-=======
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2), inset 0 0 20px rgba(0,0,0,0.6);
-            transition: all 0.4s ease;
-        }
-
-        .status-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #d6c7e8;
-            margin-bottom: 12px;
-        }
-
-        .status-result {
-            font-size: 1.9rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            color: var(--blue-electric);
-            text-shadow: 0 2px 8px rgba(9, 132, 227, 0.4);
-        }
-
-        .status-desc {
-            font-size: 0.95rem;
-            color: #e0d4f0;
-            font-style: italic;
-        }
-
-        /* Pestañas de Modos de Simulación */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .tab-btn {
-            background: #ebdcf5;
-            color: var(--primary-purple);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            background: var(--primary-purple);
-            color: white;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
-        }
-
-        .mode-panel {
-            display: none;
-            border-top: 2px dashed #ebdcf5;
-            padding-top: 25px;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .mode-panel.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* MODO 1: Cuadrícula de Tarjetas con Emojis */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .trash-card {
-            background: #fdf8ff;
-            border: 2px solid #ebdcf5;
-            border-radius: 15px;
-            padding: 15px 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .trash-card:hover {
-            border-color: var(--pink-accent);
-            transform: translateY(-3px);
-            background: #fff5fa;
-        }
-
-        .trash-card .icon { font-size: 2.2rem; }
-        .trash-card .name { font-size: 0.85rem; font-weight: 600; color: var(--text-color); }
-
-        /* MODO 2: Buscador por Texto */
-        .input-group {
-            display: flex;
-            gap: 10px;
-            max-width: 500px;
-            margin: 0 auto 20px auto;
-        }
-
-        .input-text {
-            flex: 1;
-            padding: 14px 20px;
-            border: 2px solid #ebdcf5;
-            border-radius: 30px;
-            font-size: 1rem;
-            outline: none;
-            color: var(--text-color);
-        }
-
-        .input-text:focus { border-color: var(--primary-purple); }
-
-        .btn-action {
-            background-color: var(--blue-electric);
-            color: white;
-            border: none;
-            padding: 0 25px;
-            border-radius: 30px;
-            font-size: 1rem;
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
             transition: all 0.2s;
         }
-<<<<<<< HEAD
         .btn-init:hover { background-color: #076bba; }
 
         /* Barras de porcentaje de la IA */
@@ -280,24 +117,11 @@
         .ai-bar-wrapper { margin-bottom: 12px; }
         .ai-bar { height: 10px; background: #ebdcf5; border-radius: 5px; overflow: hidden; margin-top: 4px; }
         .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); transition: width 0.1s ease; }
-=======
-
-        .btn-action:hover { background-color: #076bba; }
-
-        /* Historial */
-        .history-section { text-align: left; margin-top: 30px; }
-        .history-title { font-size: 0.95rem; font-weight: 700; color: var(--primary-purple); margin-bottom: 10px; }
-        .history-list { list-style: none; padding: 0; margin: 0; max-height: 150px; overflow-y: auto; border: 1px solid #ebdcf5; border-radius: 12px; background: #fdf8ff; }
-        .history-item { padding: 10px 15px; border-bottom: 1px solid #ebdcf5; display: flex; justify-content: space-between; font-size: 0.9rem; }
-        .history-item:last-child { border-bottom: none; }
-        .badge { padding: 2px 10px; border-radius: 20px; color: white; font-size: 0.75rem; font-weight: bold; text-align: center; }
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
     </style>
 </head>
 <body>
 
     <div class="container">
-<<<<<<< HEAD
         <h1>EcoScan IA</h1>
         <p class="subtitle">Visión Artificial Inteligente de Residuos</p>
 
@@ -433,165 +257,6 @@
                 pantalla.style.borderColor = "var(--non-recyclable)";
                 pantalla.style.backgroundColor = "#333339";
             }
-=======
-        <h1>CRIMAJU Sistema</h1>
-        <p class="subtitle">Gestión Tecnológica de Residuos Urbanos</p>
-
-        <div class="display-screen" id="screen">
-            <div class="status-title" id="status-title">Escáner Listo</div>
-            <div class="status-result" id="status-result">ESPERANDO MATERIAL</div>
-            <div class="status-desc" id="status-desc">Selecciona o escribe un residuo para procesar su disposición.</div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="cambiarModo('cards-mode', this)"> Modo Visual (Tarjetas)</button>
-            <button class="tab-btn" onclick="cambiarModo('text-mode', this)"> Modo Texto (Buscador)</button>
-        </div>
-
-        <div id="cards-mode" class="mode-panel active">
-            <div class="grid-cards">
-                <div class="trash-card" onclick="procesarResiduo('organic', 'Restos de Verduras', '🥬')">
-                    <div class="icon">🥬</div><div class="name">Verduras</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('organic', 'Cáscaras de Fruta', '🍌')">
-                    <div class="icon">🍌</div><div class="name">Cáscaras Fruta</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('organic', 'Café Usado', '☕')">
-                    <div class="icon">☕</div><div class="name">Café Usado</div>
-                </div>
-
-                <div class="trash-card" onclick="procesarResiduo('recyclable', 'Botella PET', '🍾')">
-                    <div class="icon">🍾</div><div class="name">Botella PET (1)</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('recyclable', 'Envase PEAD', '🧴')">
-                    <div class="icon">🧴</div><div class="name">Envase PEAD (2)</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('recyclable', 'Tapa / Contenedor PP', '🥤')">
-                    <div class="icon">🥤</div><div class="name">Plástico PP (5)</div>
-                </div>
-
-                <div class="trash-card" onclick="procesarResiduo('non-recyclable', 'Servilleta Sucia', '🧻')">
-                    <div class="icon">🧻</div><div class="name">Servilleta</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('non-recyclable', 'Papel Higiénico', '🚽')">
-                    <div class="icon">🚽</div><div class="name">Papel Higiénico</div>
-                </div>
-                <div class="trash-card" onclick="procesarResiduo('non-recyclable', 'Envoltura de Snacks', '🍿')">
-                    <div class="icon">🍿</div><div class="name">Bolsa Metalizada</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="text-mode" class="mode-panel">
-            <div class="input-group">
-                <input type="text" class="input-text" id="custom-trash-input" placeholder="Ej: lechuga, botella, pet, servilleta...">
-                <button class="btn-action" onclick="analizarTexto()">Analizar Residuo</button>
-            </div>
-            <p style="font-size: 0.85rem; color: #7b6291; margin: 0;">El sistema clasificará el texto automáticamente dentro de la normativa legal.</p>
-        </div>
-
-        <div class="history-section">
-            <div class="history-title">📋 Registro de Disposición Reciente</div>
-            <ul class="history-list" id="history-list"></ul>
-        </div>
-    </div>
-
-    <script>
-        // Diccionario de IA básico ajustado a tus nuevas categorías
-        const baseDeDatosSencilla = {
-            'organic': ['lechuga', 'tomate', 'comida', 'fruta', 'verdura', 'hueso', 'cafe', 'huevo', 'pan', 'hojas', 'pasto', 'organico', 'platano', 'cascara'],
-            'recyclable': ['lata', 'aluminio', 'vidrio', 'botella', 'frasco', 'papel', 'periodico', 'carton', 'plastico', 'pet', 'pead', 'pp', 'envase', 'tapa'],
-            'non-recyclable': ['servilleta', 'higienico', 'espejo', 'ceramica', 'taza', 'pañal', 'envoltura', 'snack', 'papas', 'chicle', 'metalizada', 'ordinario', 'basura']
-        };
-
-        function cambiarModo(modoId, boton) {
-            document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(modoId).classList.add('active');
-            boton.classList.add('active');
-        }
-
-        function analizarTexto() {
-            const input = document.getElementById('custom-trash-input');
-            const palabra = input.value.trim().toLowerCase();
-
-            if (!palabra) {
-                alert("Por favor, escribe el nombre de un residuo para el análisis.");
-                return;
-            }
-
-            let tipoDetectado = 'non-recyclable'; // Por defecto va a disposición final si no se reconoce
-            let encontrado = false;
-
-            for (const [categoria, palabrasClave] of Object.entries(baseDeDatosSencilla)) {
-                if (palabrasClave.some(clave => palabra.includes(clave))) {
-                    tipoDetectado = categoria;
-                    encontrado = true;
-                    break;
-                }
-            }
-
-            const nombreFormateado = palabra.charAt(0).toUpperCase() + palabra.slice(1);
-            const emoji = encontrado ? '🔍' : '❓';
-            
-            procesarResiduo(tipoDetectado, nombreFormateado, emoji);
-            input.value = ""; 
-        }
-
-        function procesarResiduo(tipo, nombre, icono) {
-            const pantalla = document.getElementById('screen');
-            const titulo = document.getElementById('status-title');
-            const resultado = document.getElementById('status-result');
-            const descripcion = document.getElementById('status-desc');
-
-            titulo.innerText = `Analizador detectó: ${icono} "${nombre}"`;
-
-            if (tipo === 'organic') {
-                resultado.innerText = "🌱 RESIDUOS ORGÁNICOS APROVECHABLES";
-                resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Destino: Contenedor lila/verde. Destinados a compostaje para la creación de abonos.";
-                pantalla.style.borderColor = "var(--organic)";
-                pantalla.style.backgroundColor = "#3d2b5c"; 
-            } 
-            else if (tipo === 'recyclable') {
-                resultado.innerText = "💧 MATERIALES RECICLABLES";
-                resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Destino: Contenedor Azul/Blanco. Clasificación prioritaria de polímeros (PET, PEAD y PP).";
-                pantalla.style.borderColor = "var(--recyclable)";
-                pantarma_bg = "#1a3454";
-                pantalla.style.backgroundColor = "#1a3454";
-            } 
-            else if (tipo === 'non-recyclable') {
-                resultado.innerText = "🗑️ RESIDUOS NO APROVECHABLES";
-                resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Destino: Contenedor Gris/Negro. Residuos destinados a disposición final en Relleno Sanitario.";
-                pantalla.style.borderColor = "var(--non-recyclable)";
-                pantalla.style.backgroundColor = "#333339";
-            }
-
-            agregarHistorial(nombre, tipo, icono);
-        }
-
-        function agregarHistorial(objeto, tipo, icono) {
-            const lista = document.getElementById('history-list');
-            const item = document.createElement('li');
-            item.className = 'history-item';
-
-            let tagText = "";
-            let tagColor = "";
-
-            if (tipo === 'organic') { tagText = "Orgánico Aprovechable"; tagColor = "var(--organic)"; }
-            else if (tipo === 'recyclable') { tagText = "Reciclable (PET/PEAD/PP)"; tagColor = "var(--blue-electric)"; }
-            else { tagText = "Disposición Final"; tagColor = "var(--non-recyclable)"; }
-
-            item.innerHTML = `
-                <span>${icono} <strong>${objeto}</strong> registrado</span>
-                <span class="badge" style="background-color: ${tagColor}">${tagText}</span>
-            `;
-
-            lista.insertBefore(item, lista.firstChild);
->>>>>>> 561cc02d7fc1869fda80a824e9031d8a24127491
         }
     </script>
 </body>
