@@ -67,24 +67,6 @@
         .status-result { font-size: 1.8rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; text-transform: uppercase; }
         .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
 
-        .btn-action-dynamic {
-            background-color: var(--pink-accent);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(253, 121, 168, 0.3);
-            transition: all 0.2s ease;
-        }
-        .btn-action-dynamic:hover {
-            transform: scale(1.03);
-            filter: brightness(1.1);
-        }
-
         .ai-panel {
             border-top: 2px dashed #ebdcf5;
             padding-top: 25px;
@@ -143,7 +125,6 @@
             <div class="status-title" id="status-title">Estatus del Sensor</div>
             <div class="status-result" id="status-result">CÁMARA DETENIDA</div>
             <div class="status-desc" id="status-desc">Presiona el botón azul para iniciar el análisis de la IA.</div>
-            <button id="dynamic-btn" class="btn-action-dynamic" style="display: none;"></button>
         </div>
 
         <div class="ai-panel">
@@ -190,7 +171,7 @@
                 document.getElementById('start-btn').style.display = "none";
                 
             } catch (error) {
-                alert("¡Falta el permiso de la cámara! Recuerda abrir el entorno desde una dirección HTTP/HTTPS del servidor.");
+                alert("¡Falta el permiso de la cámara! Asegúrate de estar usando un enlace web como el de drop.v0.dev para que el navegador te permita activar la webcam de forma segura.");
                 document.getElementById('start-btn').innerText = "Reintentar Escáner";
                 document.getElementById('start-btn').disabled = false;
                 console.error(error);
@@ -239,11 +220,8 @@
             const pantalla = document.getElementById('screen');
             const resultado = document.getElementById('status-result');
             const descripcion = document.getElementById('status-desc');
-            const botonDinamico = document.getElementById('dynamic-btn');
 
             document.getElementById('status-title').innerText = "ESCANEO IA EN TIEMPO REAL";
-            
-            botonDinamico.style.display = "inline-block";
 
             if (clase === 'organic') {
                 resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
@@ -251,13 +229,6 @@
                 descripcion.innerText = "Tratamiento: Traslado a plantas de compostaje biológico.";
                 pantalla.style.borderColor = "var(--organic)";
                 pantalla.style.backgroundColor = "#3d2b5c"; 
-                
-                // Redirección normal a archivo local en GitHub Pages
-                botonDinamico.innerText = "Ver Planta de Compostaje ➔";
-                botonDinamico.style.backgroundColor = "var(--primary-purple)";
-                botonDinamico.onclick = function() {
-                    window.location.href = "organico.html";
-                };
             } 
             else if (clase === 'recyclable') {
                 resultado.innerText = "💧 MATERIAL RECICLABLE";
@@ -265,13 +236,6 @@
                 descripcion.innerText = "Tratamiento: Clasificación de polímeros de alta prioridad (PET, PEAD y PP).";
                 pantalla.style.borderColor = "var(--recyclable)";
                 pantalla.style.backgroundColor = "#1a3454";
-
-                // Redirección normal a archivo local en GitHub Pages
-                botonDinamico.innerText = "Registrar Material ➔";
-                botonDinamico.style.backgroundColor = "var(--blue-electric)";
-                botonDinamico.onclick = function() {
-                    window.location.href = "reciclable.html";
-                };
             } 
             else if (clase === 'non-recyclable') {
                 resultado.innerText = "🗑️ NO APROVECHABLE";
@@ -279,13 +243,6 @@
                 descripcion.innerText = "Tratamiento: Logística de transporte directo hacia disposición final (Relleno Sanitario).";
                 pantalla.style.borderColor = "var(--non-recyclable)";
                 pantalla.style.backgroundColor = "#333339";
-
-                // Letrero nativo tipo alert sin cambiar de página
-                botonDinamico.innerText = "Disposición Final";
-                botonDinamico.style.backgroundColor = "#555555"; 
-                botonDinamico.onclick = function() {
-                    alert("⚠️ ¡Atención! Este residuo no es aprovechable. Debe ser llevado al Relleno Sanitario de manera segura.");
-                };
             }
         }
     </script>
