@@ -3,31 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRIMAJU IA - Clasificador Oficial de Residuos</title>
+    <title>EcoScan IA - Clasificador Oficial de Residuos</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
     <style>
+        /* =========================================================
+           ESTILOS ORIGINALES DE ECOSCAN
+           ========================================================= */
         :root {
-            --bg-color: #ff00fb;
+            --bg: #f3f0fa;
+            --bg-grid: #e9e3f7;
             --card-bg: #ffffff;
-            --text-color: #3b244f;
-            --primary-purple: #6c5ce7;
-            --pink-accent: #fd79a8;
-            --blue-electric: #0984e3;
-            --screen-dark: #2d1346;
+            --text-color: #241633;
+            --ink-soft: #6d5f88;
+            --primary-purple: #6c4fd6;
+            --primary-purple-dark: #4a2fb0;
+            --brand-soft: #ece6fb;
             
-            --organic: #a29bfe;
-            --recyclable: #74b9ff;
-            --non-recyclable: #b2bec3;
+            --screen-bg: #1c1230;
+            --screen-line: #3a2a5c;
+
+            /* Colores semánticos */
+            --organic: #3fa66b;
+            --recyclable: #2f80c5;
+            --non-recyclable: #74707f;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background:
+                radial-gradient(circle at 15% 10%, var(--bg-grid) 0%, transparent 45%),
+                radial-gradient(circle at 85% 90%, var(--bg-grid) 0%, transparent 45%),
+                var(--bg);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 32px 18px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -36,258 +47,645 @@
 
         .container {
             width: 100%;
-            max-width: 700px;
+            max-width: 560px;
             background: var(--card-bg);
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1);
+            padding: 36px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px -20px rgba(74, 47, 176, 0.25);
             text-align: center;
         }
 
-        h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
-        .subtitle { color: var(--pink-accent); margin-bottom: 30px; font-size: 1.1rem; font-weight: 600; }
+        h1 { 
+            margin: 0; 
+            font-size: 2.5rem; 
+            color: var(--text-color); 
+            font-weight: 800; 
+            letter-spacing: -0.02em;
+        }
+        h1 span {
+            color: var(--primary-purple);
+        }
+        .subtitle { 
+            color: var(--ink-soft); 
+            margin: 8px 0 30px 0; 
+            font-size: 0.98rem; 
+            font-weight: 500; 
+        }
 
+        /* Pantalla de estatus estilo consola oscura */
         .display-screen {
-            background: var(--screen-dark);
+            background:
+                repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,0.02) 3px 4px),
+                var(--screen-bg);
             color: #ffffff;
-            padding: 25px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            min-height: 130px;
+            padding: 22px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            min-height: 116px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 4px solid var(--pink-accent);
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2);
+            border: 4px solid var(--screen-line);
+            box-shadow: 0 8px 20px rgba(74, 47, 176, 0.15);
             transition: all 0.4s ease;
         }
 
-        .status-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #d6c7e8; margin-bottom: 8px; }
-        .status-result { font-size: 1.8rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; text-transform: uppercase; }
-        .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
+        .status-title { 
+            font-family: monospace;
+            font-size: 0.72rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #9d8fc0; 
+            margin-bottom: 6px; 
+        }
+        .status-result { 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: #d8cdf5; 
+            margin-bottom: 6px; 
+            text-transform: uppercase; 
+            transition: color 0.3s ease;
+        }
+        .status-desc { 
+            font-size: 0.9rem; 
+            color: #b6a9d6; 
+        }
 
         .btn-action-dynamic {
-            background-color: var(--pink-accent);
+            background-color: var(--primary-purple);
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-size: 0.95rem;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(253, 121, 168, 0.3);
+            margin-top: 12px;
+            box-shadow: 0 4px 12px rgba(108, 79, 214, 0.2);
             transition: all 0.2s ease;
         }
         .btn-action-dynamic:hover {
-            transform: scale(1.03);
-            filter: brightness(1.1);
+            transform: scale(1.02);
+            filter: brightness(1.15);
         }
 
         .ai-panel {
-            border-top: 2px dashed #ebdcf5;
+            border-top: 2px dashed var(--brand-soft);
             padding-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        #webcam-container {
+        /* Contenedor del visor redondo */
+        .viewfinder {
+            position: relative;
             width: 250px;
             height: 250px;
-            margin: 0 auto 20px auto;
+            margin-bottom: 20px;
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid var(--primary-purple);
             background: #000;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 0 0 6px var(--brand-soft), 0 10px 30px -10px rgba(74, 47, 176, 0.4);
         }
 
-        #webcam-container canvas {
-            width: 100% !important;
-            height: 100% !important;
+        #webcam-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #webcam-video {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
+        /* Capas de animación de escaneo */
+        .viewfinder-frame {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .corner {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border: 2.5px solid rgba(255, 255, 255, 0.75);
+        }
+        .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-radius: 6px 0 0 0; }
+        .corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; border-radius: 0 6px 0 0; }
+        .corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; border-radius: 0 0 0 6px; }
+        .corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; border-radius: 0 0 6px 0; }
+
+        .scan-line {
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-purple), transparent);
+            box-shadow: 0 0 8px 1px rgba(108, 79, 214, 0.8);
+            animation: scan-sweep 2.6s ease-in-out infinite;
+        }
+        @keyframes scan-sweep {
+            0%   { top: 14%; opacity: 0; }
+            10%  { opacity: 1; }
+            50%  { top: 86%; opacity: 1; }
+            60%  { opacity: 1; }
+            100% { top: 14%; opacity: 0; }
+        }
+
+        /* Botones de control */
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
         .btn-init {
-            background-color: var(--blue-electric);
+            background-color: var(--primary-purple);
             color: white;
             border: none;
             padding: 12px 30px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
+            box-shadow: 0 8px 20px -8px rgba(74, 47, 176, 0.6);
             transition: all 0.2s;
         }
-        .btn-init:hover { background-color: #076bba; }
+        .btn-init:hover { background-color: var(--primary-purple-dark); }
+        .btn-init:disabled { opacity: 0.6; cursor: not-allowed; }
 
+        .btn-extra {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #241633;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-extra:hover { background-color: #3a2860; }
+        .btn-extra-ghost {
+            background-color: var(--brand-soft);
+            color: var(--primary-purple-dark);
+        }
+        .btn-extra-ghost:hover { background-color: #ddd2f7; }
+
+        /* Barras de progreso */
         .label-container {
-            margin: 15px auto;
+            margin-top: 15px;
+            width: 100%;
             max-width: 420px;
             text-align: left;
-            font-size: 0.9rem;
-            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        .ai-bar-wrapper { margin-bottom: 12px; }
-        .ai-bar { height: 10px; background: #ebdcf5; border-radius: 5px; overflow: hidden; margin-top: 4px; }
-        .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); transition: width 0.1s ease; }
+        .ai-bar-wrapper { 
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .ai-bar-wrapper span {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .ai-bar { 
+            height: 8px; 
+            background: var(--brand-soft); 
+            border-radius: 5px; 
+            overflow: hidden; 
+        }
+        .ai-bar-fill { 
+            height: 100%; 
+            width: 0%; 
+            background: var(--primary-purple); 
+            border-radius: 5px;
+            transition: width 0.15s ease; 
+        }
+
+        .ai-bar-wrapper[data-class="organic"] .ai-bar-fill { background-color: var(--organic); }
+        .ai-bar-wrapper[data-class="recyclable"] .ai-bar-fill { background-color: var(--recyclable); }
+        .ai-bar-wrapper[data-class="non-recyclable"] .ai-bar-fill { background-color: var(--non-recyclable); }
+
+        /* Modal */
+        .photo-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(28, 18, 48, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 50;
+        }
+        .photo-modal[hidden] { display: none; }
+
+        .photo-modal-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 20px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.4);
+        }
+        .photo-modal-card img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 16px;
+            display: block;
+            margin-bottom: 16px;
+            background: #000;
+        }
+        .photo-modal-result {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-bottom: 18px;
+        }
+        #photo-result-label {
+            font-family: monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink-soft);
+        }
+        #photo-result-value {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text-color);
+        }
+        .photo-modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>EcoScan IA</h1>
+        <h1>EcoScan <span>IA</span></h1>
         <p class="subtitle">Visión Artificial Inteligente de Residuos</p>
 
+        <!-- Pantalla de estatus -->
         <div class="display-screen" id="screen">
             <div class="status-title" id="status-title">Estatus del Sensor</div>
             <div class="status-result" id="status-result">CÁMARA DETENIDA</div>
-            <div class="status-desc" id="status-desc">Presiona el botón azul para iniciar el análisis de la IA.</div>
+            <div class="status-desc" id="status-desc">Presiona el botón para iniciar el análisis de la IA.</div>
             <button id="dynamic-btn" class="btn-action-dynamic" style="display: none;"></button>
         </div>
 
         <div class="ai-panel">
-            <div id="webcam-container"></div>
-            <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner IA</button>
+            <div class="viewfinder" id="viewfinder">
+                <div id="webcam-container">
+                    <!-- Elemento de video nativo para saltarse el bug de Teachable Machine -->
+                    <video id="webcam-video" autoplay playsinline muted></video>
+                </div>
+                <div class="viewfinder-frame" id="visual-frame">
+                    <span class="corner tl"></span>
+                    <span class="corner tr"></span>
+                    <span class="corner bl"></span>
+                    <span class="corner br"></span>
+                    <span class="scan-line"></span>
+                </div>
+            </div>
+
+            <!-- Fila de Botones -->
+            <div class="controls-row">
+                <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner IA</button>
+                
+                <button class="btn-extra btn-extra-ghost" id="switch-btn" type="button" style="display: none;" title="Cambiar de cámara" onclick="cambiarCamara()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 2l4 4-4 4"/><path d="M3 12v-2a4 4 0 0 1 4-4h14"/>
+                        <path d="M7 22l-4-4 4-4"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/>
+                    </svg>
+                    Girar
+                </button>
+
+                <button class="btn-extra" id="capture-btn" type="button" style="display: none;" title="Tomar foto" onclick="tomarFoto()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    Capturar
+                </button>
+            </div>
+
+            <canvas id="capture-canvas" style="display: none;"></canvas>
             <div class="label-container" id="label-container"></div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        // Tu modelo oficial de Teachable Machine (organic, recyclable, non-recyclable)
-        const URL = "https://teachablemachine.withgoogle.com/models/AG8xg8V-G/";
+    <!-- Modal de foto -->
+    <div class="photo-modal" id="photo-modal" hidden>
+        <div class="photo-modal-card">
+            <img id="photo-preview" alt="Foto capturada del residuo">
+            <div class="photo-modal-result">
+                <span id="photo-result-label">—</span>
+                <span id="photo-result-value">—</span>
+            </div>
+            <div class="photo-modal-actions">
+                <button class="btn-extra btn-extra-ghost" onclick="cerrarModal()" type="button">Tomar otra</button>
+                <a class="btn-init" id="download-btn" style="text-decoration: none;" download="ecoscan-residuo.png">Guardar</a>
+            </div>
+        </div>
+    </div>
 
-        let model, webcam, labelContainer, maxPredictions;
+<script type="text/javascript">
+    // ==========================================
+    // 1. CONFIGURACIÓN GLOBAL Y VARIABLES
+    // ==========================================
+    // Enlace oficial de tu nuevo modelo de Teachable Machine con las 3 clases (organic, recyclable, non-recyclable)
+    const URL = "https://teachablemachine.withgoogle.com/models/AG8xg8V-G/";
 
-        async function init() {
-            document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
-            document.getElementById('start-btn').disabled = true;
+    let model, labelContainer, maxPredictions;
+    let isFrontCamera = true; // Controla si se usa la cámara frontal (true) o trasera (false)
+    let currentStream = null; // Almacena el stream de video activo para poder apagarlo/encenderlo
+    const videoElement = document.getElementById("webcam-video"); // Referencia al reproductor de video HTML5
+    let ultimaClaseDetectada = "Sin clasificar";
+    let ultimoPorcentaje = 0;
 
-            try {
-                const modelURL = URL + "model.json";
-                const metadataURL = URL + "metadata.json";
+    // ==========================================
+    // 2. INICIALIZACIÓN DE LA IA Y LA CÁMARA
+    // ==========================================
+    async function init() {
+        // Actualizamos el botón principal para dar feedback visual de carga
+        document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
+        document.getElementById('start-btn').disabled = true;
 
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
+        try {
+            // Carga de archivos de pesos y metadatos del modelo de Google
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
 
-                const flip = true; 
-                webcam = new tmImage.Webcam(250, 250, flip); 
-                
-                await webcam.setup(); 
-                await webcam.play();
-                window.requestAnimationFrame(loop);
+            // Encendido de la cámara mediante la API nativa del navegador (evita fallos de Teachable Machine)
+            await levantarCamara();
 
-                document.getElementById("webcam-container").appendChild(webcam.canvas);
-                
-                labelContainer = document.getElementById("label-container");
-                labelContainer.innerHTML = "";
-                for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.innerHTML += `<div class="ai-bar-wrapper">
-                        <span id="text-class-${i}">---</span>
-                        <div class="ai-bar"><div class="ai-bar-fill" id="bar-class-${i}"></div></div>
-                    </div>`;
-                }
-                document.getElementById('start-btn').style.display = "none";
-                
-            } catch (error) {
-                alert("¡Falta el permiso de la cámara! Recuerda abrir el entorno desde una dirección HTTP/HTTPS del servidor.");
-                document.getElementById('start-btn').innerText = "Reintentar Escáner";
-                document.getElementById('start-btn').disabled = false;
-                console.error(error);
-            }
-        }
-
-        async function loop() {
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            let mayorPrediccion = { className: "", probability: 0 };
-
+            // Creación dinámica de las barras de progreso en base al número de clases del modelo
+            labelContainer = document.getElementById("label-container");
+            labelContainer.innerHTML = "";
             for (let i = 0; i < maxPredictions; i++) {
-                const porcentaje = (prediction[i].probability * 100).toFixed(0);
-                const claseOriginal = prediction[i].className.trim().toLowerCase();
-                let nombreLegible = claseOriginal;
-
-                if(claseOriginal === "organic") {
-                    nombreLegible = "🌱 Residuos Orgánicos Aprovechables";
-                } else if(claseOriginal === "recyclable") {
-                    nombreLegible = "💧 Materiales Reciclables (PET, PEAD, PP)";
-                } else if(claseOriginal === "non-recyclable") {
-                    nombreLegible = "🗑️ Residuos No Aprovechables";
-                }
-
-                if(document.getElementById(`text-class-${i}`)) {
-                    document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
-                    document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
-                }
-
-                if (prediction[i].probability > mayorPrediccion.probability) {
-                    mayorPrediccion = prediction[i];
-                }
+                labelContainer.innerHTML += `
+                    <div class="ai-bar-wrapper" id="bar-wrapper-${i}">
+                        <span>
+                            <strong id="text-class-${i}">---</strong>
+                            <span id="percentage-class-${i}">0%</span>
+                        </span>
+                        <div class="ai-bar">
+                            <div class="ai-bar-fill" id="bar-class-${i}"></div>
+                        </div>
+                    </div>`;
             }
 
-            if (mayorPrediccion.probability > 0.65) {
-                actualizarPantallaGrande(mayorPrediccion.className.trim().toLowerCase());
-            }
-        }
+            // Iniciamos el bucle infinito de procesamiento de fotogramas
+            window.requestAnimationFrame(loop);
 
-        function actualizarPantallaGrande(clase) {
-            const pantalla = document.getElementById('screen');
-            const resultado = document.getElementById('status-result');
-            const descripcion = document.getElementById('status-desc');
-            const botonDinamico = document.getElementById('dynamic-btn');
-
-            document.getElementById('status-title').innerText = "ESCANEO IA EN TIEMPO REAL";
+            // Transición de botones en la interfaz una vez todo está cargado con éxito
+            document.getElementById('start-btn').style.display = "none";
+            document.getElementById('switch-btn').style.display = "inline-flex";
+            document.getElementById('capture-btn').style.display = "inline-flex";
             
-            botonDinamico.style.display = "inline-block";
+        } catch (error) {
+            alert("Error de cámara: Por favor, concede permisos al navegador o asegúrate de usar HTTPS / Localhost.");
+            document.getElementById('start-btn').innerText = "Reintentar Escáner";
+            document.getElementById('start-btn').disabled = false;
+            console.error("Error en la inicialización:", error);
+        }
+    }
 
-            if (clase === 'organic') {
-                resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
-                resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Tratamiento: Traslado a plantas de compostaje biológico.";
-                pantalla.style.borderColor = "var(--organic)";
-                pantalla.style.backgroundColor = "#3d2b5c"; 
-                
-                // Redirección normal a archivo local en GitHub Pages
-                botonDinamico.innerText = "Ver Planta de Compostaje ➔";
-                botonDinamico.style.backgroundColor = "var(--primary-purple)";
-                botonDinamico.onclick = function() {
-                    window.location.href = "organico.html";
-                };
-            } 
-            else if (clase === 'recyclable') {
-                resultado.innerText = "💧 MATERIAL RECICLABLE";
-                resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Tratamiento: Clasificación de polímeros de alta prioridad (PET, PEAD y PP).";
-                pantalla.style.borderColor = "var(--recyclable)";
-                pantalla.style.backgroundColor = "#1a3454";
+    // ==========================================
+    // 3. CONTROL DE HARDWARE (CÁMARA NATIVA)
+    // ==========================================
+    async function levantarCamara() {
+        // Si ya hay una cámara transmitiendo, la apagamos para no dejar el sensor bloqueado
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+        }
 
-                // Redirección normal a archivo local en GitHub Pages
-                botonDinamico.innerText = "Registrar Material ➔";
-                botonDinamico.style.backgroundColor = "var(--blue-electric)";
-                botonDinamico.onclick = function() {
-                    window.location.href = "reciclable.html";
-                };
-            } 
-            else if (clase === 'non-recyclable') {
-                resultado.innerText = "🗑️ NO APROVECHABLE";
-                resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Tratamiento: Logística de transporte directo hacia disposición final (Relleno Sanitario).";
-                pantalla.style.borderColor = "var(--non-recyclable)";
-                pantalla.style.backgroundColor = "#333339";
+        // Configuración nativa de captura del navegador
+        const constraints = {
+            video: {
+                facingMode: isFrontCamera ? "user" : "environment",
+                width: { ideal: 640 },
+                height: { ideal: 480 }
+            },
+            audio: false // No requerimos micrófono para procesar imágenes
+        };
 
-                // Letrero nativo tipo alert sin cambiar de página
-                botonDinamico.innerText = "Disposición Final";
-                botonDinamico.style.backgroundColor = "#555555"; 
-                botonDinamico.onclick = function() {
-                    alert("⚠️ ¡Atención! Este residuo no es aprovechable. Debe ser llevado al Relleno Sanitario de manera segura.");
-                };
+        // Solicita permisos al usuario y asocia el flujo de video al elemento <video>
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        videoElement.srcObject = currentStream;
+        
+        // Aplicamos efecto espejo horizontal únicamente si es la cámara frontal (selfie)
+        videoElement.style.transform = isFrontCamera ? "scaleX(-1)" : "scaleX(1)";
+    }
+
+    // Cambia dinámicamente entre cámara frontal y trasera
+    async function cambiarCamara() {
+        isFrontCamera = !isFrontCamera;
+        try {
+            await levantarCamara();
+        } catch (err) {
+            console.error("Error al rotar cámara:", err);
+            alert("No se pudo cambiar de cámara en este dispositivo.");
+        }
+    }
+
+    // ==========================================
+    // 4. BUCLE DE ANIMACIÓN Y PREDICCIÓN
+    // ==========================================
+    async function loop() {
+        // Verificamos que el reproductor de video de verdad tenga datos listos para procesar
+        if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+            await predict();
+        }
+        // Solicita el siguiente fotograma para mantener el análisis en tiempo real fluido
+        window.requestAnimationFrame(loop);
+    }
+
+    async function predict() {
+        // Pasamos el elemento <video> de forma directa al modelo para hacer la inferencia
+        const prediction = await model.predict(videoElement);
+        let mayorPrediccion = { className: "", probability: 0 };
+
+        // Recorremos las predicciones devueltas para actualizar la UI
+        for (let i = 0; i < maxPredictions; i++) {
+            const porcentaje = (prediction[i].probability * 100).toFixed(0);
+            const claseOriginal = prediction[i].className.trim().toLowerCase(); // "organic", "recyclable" o "non-recyclable"
+            let nombreLegible = claseOriginal;
+
+            // Actualizamos la clase en el HTML para que el CSS aplique los colores (verde, azul, gris)
+            const wrapper = document.getElementById(`bar-wrapper-${i}`);
+            if (wrapper) {
+                wrapper.setAttribute('data-class', claseOriginal);
+            }
+
+            // Traducimos los nombres de las clases originales en inglés a español con sus respectivos emojis
+            if (claseOriginal === "organic") {
+                nombreLegible = "🌱 Residuos Orgánicos";
+            } else if (claseOriginal === "recyclable") {
+                nombreLegible = "💧 Materiales Reciclables";
+            } else if (claseOriginal === "non-recyclable") {
+                nombreLegible = "🗑️ Residuos No Aprovechables";
+            }
+
+            // Actualizamos visualmente el porcentaje y la barra de progreso de cada clase
+            if (document.getElementById(`text-class-${i}`)) {
+                document.getElementById(`text-class-${i}`).innerText = nombreLegible;
+                document.getElementById(`percentage-class-${i}`).innerText = `${porcentaje}%`;
+                document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
+            }
+
+            // Registramos cuál es la clase con mayor porcentaje de probabilidad actual
+            if (prediction[i].probability > mayorPrediccion.probability) {
+                mayorPrediccion = prediction[i];
             }
         }
-    </script>
+
+        // Si la precisión supera el 65%, mandamos esa categoría a actualizar la pantalla de estatus
+        if (mayorPrediccion.probability > 0.65) {
+            ultimaClaseDetectada = mayorPrediccion.className;
+            ultimoPorcentaje = (mayorPrediccion.probability * 100).toFixed(0);
+            
+            // Envía el nombre limpio (organic, recyclable o non-recyclable)
+            actualizarPantallaGrande(mayorPrediccion.className.trim().toLowerCase());
+        }
+    }
+
+    // ==========================================
+    // 5. ACTUALIZACIÓN DINÁMICA DE LA INTERFAZ (PANTALLA)
+    // ==========================================
+    function actualizarPantallaGrande(clase) {
+        const pantalla = document.getElementById('screen');
+        const resultado = document.getElementById('status-result');
+        const descripcion = document.getElementById('status-desc');
+        const botonDinamico = document.getElementById('dynamic-btn');
+
+        // Activamos la pantalla para mostrar los resultados en vivo
+        document.getElementById('status-title').innerText = "ESCANEO IA EN TIEMPO REAL";
+        botonDinamico.style.display = "inline-block";
+
+        // Caso 1: Orgánico
+        if (clase === 'organic') {
+            resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
+            resultado.style.color = "#a29bfe";
+            descripcion.innerText = "Tratamiento: Traslado a plantas de compostaje biológico.";
+            pantalla.style.borderColor = "var(--organic)";
+            pantalla.style.backgroundColor = "#1a3224"; // Fondo verde oscuro
+            
+            botonDinamico.innerText = "Ver Planta de Compostaje ➔";
+            botonDinamico.style.backgroundColor = "var(--organic)";
+            botonDinamico.onclick = function() {
+                window.location.href = "organico.html";
+            };
+        } 
+        // Caso 2: Reciclable
+        else if (clase === 'recyclable') {
+            resultado.innerText = "💧 MATERIAL RECICLABLE";
+            resultado.style.color = "#74b9ff";
+            descripcion.innerText = "Tratamiento: Clasificación de materiales prioritarios para reciclaje.";
+            pantalla.style.borderColor = "var(--recyclable)";
+            pantalla.style.backgroundColor = "#13273a"; // Fondo azul oscuro
+
+            botonDinamico.innerText = "Registrar Material ➔";
+            botonDinamico.style.backgroundColor = "var(--recyclable)";
+            botonDinamico.onclick = function() {
+                window.location.href = "reciclable.html";
+            };
+        } 
+        // Caso 3: No Aprovechable
+        else if (clase === 'non-recyclable') {
+            resultado.innerText = "🗑️ NO APROVECHABLE";
+            resultado.style.color = "#b2bec3";
+            descripcion.innerText = "Tratamiento: Logística de transporte directo hacia disposición final.";
+            pantalla.style.borderColor = "var(--non-recyclable)";
+            pantalla.style.backgroundColor = "#2b2a2e"; // Fondo gris oscuro
+
+            botonDinamico.innerText = "Disposición Final";
+            botonDinamico.style.backgroundColor = "var(--non-recyclable)";
+            botonDinamico.onclick = function() {
+                window.location.href = "relleno.html";
+            };
+        }
+    }
+
+    // ==========================================
+    // 6. CAPTURA DE FOTOS Y DESCARGAS
+    // ==========================================
+    function tomarFoto() {
+        if (!currentStream) return;
+
+        const captureCanvas = document.getElementById("capture-canvas");
+        captureCanvas.width = videoElement.videoWidth;
+        captureCanvas.height = videoElement.videoHeight;
+        
+        const ctx = captureCanvas.getContext("2d");
+        
+        // Si estamos usando la cámara frontal, reflejamos la foto para que no salga al revés
+        if (isFrontCamera) {
+            ctx.translate(captureCanvas.width, 0);
+            ctx.scale(-1, 1);
+        }
+
+        // Copiamos el fotograma actual del video al lienzo oculto
+        ctx.drawImage(videoElement, 0, 0, captureCanvas.width, captureCanvas.height);
+
+        // Reseteamos las transformaciones para futuros fotogramas
+        if (isFrontCamera) {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+
+        // Generamos la imagen en formato base64
+        const dataUrl = captureCanvas.toDataURL("image/png");
+        
+        // Colocamos la imagen capturada en la vista previa del modal
+        document.getElementById("photo-preview").src = dataUrl;
+        document.getElementById("photo-result-label").textContent = "Análisis del Escaneo";
+        
+        // Mapeamos el nombre que aparecerá impreso sobre la tarjeta del modal
+        let labelBonita = ultimaClaseDetectada;
+        if (ultimaClaseDetectada.toLowerCase() === "organic") labelBonita = "🌱 Orgánico";
+        else if (ultimaClaseDetectada.toLowerCase() === "recyclable") labelBonita = "💧 Reciclable";
+        else if (ultimaClaseDetectada.toLowerCase() === "non-recyclable") labelBonita = "🗑️ No Aprovechable";
+
+        document.getElementById("photo-result-value").textContent = `${labelBonita} (${ultimoPorcentaje}%)`;
+
+        // Preparamos el enlace de descarga del archivo
+        const downloadBtn = document.getElementById("download-btn");
+        downloadBtn.href = dataUrl;
+        
+        const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+        downloadBtn.download = `ecoscan-${timestamp}.png`;
+
+        // Desplegamos el modal en pantalla
+        document.getElementById("photo-modal").removeAttribute("hidden");
+    }
+
+    // Cierra el modal de previsualización de foto
+    function cerrarModal() {
+        document.getElementById("photo-modal").setAttribute("hidden", "true");
+    }
+</script>
 </body>
 </html>

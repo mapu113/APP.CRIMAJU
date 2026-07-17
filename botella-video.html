@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoScan TV - Reproductor de Video</title>
+    
+    <style>
+        :root {
+            --bg: #f3f0fa;
+            --bg-grid: #e9e3f7;
+            --card-bg: #ffffff;
+            --text-color: #241633;
+            --ink-soft: #6d5f88;
+            --primary-purple: #6c4fd6;
+            --primary-purple-dark: #4a2fb0;
+            --brand-soft: #ece6fb;
+            --screen-bg: #1c1230;
+            --screen-line: #3a2a5c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                radial-gradient(circle at 15% 10%, var(--bg-grid) 0%, transparent 45%), 
+                radial-gradient(circle at 85% 90%, var(--bg-grid) 0%, transparent 45%), 
+                var(--bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 32px 18px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px; /* Un poco más ancho para que el video se vea espectacular */
+            background: var(--card-bg);
+            padding: 36px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px -20px rgba(74, 47, 176, 0.25);
+            text-align: center;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 2.3rem; 
+            font-weight: 800; 
+            letter-spacing: -0.02em; 
+        }
+        h1 span { 
+            color: var(--primary-purple); 
+        }
+        .subtitle { 
+            color: var(--ink-soft); 
+            margin: 8px 0 25px 0; 
+            font-weight: 500; 
+            font-size: 0.95rem;
+        }
+
+        /* Contenedor del reproductor de video */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: #000;
+            border: 4px solid var(--screen-line);
+            box-shadow: 0 15px 35px rgba(74, 47, 176, 0.2);
+            aspect-ratio: 16 / 9; /* Formato panorámico estándar */
+            margin-bottom: 25px;
+        }
+
+        /* Estilo del elemento de video */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ajusta el video para que no se recorte */
+            display: block;
+        }
+
+        /* Fila de controles de navegación inferior */
+        .navigation-row {
+            border-top: 2px dashed var(--brand-soft);
+            padding-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--brand-soft);
+            color: var(--primary-purple-dark);
+            border: none;
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-back:hover {
+            background-color: #ddd2f7;
+            transform: translateY(-2px);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px -8px rgba(74, 47, 176, 0.6);
+        }
+        .btn-action:hover {
+            background-color: var(--primary-purple-dark);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>EcoScan <span>TV</span></h1>
+        <p class="subtitle">Video Instructivo de Clasificación y Reciclaje</p>
+
+        <!-- Contenedor del video con controles nativos del navegador -->
+        <div class="video-wrapper">
+            <video controls autoplay playsinline id="my-player">
+                <!-- 
+                   ¡ATENCIÓN! Reemplaza "mi-video.mp4" por el nombre real de tu archivo de video.
+                   Asegúrate de incluir la extensión correcta (.mp4, .webm, etc.)
+                -->
+                <source src="reciclable-botella.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+        </div>
+
+        <!-- Botones inferiores para navegar hacia tus otras secciones -->
+        <div class="navigation-row">
+            <a href="index.html" class="btn-back">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver al Escáner
+            </a>
+            
+            <button class="btn-action" onclick="reiniciarVideo()">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                </svg>
+                Reiniciar Video
+            </button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Pequeña función para controlar el video mediante JS
+        function reiniciarVideo() {
+            const video = document.getElementById("my-player");
+            video.currentTime = 0; // Regresa al segundo 0
+            video.play();          // Lo vuelve a reproducir
+        }
+    </script>
+</body>
+</html>

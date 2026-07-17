@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRIMAJU IA - Clasificador Oficial de Residuos</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <title>EcoScan TV - Reproductor de Video</title>
     
     <style>
         :root {
-            --bg-color: #ff00fb;
+            --bg: #f3f0fa;
+            --bg-grid: #e9e3f7;
             --card-bg: #ffffff;
-            --text-color: #3b244f;
-            --primary-purple: #6c5ce7;
-            --pink-accent: #fd79a8;
-            --blue-electric: #0984e3;
-            --screen-dark: #2d1346;
-            
-            --organic: #a29bfe;
-            --recyclable: #74b9ff;
-            --non-recyclable: #b2bec3;
+            --text-color: #241633;
+            --ink-soft: #6d5f88;
+            --primary-purple: #6c4fd6;
+            --primary-purple-dark: #4a2fb0;
+            --brand-soft: #ece6fb;
+            --screen-bg: #1c1230;
+            --screen-line: #3a2a5c;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background: 
+                radial-gradient(circle at 15% 10%, var(--bg-grid) 0%, transparent 45%), 
+                radial-gradient(circle at 85% 90%, var(--bg-grid) 0%, transparent 45%), 
+                var(--bg);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 32px 18px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -36,214 +36,145 @@
 
         .container {
             width: 100%;
-            max-width: 700px;
+            max-width: 720px; /* Un poco más ancho para que el video se vea espectacular */
             background: var(--card-bg);
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1);
+            padding: 36px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px -20px rgba(74, 47, 176, 0.25);
             text-align: center;
         }
 
-        h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
-        .subtitle { color: var(--pink-accent); margin-bottom: 30px; font-size: 1.1rem; font-weight: 600; }
-
-        .display-screen {
-            background: var(--screen-dark);
-            color: #ffffff;
-            padding: 25px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            min-height: 130px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid var(--pink-accent);
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2);
-            transition: all 0.4s ease;
+        h1 { 
+            margin: 0; 
+            font-size: 2.3rem; 
+            font-weight: 800; 
+            letter-spacing: -0.02em; 
+        }
+        h1 span { 
+            color: var(--primary-purple); 
+        }
+        .subtitle { 
+            color: var(--ink-soft); 
+            margin: 8px 0 25px 0; 
+            font-weight: 500; 
+            font-size: 0.95rem;
         }
 
-        .status-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #d6c7e8; margin-bottom: 8px; }
-        .status-result { font-size: 1.8rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; text-transform: uppercase; }
-        .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
-
-        .ai-panel {
-            border-top: 2px dashed #ebdcf5;
-            padding-top: 25px;
-        }
-
-        #webcam-container {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 20px auto;
-            border-radius: 50%;
+        /* Contenedor del reproductor de video */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
             overflow: hidden;
-            border: 4px solid var(--primary-purple);
-            background: #000;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+            background-color: #000;
+            border: 4px solid var(--screen-line);
+            box-shadow: 0 15px 35px rgba(74, 47, 176, 0.2);
+            aspect-ratio: 16 / 9; /* Formato panorámico estándar */
+            margin-bottom: 25px;
         }
 
-        #webcam-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover;
+        /* Estilo del elemento de video */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ajusta el video para que no se recorte */
+            display: block;
         }
 
-        .btn-init {
-            background-color: var(--blue-electric);
-            color: white;
+        /* Fila de controles de navegación inferior */
+        .navigation-row {
+            border-top: 2px dashed var(--brand-soft);
+            padding-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--brand-soft);
+            color: var(--primary-purple-dark);
             border: none;
-            padding: 12px 30px;
+            padding: 12px 26px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
-            transition: all 0.2s;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        .btn-init:hover { background-color: #076bba; }
+        .btn-back:hover {
+            background-color: #ddd2f7;
+            transform: translateY(-2px);
+        }
 
-        .label-container {
-            margin: 15px auto;
-            max-width: 420px;
-            text-align: left;
-            font-size: 0.9rem;
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-size: 0.95rem;
             font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px -8px rgba(74, 47, 176, 0.6);
         }
-        .ai-bar-wrapper { margin-bottom: 12px; }
-        .ai-bar { height: 10px; background: #ebdcf5; border-radius: 5px; overflow: hidden; margin-top: 4px; }
-        .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); transition: width 0.1s ease; }
+        .btn-action:hover {
+            background-color: var(--primary-purple-dark);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>EcoScan IA</h1>
-        <p class="subtitle">Visión Artificial Inteligente de Residuos</p>
+        <h1>EcoScan <span>TV</span></h1>
+        <p class="subtitle">Video Instructivo de Clasificación y Reciclaje</p>
 
-        <div class="display-screen" id="screen">
-            <div class="status-title" id="status-title">Estatus del Sensor</div>
-            <div class="status-result" id="status-result">CÁMARA DETENIDA</div>
-            <div class="status-desc" id="status-desc">Presiona el botón azul para iniciar el análisis de la IA.</div>
+        <!-- Contenedor del video con controles nativos del navegador -->
+        <div class="video-wrapper">
+            <video controls autoplay playsinline id="my-player">
+                <!-- 
+                   ¡ATENCIÓN! Reemplaza "mi-video.mp4" por el nombre real de tu archivo de video.
+                   Asegúrate de incluir la extensión correcta (.mp4, .webm, etc.)
+                -->
+                <source src="organico.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video HTML5.
+            </video>
         </div>
 
-        <div class="ai-panel">
-            <div id="webcam-container"></div>
-            <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner IA</button>
-            <div class="label-container" id="label-container"></div>
+        <!-- Botones inferiores para navegar hacia tus otras secciones -->
+        <div class="navigation-row">
+            <a href="index.html" class="btn-back">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver al Escáner
+            </a>
+            
+            <button class="btn-action" onclick="reiniciarVideo()">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                </svg>
+                Reiniciar Video
+            </button>
         </div>
     </div>
 
     <script type="text/javascript">
-        // Tu modelo oficial de Teachable Machine (organic, recyclable, non-recyclable)
-        const URL = "https://teachablemachine.withgoogle.com/models/AG8xg8V-G/";
-
-        let model, webcam, labelContainer, maxPredictions;
-
-        async function init() {
-            document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
-            document.getElementById('start-btn').disabled = true;
-
-            try {
-                const modelURL = URL + "model.json";
-                const metadataURL = URL + "metadata.json";
-
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
-
-                const flip = true; 
-                webcam = new tmImage.Webcam(250, 250, flip); 
-                
-                await webcam.setup(); 
-                await webcam.play();
-                window.requestAnimationFrame(loop);
-
-                document.getElementById("webcam-container").appendChild(webcam.canvas);
-                
-                labelContainer = document.getElementById("label-container");
-                labelContainer.innerHTML = "";
-                for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.innerHTML += `<div class="ai-bar-wrapper">
-                        <span id="text-class-${i}">---</span>
-                        <div class="ai-bar"><div class="ai-bar-fill" id="bar-class-${i}"></div></div>
-                    </div>`;
-                }
-                document.getElementById('start-btn').style.display = "none";
-                
-            } catch (error) {
-                alert("¡Falta el permiso de la cámara! Asegúrate de estar usando un enlace web como el de drop.v0.dev para que el navegador te permita activar la webcam de forma segura.");
-                document.getElementById('start-btn').innerText = "Reintentar Escáner";
-                document.getElementById('start-btn').disabled = false;
-                console.error(error);
-            }
-        }
-
-        async function loop() {
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            let mayorPrediccion = { className: "", probability: 0 };
-
-            for (let i = 0; i < maxPredictions; i++) {
-                const porcentaje = (prediction[i].probability * 100).toFixed(0);
-                const claseOriginal = prediction[i].className.trim().toLowerCase();
-                let nombreLegible = claseOriginal;
-
-                if(claseOriginal === "organic") {
-                    nombreLegible = "🌱 Residuos Orgánicos Aprovechables";
-                } else if(claseOriginal === "recyclable") {
-                    nombreLegible = "💧 Materiales Reciclables (PET, PEAD, PP)";
-                } else if(claseOriginal === "non-recyclable") {
-                    nombreLegible = "🗑️ Residuos No Aprovechables";
-                }
-
-                if(document.getElementById(`text-class-${i}`)) {
-                    document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
-                    document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
-                }
-
-                if (prediction[i].probability > mayorPrediccion.probability) {
-                    mayorPrediccion = prediction[i];
-                }
-            }
-
-            if (mayorPrediccion.probability > 0.65) {
-                actualizarPantallaGrande(mayorPrediccion.className.trim().toLowerCase());
-            }
-        }
-
-        function actualizarPantallaGrande(clase) {
-            const pantalla = document.getElementById('screen');
-            const resultado = document.getElementById('status-result');
-            const descripcion = document.getElementById('status-desc');
-
-            document.getElementById('status-title').innerText = "ESCANEO IA EN TIEMPO REAL";
-
-            if (clase === 'organic') {
-                resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
-                resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Tratamiento: Traslado a plantas de compostaje biológico.";
-                pantalla.style.borderColor = "var(--organic)";
-                pantalla.style.backgroundColor = "#3d2b5c"; 
-            } 
-            else if (clase === 'recyclable') {
-                resultado.innerText = "💧 MATERIAL RECICLABLE";
-                resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Tratamiento: Clasificación de polímeros de alta prioridad (PET, PEAD y PP).";
-                pantalla.style.borderColor = "var(--recyclable)";
-                pantalla.style.backgroundColor = "#1a3454";
-            } 
-            else if (clase === 'non-recyclable') {
-                resultado.innerText = "🗑️ NO APROVECHABLE";
-                resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Tratamiento: Logística de transporte directo hacia disposición final (Relleno Sanitario).";
-                pantalla.style.borderColor = "var(--non-recyclable)";
-                pantalla.style.backgroundColor = "#333339";
-            }
+        // Pequeña función para controlar el video mediante JS
+        function reiniciarVideo() {
+            const video = document.getElementById("my-player");
+            video.currentTime = 0; // Regresa al segundo 0
+            video.play();          // Lo vuelve a reproducir
         }
     </script>
 </body>

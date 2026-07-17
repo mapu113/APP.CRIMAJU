@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoScan - Disposición Final</title>
+    
+    <style>
+        :root {
+            --bg: #f3f0fa;
+            --bg-grid: #e9e3f7;
+            --card-bg: #ffffff;
+            --text-color: #241633;
+            --ink-soft: #6d5f88;
+            --primary-purple: #6c4fd6;
+            --primary-purple-dark: #4a2fb0;
+            --brand-soft: #ece6fb;
+            --screen-bg: #1c1230;
+            --screen-line: #3a2a5c;
+            
+            /* Colores específicos para Relleno Sanitario */
+            --danger-color: #e74c3c;
+            --danger-bg: #2e1c1c;
+            --dark-gray: #5e5a66;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                radial-gradient(circle at 15% 10%, var(--bg-grid) 0%, transparent 45%), 
+                radial-gradient(circle at 85% 90%, var(--bg-grid) 0%, transparent 45%), 
+                var(--bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px; /* Un punto medio ideal */
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px -20px rgba(74, 47, 176, 0.25);
+            text-align: center;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 2.1rem; /* Letra ligeramente más pequeña */
+            font-weight: 800; 
+            letter-spacing: -0.02em; 
+        }
+        h1 span { 
+            color: var(--danger-color); 
+        }
+        .subtitle { 
+            color: var(--ink-soft); 
+            margin: 4px 0 20px 0; 
+            font-weight: 500; 
+            font-size: 0.85rem; /* Letra más pequeña */
+        }
+
+        /* Pantalla de alerta estilo terminal oscura */
+        .alert-screen {
+            background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,0.01) 3px 4px), var(--danger-bg);
+            color: #ffffff;
+            padding: 20px 20px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--danger-color);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.15);
+        }
+
+        .icon-warning {
+            font-size: 2.5rem; /* Icono ligeramente más compacto */
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .alert-title { 
+            font-family: monospace; 
+            font-size: 0.75rem; /* Letra más pequeña */
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #ff9f93; 
+            margin-bottom: 6px; 
+        }
+        
+        .alert-result { 
+            font-size: 1.4rem; /* Letra más pequeña */
+            font-weight: 800; 
+            color: #ffffff; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+        }
+        
+        .alert-desc { 
+            font-size: 0.85rem; /* Letra más pequeña */
+            color: #f5c4bf; 
+            line-height: 1.4;
+            max-width: 380px;
+            margin: 0;
+        }
+
+        /* Sección de información educativa */
+        .info-box {
+            background-color: var(--brand-soft);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: left;
+            margin-bottom: 22px;
+            border-left: 5px solid var(--dark-gray);
+        }
+
+        .info-box h3 {
+            margin: 0 0 6px 0;
+            font-size: 0.95rem; /* Letra más pequeña */
+            color: var(--primary-purple-dark);
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.82rem; /* Letra más pequeña */
+            color: var(--ink-soft);
+            line-height: 1.4;
+        }
+
+        /* Botones de navegación */
+        .navigation-row {
+            border-top: 2px dashed var(--brand-soft);
+            padding-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--brand-soft);
+            color: var(--primary-purple-dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem; /* Letra más pequeña */
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-back:hover {
+            background-color: #ddd2f7;
+            transform: translateY(-2px);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem; /* Letra más pequeña */
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px -8px rgba(231, 76, 60, 0.6);
+        }
+        .btn-action:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>EcoScan <span>Relleno</span></h1>
+        <p class="subtitle">Logística de Disposición Final Segura</p>
+
+        <!-- Pantalla de alerta que indica el destino del residuo -->
+        <div class="alert-screen">
+            <div class="icon-warning">⚠️</div>
+            <div class="alert-title">Destino de Disposición</div>
+            <div class="alert-result">Relleno Sanitario</div>
+            <p class="alert-desc">
+                Este material ha sido clasificado como <strong>No Aprovechable</strong>. Debe ser trasladado al relleno sanitario.
+            </p>
+        </div>
+
+        <!-- Caja de información educativa -->
+        <div class="info-box">
+            <h3>¿Por qué va al relleno sanitario?</h3>
+            <p>
+                Los residuos sanitarios, envolturas metalizadas de snacks, cerámicas rotas o servilletas sucias no se pueden reciclar debido a su contaminación. Su destino correcto es la basura común.
+            </p>
+        </div>
+
+        <!-- Botones inferiores para volver o alertar -->
+        <div class="navigation-row">
+            <a href="index.html" class="btn-back">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>

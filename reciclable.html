@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRIMAJU IA - Clasificador Oficial de Residuos</title>
+    <title>EcoScan IA - Clasificador de Residuos</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
     <style>
         :root {
-            --bg-color: #ff00fb;
+            --bg: #f3f0fa;
+            --bg-grid: #e9e3f7;
             --card-bg: #ffffff;
-            --text-color: #3b244f;
-            --primary-purple: #6c5ce7;
-            --pink-accent: #fd79a8;
-            --blue-electric: #0984e3;
-            --screen-dark: #2d1346;
-            
-            --organic: #a29bfe;
-            --recyclable: #74b9ff;
-            --non-recyclable: #b2bec3;
+            --text-color: #241633;
+            --ink-soft: #6d5f88;
+            --primary-purple: #6c4fd6;
+            --primary-purple-dark: #4a2fb0;
+            --brand-soft: #ece6fb;
+            --screen-bg: #1c1230;
+            --screen-line: #3a2a5c;
+            --organic: #3fa66b;
+            --recyclable: #2f80c5;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at 15% 10%, var(--bg-grid) 0%, transparent 45%), radial-gradient(circle at 85% 90%, var(--bg-grid) 0%, transparent 45%), var(--bg);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 32px 18px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -36,215 +37,215 @@
 
         .container {
             width: 100%;
-            max-width: 700px;
+            max-width: 560px;
             background: var(--card-bg);
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1);
+            padding: 36px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px -20px rgba(74, 47, 176, 0.25);
             text-align: center;
         }
 
-        h1 { margin: 0 0 5px 0; font-size: 2.4rem; color: var(--primary-purple); font-weight: 800; }
-        .subtitle { color: var(--pink-accent); margin-bottom: 30px; font-size: 1.1rem; font-weight: 600; }
+        h1 { margin: 0; font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em; }
+        h1 span { color: var(--primary-purple); }
+        .subtitle { color: var(--ink-soft); margin: 8px 0 30px 0; font-weight: 500; }
 
         .display-screen {
-            background: var(--screen-dark);
+            background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,0.02) 3px 4px), var(--screen-bg);
             color: #ffffff;
-            padding: 25px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            min-height: 130px;
+            padding: 22px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            min-height: 116px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 4px solid var(--pink-accent);
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.2);
-            transition: all 0.4s ease;
+            border: 4px solid var(--screen-line);
+            box-shadow: 0 8px 20px rgba(74, 47, 176, 0.15);
         }
 
-        .status-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #d6c7e8; margin-bottom: 8px; }
-        .status-result { font-size: 1.8rem; font-weight: 800; color: var(--blue-electric); margin-bottom: 6px; text-transform: uppercase; }
-        .status-desc { font-size: 0.95rem; color: #e0d4f0; font-style: italic; }
+        .status-title { font-family: monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: #9d8fc0; margin-bottom: 6px; }
+        .status-result { font-size: 1.5rem; font-weight: 800; color: #d8cdf5; margin-bottom: 6px; text-transform: uppercase; }
+        .status-desc { font-size: 0.9rem; color: #b6a9d6; }
 
-        .ai-panel {
-            border-top: 2px dashed #ebdcf5;
-            padding-top: 25px;
-        }
+        .btn-action-dynamic { background-color: var(--primary-purple); color: white; border: none; padding: 8px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 12px; }
+        
+        .ai-panel { border-top: 2px dashed var(--brand-soft); padding-top: 25px; display: flex; flex-direction: column; align-items: center; }
 
-        #webcam-container {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 20px auto;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--primary-purple);
-            background: #000;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
-        }
+        .viewfinder { position: relative; width: 250px; height: 250px; margin-bottom: 20px; border-radius: 50%; overflow: hidden; border: 4px solid var(--primary-purple); background: #000; }
+        #webcam-video { width: 100%; height: 100%; object-fit: cover; }
 
-        #webcam-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover;
-        }
+        .controls-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
+        .btn-init { background-color: var(--primary-purple); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 600; cursor: pointer; }
+        .btn-extra { display: inline-flex; align-items: center; gap: 8px; background-color: #241633; color: white; border: none; padding: 12px 22px; border-radius: 30px; cursor: pointer; }
+        .btn-extra-ghost { background-color: var(--brand-soft); color: var(--primary-purple-dark); }
 
-        .btn-init {
-            background-color: var(--blue-electric);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
-            transition: all 0.2s;
-        }
-        .btn-init:hover { background-color: #076bba; }
+        .label-container { margin-top: 15px; width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        .ai-bar-wrapper { display: flex; flex-direction: column; gap: 5px; }
+        .ai-bar { height: 8px; background: var(--brand-soft); border-radius: 5px; overflow: hidden; }
+        .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); border-radius: 5px; transition: width 0.15s ease; }
+        
+        /* Colores dinámicos para las barras */
+        .ai-bar-wrapper[data-class="util"] .ai-bar-fill { background-color: var(--recyclable); }
+        .ai-bar-wrapper[data-class="no-util"] .ai-bar-fill { background-color: var(--organic); }
 
-        .label-container {
-            margin: 15px auto;
-            max-width: 420px;
-            text-align: left;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .ai-bar-wrapper { margin-bottom: 12px; }
-        .ai-bar { height: 10px; background: #ebdcf5; border-radius: 5px; overflow: hidden; margin-top: 4px; }
-        .ai-bar-fill { height: 100%; width: 0%; background: var(--primary-purple); transition: width 0.1s ease; }
+        .photo-modal { position: fixed; inset: 0; background: rgba(28, 18, 48, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; }
+        .photo-modal[hidden] { display: none; }
+        .photo-modal-card { background: var(--card-bg); border-radius: 24px; padding: 20px; width: 90%; max-width: 380px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>EcoScan IA</h1>
-        <p class="subtitle">Visión Artificial Inteligente de Residuos</p>
+        <h1>EcoScan <span>IA</span></h1>
+        <p class="subtitle">Clasificador de Plásticos y Otros Reciclables</p>
 
         <div class="display-screen" id="screen">
             <div class="status-title" id="status-title">Estatus del Sensor</div>
             <div class="status-result" id="status-result">CÁMARA DETENIDA</div>
-            <div class="status-desc" id="status-desc">Presiona el botón azul para iniciar el análisis de la IA.</div>
+            <div class="status-desc" id="status-desc">Presiona iniciar para analizar.</div>
+            <button id="dynamic-btn" class="btn-action-dynamic" style="display: none;"></button>
         </div>
 
         <div class="ai-panel">
-            <div id="webcam-container"></div>
-            <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner IA</button>
+            <div class="viewfinder">
+                <video id="webcam-video" autoplay playsinline muted></video>
+            </div>
+
+            <div class="controls-row">
+                <button class="btn-init" id="start-btn" onclick="init()">Iniciar Escáner IA</button>
+                <button class="btn-extra btn-extra-ghost" id="switch-btn" style="display: none;" onclick="cambiarCamara()">Girar</button>
+                <button class="btn-extra" id="capture-btn" style="display: none;" onclick="tomarFoto()">Capturar</button>
+            </div>
+
+            <canvas id="capture-canvas" style="display: none;"></canvas>
             <div class="label-container" id="label-container"></div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        // Tu modelo oficial de Teachable Machine (organic, recyclable, non-recyclable)
-        const URL = "https://teachablemachine.withgoogle.com/models/AG8xg8V-G/";
+    <div class="photo-modal" id="photo-modal" hidden>
+        <div class="photo-modal-card">
+            <img id="photo-preview" style="width:100%; border-radius:16px;">
+            <p id="photo-result-value" style="font-weight:700; margin:15px 0;"></p>
+            <button class="btn-extra btn-extra-ghost" onclick="cerrarModal()">Cerrar</button>
+            <a id="download-btn" class="btn-init" download="foto.png">Guardar</a>
+        </div>
+    </div>
 
-        let model, webcam, labelContainer, maxPredictions;
+    <script type="text/javascript">
+        // NUEVA URL DEL MODELO
+        const URL = "https://teachablemachine.withgoogle.com/models/KTyRGMmmt/";
+
+        let model, labelContainer, maxPredictions;
+        let isFrontCamera = true;
+        let currentStream = null;
+        const videoElement = document.getElementById("webcam-video");
+        let ultimaClaseDetectada = "";
 
         async function init() {
-            document.getElementById('start-btn').innerText = "Cargando Cerebro IA...";
-            document.getElementById('start-btn').disabled = true;
-
+            document.getElementById('start-btn').innerText = "Cargando...";
             try {
-                const modelURL = URL + "model.json";
-                const metadataURL = URL + "metadata.json";
-
-                model = await tmImage.load(modelURL, metadataURL);
+                model = await tmImage.load(URL + "model.json", URL + "metadata.json");
                 maxPredictions = model.getTotalClasses();
+                await levantarCamara();
 
-                const flip = true; 
-                webcam = new tmImage.Webcam(250, 250, flip); 
-                
-                await webcam.setup(); 
-                await webcam.play();
-                window.requestAnimationFrame(loop);
-
-                document.getElementById("webcam-container").appendChild(webcam.canvas);
-                
                 labelContainer = document.getElementById("label-container");
                 labelContainer.innerHTML = "";
                 for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.innerHTML += `<div class="ai-bar-wrapper">
-                        <span id="text-class-${i}">---</span>
-                        <div class="ai-bar"><div class="ai-bar-fill" id="bar-class-${i}"></div></div>
-                    </div>`;
+                    labelContainer.innerHTML += `
+                        <div class="ai-bar-wrapper" id="bar-wrapper-${i}">
+                            <span><strong id="text-class-${i}">---</strong><span id="percentage-class-${i}">0%</span></span>
+                            <div class="ai-bar"><div class="ai-bar-fill" id="bar-class-${i}"></div></div>
+                        </div>`;
                 }
+                window.requestAnimationFrame(loop);
                 document.getElementById('start-btn').style.display = "none";
-                
-            } catch (error) {
-                alert("¡Falta el permiso de la cámara! Asegúrate de estar usando un enlace web como el de drop.v0.dev para que el navegador te permita activar la webcam de forma segura.");
-                document.getElementById('start-btn').innerText = "Reintentar Escáner";
-                document.getElementById('start-btn').disabled = false;
-                console.error(error);
-            }
+                document.getElementById('switch-btn').style.display = "inline-flex";
+                document.getElementById('capture-btn').style.display = "inline-flex";
+            } catch (e) { alert("Error de cámara."); }
         }
 
+        async function levantarCamara() {
+            if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+            currentStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: isFrontCamera ? "user" : "environment" }, audio: false
+            });
+            videoElement.srcObject = currentStream;
+            videoElement.style.transform = isFrontCamera ? "scaleX(-1)" : "scaleX(1)";
+        }
+
+        async function cambiarCamara() { isFrontCamera = !isFrontCamera; await levantarCamara(); }
+
         async function loop() {
-            webcam.update(); 
-            await predict();
+            if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) await predict();
             window.requestAnimationFrame(loop);
         }
 
         async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            let mayorPrediccion = { className: "", probability: 0 };
+            const prediction = await model.predict(videoElement);
+            let mayor = { className: "", probability: 0 };
 
             for (let i = 0; i < maxPredictions; i++) {
+                const clase = prediction[i].className.trim().toLowerCase();
                 const porcentaje = (prediction[i].probability * 100).toFixed(0);
-                const claseOriginal = prediction[i].className.trim().toLowerCase();
-                let nombreLegible = claseOriginal;
+                
+                // Mapeo nombres
+                let label = clase === "util" ? "🥤 Envase de Plástico" : "📦 Otro Reciclaje";
+                
+                document.getElementById(`text-class-${i}`).innerText = label;
+                document.getElementById(`percentage-class-${i}`).innerText = porcentaje + "%";
+                document.getElementById(`bar-class-${i}`).style.width = porcentaje + "%";
+                document.getElementById(`bar-wrapper-${i}`).setAttribute("data-class", clase);
 
-                if(claseOriginal === "organic") {
-                    nombreLegible = "🌱 Residuos Orgánicos Aprovechables";
-                } else if(claseOriginal === "recyclable") {
-                    nombreLegible = "💧 Materiales Reciclables (PET, PEAD, PP)";
-                } else if(claseOriginal === "non-recyclable") {
-                    nombreLegible = "🗑️ Residuos No Aprovechables";
-                }
-
-                if(document.getElementById(`text-class-${i}`)) {
-                    document.getElementById(`text-class-${i}`).innerText = `${nombreLegible}: ${porcentaje}%`;
-                    document.getElementById(`bar-class-${i}`).style.width = `${porcentaje}%`;
-                }
-
-                if (prediction[i].probability > mayorPrediccion.probability) {
-                    mayorPrediccion = prediction[i];
-                }
+                if (prediction[i].probability > mayor.probability) mayor = prediction[i];
             }
 
-            if (mayorPrediccion.probability > 0.65) {
-                actualizarPantallaGrande(mayorPrediccion.className.trim().toLowerCase());
+            if (mayor.probability > 0.65) {
+                ultimaClaseDetectada = mayor.className.trim().toLowerCase();
+                actualizarPantalla(ultimaClaseDetectada);
             }
         }
 
-        function actualizarPantallaGrande(clase) {
+        function actualizarPantalla(clase) {
             const pantalla = document.getElementById('screen');
-            const resultado = document.getElementById('status-result');
-            const descripcion = document.getElementById('status-desc');
+            const res = document.getElementById('status-result');
+            const desc = document.getElementById('status-desc');
+            const btn = document.getElementById('dynamic-btn');
 
-            document.getElementById('status-title').innerText = "ESCANEO IA EN TIEMPO REAL";
-
-            if (clase === 'organic') {
-                resultado.innerText = "🌱 ORGÁNICO APROVECHABLE";
-                resultado.style.color = "#d6c7ff";
-                descripcion.innerText = "Tratamiento: Traslado a plantas de compostaje biológico.";
-                pantalla.style.borderColor = "var(--organic)";
-                pantalla.style.backgroundColor = "#3d2b5c"; 
-            } 
-            else if (clase === 'recyclable') {
-                resultado.innerText = "💧 MATERIAL RECICLABLE";
-                resultado.style.color = "#74b9ff";
-                descripcion.innerText = "Tratamiento: Clasificación de polímeros de alta prioridad (PET, PEAD y PP).";
+            btn.style.display = "inline-block";
+            if (clase === 'util') {
+                res.innerText = "🥤 MATERIAL: PLÁSTICO";
+                res.style.color = "#74b9ff";
+                desc.innerText = "Clasificación: Envase de plástico detectado.";
                 pantalla.style.borderColor = "var(--recyclable)";
-                pantalla.style.backgroundColor = "#1a3454";
-            } 
-            else if (clase === 'non-recyclable') {
-                resultado.innerText = "🗑️ NO APROVECHABLE";
-                resultado.style.color = "#b2bec3";
-                descripcion.innerText = "Tratamiento: Logística de transporte directo hacia disposición final (Relleno Sanitario).";
-                pantalla.style.borderColor = "var(--non-recyclable)";
-                pantalla.style.backgroundColor = "#333339";
+                pantalla.style.backgroundColor = "#13273a";
+                btn.innerText = "Siguiente destino";
+                btn.onclick = () => window.location.href = "botella-video.html";
+            } else {
+                res.innerText = "📦 OTRO RECICLAJE";
+                res.style.color = "#a29bfe";
+                desc.innerText = "Clasificación: Material de otro tipo.";
+                pantalla.style.borderColor = "var(--organic)";
+                pantalla.style.backgroundColor = "#1a3224";
+                btn.innerText = "Registrar Material";
+                btn.onclick = () => window.location.href = "papel.html";
             }
         }
+
+        function tomarFoto() {
+            const canvas = document.getElementById("capture-canvas");
+            canvas.width = videoElement.videoWidth; canvas.height = videoElement.videoHeight;
+            const ctx = canvas.getContext("2d");
+            if (isFrontCamera) { ctx.translate(canvas.width, 0); ctx.scale(-1, 1); }
+            ctx.drawImage(videoElement, 0, 0);
+            const data = canvas.toDataURL("image/png");
+            document.getElementById("photo-preview").src = data;
+            document.getElementById("photo-result-value").innerText = ultimaClaseDetectada === "util" ? "🥤 Plástico" : "📦 Otro";
+            document.getElementById("download-btn").href = data;
+            document.getElementById("photo-modal").removeAttribute("hidden");
+        }
+
+        function cerrarModal() { document.getElementById("photo-modal").setAttribute("hidden", "true"); }
     </script>
 </body>
 </html>
